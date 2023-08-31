@@ -9,7 +9,7 @@ const Footer = () => {
         title="Company"
         className="inline-flex items-center"
       >
-        <svg
+        {/* <svg
           className="w-8 text-deep-purple-accent-400"
           viewBox="0 0 24 24"
           strokeLinejoin="round"
@@ -26,7 +26,9 @@ const Footer = () => {
         </svg>
         <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
           Company
-        </span>
+        </span> */}
+        <img className="h-7" src="/logo-black.svg" alt="GrocerWave" />
+
       </a>
       <div className="mt-6 lg:max-w-sm">
         <p className="text-sm text-gray-800">
