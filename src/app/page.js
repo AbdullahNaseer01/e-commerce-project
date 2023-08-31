@@ -12,7 +12,7 @@ import Newsletter from "./components/NewsLetter";
 export default function Home() {
   return (
     <main>
-      {/* <Navbar /> */}
+      <Navbar />
       <Hero />
       <Category />
       <FeatureSectionFruits />
