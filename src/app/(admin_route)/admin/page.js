@@ -304,3 +304,14 @@
 // };
 
 // export default AddEditBlog;
+
+'use client'
+import React from 'react'
+
+const Page = () => {
+  return (
+    <div>that is the admin page</div>
+  )
+}
+
+export default Page
