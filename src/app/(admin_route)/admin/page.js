@@ -1,317 +1,217 @@
-// 'use client'
-// import React, { useState, useEffect } from "react";
-// import { db, storage } from "../../../../firebase/firebaseConfig";
-// import { useNavigate, useParams } from "react-router-dom";
-// import { getDownloadURL, ref, uploadBytesResumable } from "../../../../firebase/firebaseConfig";
-// import {
-//   addDoc,
-//   collection,
-//   getDoc,
-//   serverTimestamp,
-//   doc,
-//   updateDoc,
-// } from "../../../../firebase/firebaseConfig";
-// import { toast } from "react-toastify";
+"use client";
+import React, { useState } from "react";
+import { doc, setDoc , collection } from "firebase/firestore"; 
+import { db } from "../../../../firebase/firebaseConfig";
 
-// const initialState = {
-//   title: "",
-//   tags: [],
-//   trending: "no",
-//   category: "",
-//   description: "",
-//   comments: [],
-//   likes: [],
-// };
 
-// const categoryOption = [
-//   "Fashion",
-//   "Technology",
-//   "Food",
-//   "Politics",
-//   "Sports",
-//   "Business",
-// ];
+const ProductForm = () => {
+  // State to manage form data
+  const [formData, setFormData] = useState({
+    title: "",
+    price: "",
+    description: "",
+    tagline:"",
+    availability: "In stock",
+    category: "others",
+    image: "",
+  });
 
-// const AddEditBlog = ({ user }) => {
-//   const [form, setForm] = useState(initialState);
-//   const [file, setFile] = useState(null);
-//   const [progress, setProgress] = useState(null);
-//   const [sanitizedContent, setSanitizedContent] = useState("");
+  // Handle form input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-//   const { id } = useParams();
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // You can send the formData to your backend or perform any other action here
+    console.log(formData);
+  };
 
-//   const navigate = useNavigate();
 
-//   const { title, tags, category, trending, description } = form;
-
-//   const isUserAvailable = user !== null; // Check if user is available
-
-//   useEffect(() => {
-//     const uploadFile = () => {
-//       const storageRef = ref(storage, file.name);
-//       const uploadTask = uploadBytesResumable(storageRef, file);
-//       uploadTask.on(
-//         "state_changed",
-//         (snapshot) => {
-//           const progress =
-//             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-//           setProgress(progress);
-//           toast.info(`Upload is ${progress}% done`);
-//           switch (snapshot.state) {
-//             case "paused":
-//               console.log("Upload is paused");
-//               break;
-//             case "running":
-//               console.log("Upload is running");
-//               break;
-//             default:
-//               break;
-//           }
-//         },
-//         (error) => {
-//           console.log(error);
-//         },
-//         () => {
-//           getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-//             toast.info("Image uploaded to Firebase successfully");
-//             setForm((prev) => ({ ...prev, imgUrl: downloadUrl }));
-//           });
-//         }
-//       );
-//     };
-
-//     // Check if user is available and file is selected
-//     if (isUserAvailable && file) {
-//       uploadFile();
-//     } else if (file && !isUserAvailable) {
-//       // Clear the file selection if the user is not logged in
-//       setFile(null);
-//       toast.error("Login first to perform this action");
-//     }
-//   }, [file, user]);
-
-//   useEffect(() => {
-//     id && getBlogDetail();
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [id]);
-
-//   const getBlogDetail = async () => {
-//     const docRef = doc(db, "blogs", id);
-//     const snapshot = await getDoc(docRef);
-//     if (snapshot.exists()) {
-//       setForm({ ...snapshot.data() });
-//     }
-//   };
-
-//   const handleChange = (e) => {
-//     setForm({ ...form, [e.target.name]: e.target.value });
-//   };
-
-//   const handleTags = (e) => {
-//     e.preventDefault();
-//     setForm({ ...form, tags });
-//   };
-
-//   const handleTrending = (e) => {
-//     setForm({ ...form, trending: e.target.value });
-//   };
-
-//   const onCategoryChange = (e) => {
-//     setForm({ ...form, category: e.target.value });
-//   };
-
-//   const handleEditorChange = (content) => {
-//     setForm({ ...form, description: content });
-//     setSanitizedContent(DOMPurify.sanitize(content));
-//   };
-
- 
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       // Check if all required form fields have values
-//       if (category === "" || tags === "" || title === "" || description === "" || trending === "") {
-//         throw new Error("All fields are mandatory to fill");
-//       }
+  const addProduct = async (e) => {
+    e.preventDefault();
+    try {
+      const { title, price, description, tagline, availability, category, image } = formData;
+      const collectionRef = collection(db, "products");
+      const docRef = doc(collectionRef);
+      await setDoc(docRef, {
+        title,
+        price,
+        description,
+        tagline,
+        availability,
+        category,
+        image,
+      });
+      console.log("successProduct added successfully")
+    } catch (error) {
+      console.error(error);
+    }
   
-//       // Check if a user object exists
-//       if (!user) {
-//         // User not logged in, navigate to "/auth" page
-//         throw new Error("Login or Signup to perform this task");
-//       }
+  };
   
-//       const blogData = {
-//         ...form,
-//         timestamp: serverTimestamp(),
-//         author: user.displayName,
-//         userId: user.uid,
-//       };
-  
-//       // Check if id is falsy, indicating the creation of a new blog
-//       if (!id) {
-//         // Add a new document to the "blogs" collection
-//         await addDoc(collection(db, "blogs"), blogData);
-//         toast.success("Blog created successfully");
-//       } else {
-//         // Update an existing document in the "blogs" collection
-//         await updateDoc(doc(db, "blogs", id), blogData);
-//         toast.success("Blog updated successfully");
-//       }
-  
-//       // Navigate to the root ("/") page
-//       navigate("/");
-//     } catch (err) {
-//       console.log(err);
-//       toast.error("Fill all the fields and try again.");
-//     }
-//   };
 
- 
-
-//   return (
-//     <>
-//       <div className="bg-gray-100 py-8">
-//         <div className="container mx-auto">
-//           <div className="text-center text-3xl font-bold py-4">
-//             {id ? "Update Blog" : "Create Blog"}
-//           </div>
-//           <div className="flex h-full justify-center items-center">
-//             <div className="w-full max-w-md">
-//               <form
-//                 className="bg-white rounded-lg shadow-lg px-8 pt-6 pb-4 mb-4"
-//                 onSubmit={handleSubmit}
-//               >
-//                 <div className="mb-4">
-//                   <input
-//                     type="text"
-//                     className="w-full py-2 px-4 border border-gray-300 rounded focus:outline-none focus:border-blue-400"
-//                     placeholder="Title"
-//                     name="title"
-//                     value={title}
-//                     onChange={handleChange}
-//                   />
-//                 </div>
-//                 <div className="mb-4">
-//                   <div className="flex flex-wrap">
-//                     {tags.map((tag, index) => (
-//                       <div key={index} className="tag">
-//                         {tag}
-//                         <span
-//                           className="delete-icon"
-//                           onClick={() => {
-//                             const newTags = [...tags];
-//                             newTags.splice(index, 1);
-//                             setForm({ ...form, tags: newTags });
-//                           }}
-//                         >
-//                           &#x2715;
-//                         </span>
-//                       </div>
-//                     ))}
-//                   </div>
-//                   <input
-//                     type="text"
-//                     className="tag-input"
-//                     placeholder="Add a tag"
-//                     onKeyDown={(e) => {
-//                       if (e.key === "Enter") {
-//                         const newTags = [...tags, e.target.value.trim()];
-//                         setForm({ ...form, tags: newTags });
-//                         e.target.value = "";
-//                       }
-//                     }}
-//                                  />
-//               </div>
-//               <div className="mb-4">
-//                 <p className="text-gray-700">Is it a trending blog?</p>
-//                 <div className="flex items-center">
-//                   <label className="mr-2">
-//                     <input
-//                       type="radio"
-//                       className="mr-1"
-//                       value="yes"
-//                       name="radioOption"
-//                       checked={trending === "yes"}
-//                       onChange={handleTrending}
-//                     />
-//                     Yes
-//                   </label>
-//                   <label>
-//                     <input
-//                       type="radio"
-//                       className="mr-1"
-//                       value="no"
-//                       name="radioOption"
-//                       checked={trending === "no"}
-//                       onChange={handleTrending}
-//                     />
-//                     No
-//                   </label>
-//                 </div>
-//               </div>
-//               <div className="mb-4">
-//                 <select
-//                   value={category}
-//                   onChange={onCategoryChange}
-//                   className="w-full py-2 px-4 border border-gray-300 rounded focus:outline-none focus:border-blue-400"
-//                 >
-//                   <option>Please select a category</option>
-//                   {categoryOption.map((option, index) => (
-//                     <option value={option || ""} key={index}>
-//                       {option}
-//                     </option>
-//                   ))}
-//                 </select>
-//               </div>
-//               <div className="mb-4">
-//                 <textarea
-//                   type="text"
-//                   className="w-full py-2 px-4 border border-gray-300 rounded focus:outline-none focus:border-blue-400"
-//                   placeholder="Description"
-//                   name="description"
-//                   row="10"
-//                   value={description}
-//                   onChange={handleChange}
-//                 />
-//               </div>
-//               <div className="mb-4">
-//                 <input
-//                   type="file"
-//                   disabled={!isUserAvailable}
-//                   accept="image/*"
-//                   className="w-full py-2 px-4 border border-gray-300 rounded focus:outline-none focus:border-blue-400"
-//                   onChange={(e) => setFile(e.target.files[0])}
-//                 />
-//               </div>
-//               <div className="text-center">
-//                 <button
-//                   className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-//                   type="submit"
-//                   // disabled={progress !== 100}
-//                 >
-//                   {id ? "Update" : "Submit"}
-//                 </button>
-//               </div>
-//             </form>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   </>
-// );
-
-// };
-
-// export default AddEditBlog;
-
-'use client'
-import React from 'react'
-
-const Page = () => {
   return (
-    <div>that is the admin page</div>
-  )
-}
+    <div className="max-w-md mx-auto">
+      <h2 className="text-2xl font-bold mb-4">Product Form</h2>
+      <form onSubmit={addProduct}>
+        <div className="mb-4">
+          <label htmlFor="title" className="block text-gray-700">
+            Product Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="title" className="block text-gray-700">
+            Product Tagline
+          </label>
+          <input
+            type="text"
+            id="tagline"
+            name="tagline"
+            value={formData.tagline}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="price" className="block text-gray-700">
+            Price
+          </label>
+          <input
+            type="text"
+            id="price"
+            name="price"
+            value={formData.price}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="description" className="block text-gray-700">
+            Description
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            className="form-textarea"
+          ></textarea>
+        </div>
+        <div className="mb-4">
+          <label htmlFor="category" className="block text-gray-700">
+            Category
+          </label>
+          <select
+            id="availability"
+            name="availability"
+            value={formData.availability}
+            onChange={handleChange}
+            className="form-select"
+          >
+            <option value="In Stock">In stock</option>
+            <option value="Out of Stoke">Out of Stoke</option>
+            <option value="Comming Soon">Comming Soon</option>
+          </select>
+        </div>
+        <div className="mb-4">
+          <label htmlFor="image" className="block text-gray-700">
+            Product Image
+          </label>
+          <input
+            type="text"
+            id="image"
+            name="image"
+            value={formData.image}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="category" className="block text-gray-700">
+            Category
+          </label>
+          <select
+            id="category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="form-select"
+          >
+            <option value="fruits">Fruits</option>
+            <option value="vegetables">Vegetables</option>
+            <option value="canned-food">Canned Food</option>
+            <option value="bakery-items">Bakery Items</option>
+            <option value="fishes">Fishes</option>
+            <option value="egg-and-dairy">Egg and Dairy</option>
+            <option value="soft-drinks-snacks">Soft Drinks and Snacks</option>
+            <option value="soft-drinks-snacks">others</option>
+          </select>
+        </div>
+        <div className="mt-6">
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
 
-export default Page
+export default ProductForm;
+
+
+
+
+
+
+// const handleSubmit = async (e) => {
+//   e.preventDefault();
+//   try {
+//     if (isEditMode && editNoteId) {
+//       const docRef = doc(database, "notes", editNoteId);
+//       await updateDoc(docRef, {
+//         noteTitle: formData.title,
+//         noteDesc: formData.description,
+//         date: formData.date,
+//         color: formData.color
+//       });
+//       setEditMode(false);
+//       toast.success("Note updated sucessfully")
+//     } else {
+
+//       const docRef = await addDoc(collection(database, "notes"), {
+//         noteTitle: formData.title,
+//         noteDesc: formData.description,
+//         owner: authUser.uid,
+//         completed: false,
+//         date: formData.date,
+//         color: formData.color,
+//       });
+//       toast.success("Note added sucessfully")
+
+//     }
+//     closePopup();
+//     fetchNotes(authUser.uid);
+//     console.log("Note updated or added successfully");
+//   } catch (error) {
+//     console.error("Error updating or adding note: ", error);
+//     toast.error("Some Issue Occured Try Again")
+//   }
+// };
