@@ -74,6 +74,8 @@
 
 
 
+
+
 import React, { useState, useEffect } from "react";
 import { BsArrowRight } from "react-icons/bs";
 
@@ -86,14 +88,15 @@ const Hero = () => {
 
   const secondImageArray = [
     "../images/hero__2.webp",
-    "../images/pizza-hero-2.jpg",
-    "../images/pizza-hero-3.jpg",
+    "../images/pizza.jpg",
+    "../images/pizzaslice.jpg",
   ];
 
   const thirdImageArray = [
     "../images/hero__3.webp",
-    "../images/chips-hero-2.jpg",
-    "../images/chips-hero-3.jpg",
+    "../images/chips.jpg",
+    "../images/chips2.jpg",
+    "../images/chips3.jpg",
   ];
 
   const [firstImageIndex, setFirstImageIndex] = useState(0);
@@ -130,11 +133,13 @@ const Hero = () => {
     <div className="container pt-8">
       <div className="grid xl:grid-cols-3 xl:grid-rows-2 gap-8">
         <div className="relative xl:col-span-2 xl:row-start-1 xl:row-end-[-1]">
-          <img
-            className="w-full h-full object-cover rounded-lg"
-            src={firstImageArray[firstImageIndex]}
-            alt="hero image"
-          />
+          <div className="w-full h-[300px] sm:h-[425px] lg:h-[631px] object-cover rounded-lg overflow-hidden">
+            <img
+              className="w-full h-full object-cover"
+              src={firstImageArray[firstImageIndex]}
+              alt="hero image"
+            />
+          </div>
           <div className="absolute max-w-[470px] sm:ml-16 ml-8 top-[50%] -translate-y-[50%] sm:space-y-4">
             {/* Content for first image */}
             <p className="text-2xl hidden sm:block">100% Original Dry Fruits</p>
@@ -152,11 +157,13 @@ const Hero = () => {
         </div>
 
         <div className="relative">
-          <img
-            className="w-full h-full object-cover rounded-lg"
-            src={secondImageArray[secondImageIndex]}
-            alt="hero image"
-          />
+          <div className="w-full h-[300px] sm:h-[425px] lg:h-[300px] object-cover rounded-lg overflow-hidden">
+            <img
+              className="w-full h-full object-cover"
+              src={secondImageArray[secondImageIndex]}
+              alt="hero image"
+            />
+          </div>
           <div className="absolute max-w-[470px] sm:ml-16 ml-8 top-[50%] -translate-y-[50%] sm:space-y-2">
             {/* Content for second image */}
             <h2 className="text-2xl sm:text-3xl font-bold">Best Yummy Pizza</h2>
@@ -171,11 +178,13 @@ const Hero = () => {
         </div>
 
         <div className="relative">
-          <img
-            className="w-full h-full object-cover rounded-lg"
-            src={thirdImageArray[thirdImageIndex]}
-            alt="hero image"
-          />
+          <div className="w-full h-[300px] sm:h-[425px] lg:h-[300px] object-cover rounded-lg overflow-hidden">
+            <img
+              className="w-full h-full object-cover"
+              src={thirdImageArray[thirdImageIndex]}
+              alt="hero image"
+            />
+          </div>
           <div className="absolute max-w-[470px] sm:ml-16 ml-8 top-[50%] -translate-y-[50%] sm:space-y-2">
             {/* Content for third image */}
             <h2 className="text-2xl sm:text-3xl font-bold">Best Yummy Chips</h2>
@@ -193,4 +202,4 @@ const Hero = () => {
   );
 };
 
-export default Hero
+export default Hero;
