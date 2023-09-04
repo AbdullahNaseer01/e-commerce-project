@@ -1,179 +1,272 @@
-"use client";
-import React, { useState } from "react";
-import { doc, setDoc , collection } from "firebase/firestore"; 
-import { db } from "../../../../firebase/firebaseConfig";
+// "use client";
+// import React, { useState } from "react";
+// import { doc, setDoc , collection } from "firebase/firestore";
+// import { db } from "../../../../firebase/firebaseConfig";
 
+// const ProductForm = () => {
+//   // State to manage form data
+//   const [formData, setFormData] = useState({
+//     title: "",
+//     price: "",
+//     description: "",
+//     tagline:"",
+//     availability: "In stock",
+//     category: "others",
+//     image: "",
+//   });
 
-const ProductForm = () => {
-  // State to manage form data
-  const [formData, setFormData] = useState({
-    title: "",
-    price: "",
-    description: "",
-    tagline:"",
-    availability: "In stock",
-    category: "others",
-    image: "",
-  });
+//   // Handle form input changes
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData({
+//       ...formData,
+//       [name]: value,
+//     });
+//   };
 
-  // Handle form input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+//   // Handle form submission
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     // You can send the formData to your backend or perform any other action here
+//     console.log(formData);
+//   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // You can send the formData to your backend or perform any other action here
-    console.log(formData);
-  };
+//   const addProduct = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const { title, price, description, tagline, availability, category, image } = formData;
+//       const collectionRef = collection(db, "products");
+//       const docRef = doc(collectionRef);
+//       await setDoc(docRef, {
+//         title,
+//         price,
+//         description,
+//         tagline,
+//         availability,
+//         category,
+//         image,
+//       });
+//       console.log("successProduct added successfully")
+//     } catch (error) {
+//       console.error(error);
+//     }
 
+//   };
 
-  const addProduct = async (e) => {
-    e.preventDefault();
-    try {
-      const { title, price, description, tagline, availability, category, image } = formData;
-      const collectionRef = collection(db, "products");
-      const docRef = doc(collectionRef);
-      await setDoc(docRef, {
-        title,
-        price,
-        description,
-        tagline,
-        availability,
-        category,
-        image,
-      });
-      console.log("successProduct added successfully")
-    } catch (error) {
-      console.error(error);
-    }
-  
-  };
-  
+//   return (
+//     <div className="max-w-md mx-auto">
+//       <h2 className="text-2xl font-bold mb-4">Product Form</h2>
+//       <form onSubmit={addProduct}>
+//         <div className="mb-4">
+//           <label htmlFor="title" className="block text-gray-700">
+//             Product Title
+//           </label>
+//           <input
+//             type="text"
+//             id="title"
+//             name="title"
+//             value={formData.title}
+//             onChange={handleChange}
+//             className="form-input"
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label htmlFor="title" className="block text-gray-700">
+//             Product Tagline
+//           </label>
+//           <input
+//             type="text"
+//             id="tagline"
+//             name="tagline"
+//             value={formData.tagline}
+//             onChange={handleChange}
+//             className="form-input"
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label htmlFor="price" className="block text-gray-700">
+//             Price
+//           </label>
+//           <input
+//             type="text"
+//             id="price"
+//             name="price"
+//             value={formData.price}
+//             onChange={handleChange}
+//             className="form-input"
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label htmlFor="description" className="block text-gray-700">
+//             Description
+//           </label>
+//           <textarea
+//             id="description"
+//             name="description"
+//             value={formData.description}
+//             onChange={handleChange}
+//             className="form-textarea"
+//           ></textarea>
+//         </div>
+//         <div className="mb-4">
+//           <label htmlFor="category" className="block text-gray-700">
+//             Category
+//           </label>
+//           <select
+//             id="availability"
+//             name="availability"
+//             value={formData.availability}
+//             onChange={handleChange}
+//             className="form-select"
+//           >
+//             <option value="In Stock">In stock</option>
+//             <option value="Out of Stoke">Out of Stoke</option>
+//             <option value="Comming Soon">Comming Soon</option>
+//           </select>
+//         </div>
+//         <div className="mb-4">
+//           <label htmlFor="image" className="block text-gray-700">
+//             Product Image
+//           </label>
+//           <input
+//             type="text"
+//             id="image"
+//             name="image"
+//             value={formData.image}
+//             onChange={handleChange}
+//             className="form-input"
+//           />
+//         </div>
+//         <div className="mb-4">
+//           <label htmlFor="category" className="block text-gray-700">
+//             Category
+//           </label>
+//           <select
+//             id="category"
+//             name="category"
+//             value={formData.category}
+//             onChange={handleChange}
+//             className="form-select"
+//           >
+//             <option value="fruits">Fruits</option>
+//             <option value="vegetables">Vegetables</option>
+//             <option value="canned-food">Canned Food</option>
+//             <option value="bakery-items">Bakery Items</option>
+//             <option value="fishes">Fishes</option>
+//             <option value="egg-and-dairy">Egg and Dairy</option>
+//             <option value="soft-drinks-snacks">Soft Drinks and Snacks</option>
+//             <option value="soft-drinks-snacks">others</option>
+//           </select>
+//         </div>
+//         <div className="mt-6">
+//           <button
+//             type="submit"
+//             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+//           >
+//             Submit
+//           </button>
+//         </div>
+//       </form>
+//     </div>
+//   );
+// };
 
+// export default ProductForm;
+
+// 'use client';
+
+// import React from 'react';
+// import { Button } from 'antd';
+
+// const Home = () => (
+//   <div className="App">
+//     <Button type="primary">Button</Button>
+//   </div>
+// );
+
+// export default Home;
+'use client'
+import React from "react";
+import {
+  AppstoreOutlined,
+  BarChartOutlined,
+  CloudOutlined,
+  ShopOutlined,
+  TeamOutlined,
+  UploadOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+} from "@ant-design/icons";
+import { Layout, Menu, theme } from "antd";
+import ProductsForm from "@/app/adminComponents/ProdctsForm";
+const { Header, Content, Footer, Sider } = Layout;
+const items = [
+  UserOutlined,
+  VideoCameraOutlined,
+  UploadOutlined,
+  BarChartOutlined,
+  CloudOutlined,
+  AppstoreOutlined,
+  TeamOutlined,
+  ShopOutlined,
+].map((icon, index) => ({
+  key: String(index + 1),
+  icon: React.createElement(icon),
+  label: `nav ${index + 1}`,
+}));
+const App = () => {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
   return (
-    <div className="max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Product Form</h2>
-      <form onSubmit={addProduct}>
-        <div className="mb-4">
-          <label htmlFor="title" className="block text-gray-700">
-            Product Title
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="title" className="block text-gray-700">
-            Product Tagline
-          </label>
-          <input
-            type="text"
-            id="tagline"
-            name="tagline"
-            value={formData.tagline}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="price" className="block text-gray-700">
-            Price
-          </label>
-          <input
-            type="text"
-            id="price"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="description" className="block text-gray-700">
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="form-textarea"
-          ></textarea>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="category" className="block text-gray-700">
-            Category
-          </label>
-          <select
-            id="availability"
-            name="availability"
-            value={formData.availability}
-            onChange={handleChange}
-            className="form-select"
-          >
-            <option value="In Stock">In stock</option>
-            <option value="Out of Stoke">Out of Stoke</option>
-            <option value="Comming Soon">Comming Soon</option>
-          </select>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="image" className="block text-gray-700">
-            Product Image
-          </label>
-          <input
-            type="text"
-            id="image"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="category" className="block text-gray-700">
-            Category
-          </label>
-          <select
-            id="category"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            className="form-select"
-          >
-            <option value="fruits">Fruits</option>
-            <option value="vegetables">Vegetables</option>
-            <option value="canned-food">Canned Food</option>
-            <option value="bakery-items">Bakery Items</option>
-            <option value="fishes">Fishes</option>
-            <option value="egg-and-dairy">Egg and Dairy</option>
-            <option value="soft-drinks-snacks">Soft Drinks and Snacks</option>
-            <option value="soft-drinks-snacks">others</option>
-          </select>
-        </div>
-        <div className="mt-6">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
-    </div>
+    <Layout hasSider>
+      <Sider
+        style={{
+          overflow: "auto",
+          height: "100vh",
+          position: "fixed",
+          left: 0,
+          top: 0,
+          bottom: 0,
+        }}
+      >
+        <div className="demo-logo-vertical" />
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={["4"]}
+          items={items}
+        />
+      </Sider>
+      <Layout
+        className="site-layout"
+        style={{
+          marginLeft: 200,
+        }}
+      >
+        <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+          }}
+        />
+        <Content
+          style={{
+            margin: "24px 16px 0",
+            overflow: "initial",
+          }}
+        >
+          <ProductsForm/>  
+        </Content>
+        <Footer
+          style={{
+            textAlign: "center",
+          }}
+        >
+          Ant Design ©2023 Created by Ant UED
+        </Footer>
+      </Layout>
+    </Layout>
   );
 };
-
-export default ProductForm;
-
-
+export default App;
