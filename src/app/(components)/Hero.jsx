@@ -114,13 +114,13 @@ const Hero = () => {
       setSecondImageIndex((prevIndex) =>
         prevIndex === secondImageArray.length - 1 ? 0 : prevIndex + 1
       );
-    }, 5000);
+    }, 4000);
 
     const thirdImageInterval = setInterval(() => {
       setThirdImageIndex((prevIndex) =>
         prevIndex === thirdImageArray.length - 1 ? 0 : prevIndex + 1
       );
-    }, 5000);
+    }, 3000);
 
     return () => {
       clearInterval(firstImageInterval);
