@@ -1,10 +1,111 @@
+// import { useState } from "react";
+// import { collection, addDoc } from "firebase/firestore";
+// import { storage, db } from "../../../firebase/firebaseConfig";
+// import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+
+// const ProdctsForm = () => {
+//   const [imageFile, setImageFile] = useState(null);
+//   const [imageError, setImageError] = useState("");
+
+//   // State to manage form data
+//   const [formData, setFormData] = useState({
+//     title: "",
+//     price: "",
+//     description: "",
+//     tagline: "",
+//     availability: "In stock",
+//     category: "others",
+//   });
+
+//   // Handle form input changes
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData({
+//       ...formData,
+//       [name]: value,
+//     });
+//   };
+
+//   const handleProuductImg = (e) => {
+//     e.preventDefault();
+//     let selectedFiles = e.target.files[0];
+
+//     if (selectedFiles) {
+//       setImageFile(selectedFiles);
+//       setImageError("");
+//     } else {
+//       setImageFile(null);
+//       setImageError("Please select a valid file type");
+//     }
+//   };
+
+//   // const handleAddProduct = async (e) => {
+//   //   e.preventDefault();
+//   //   const storageRef = ref(storage, `product_images/${formData.title.toUpperCase()}/${Date.now()}`);
+
+//   //   try {
+//   //     await uploadBytes(storageRef, imageFile);
+//   //     const url = await getDownloadURL(storageRef);
+
+//   //     await addDoc(collection(db, "products"), {
+//   //       ...formData,
+//   //       imageFile: url,
+//   //     });
+
+//   //     // Clear formData or take any other necessary action here.
+
+//   //   } catch (error) {
+//   //     // Handle any errors that occur during the process.
+//   //     console.error(error);
+//   //   }
+//   // };
+//   const handleAddProduct = async (e) => {
+//     e.preventDefault();
+
+//     // Check if required fields are empty
+//     if (
+//       !formData.title || !formData.tagline || !formData.price || !formData.description || !imageFile)
+//        {
+//       console.error("Please fill in all required fields and select an image.");
+//       return; // Do not proceed with adding the product.
+//     }
+
+//     const storageRef = ref(storage,`${formData.title.toUpperCase()}/${Date.now()}`);
+
+//     try {
+//       const snapshot = await uploadBytes(storageRef, imageFile);
+//       const url = await getDownloadURL(snapshot.ref);
+//       console.log(url)
+
+//       await addDoc(collection(db, "products"), {
+//         ...formData,
+//         imageFile: url,
+//       });
+
+//       // Clear formData or take any other necessary action here.
+//       setFormData({
+//         title: "",
+//         price: "",
+//         description: "",
+//         tagline: "",
+//         availability: "In stock",
+//         category: "others",
+//       });
+//       setImageFile(null);
+
+//     } catch (error) {
+//       // Handle any errors that occur during the process.
+//       console.error(error);
+//     }
+//   };
+
 import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { storage, db } from "../../../firebase/firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 
 const ProdctsForm = () => {
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState();
   const [imageError, setImageError] = useState("");
 
   // State to manage form data
@@ -28,41 +129,20 @@ const ProdctsForm = () => {
 
   const handleProuductImg = (e) => {
     e.preventDefault();
-    let selectedFiles = e.target.files[0];
+    const selectedFiles = e.target.files[0];
 
-    if (selectedFiles) {
+    if (selectedFiles && selectedFiles.type.match("image.*")) {
       setImageFile(selectedFiles);
       setImageError("");
     } else {
       setImageFile(null);
-      setImageError("Please select a valid file type");
+      setImageError("Please select a valid image file");
     }
   };
 
-  // const handleAddProduct = async (e) => {
-  //   e.preventDefault();
-  //   const storageRef = ref(storage, `product_images/${formData.title.toUpperCase()}/${Date.now()}`);
-
-  //   try {
-  //     await uploadBytes(storageRef, imageFile);
-  //     const url = await getDownloadURL(storageRef);
-
-  //     await addDoc(collection(db, "products"), {
-  //       ...formData,
-  //       imageFile: url,
-  //     });
-
-  //     // Clear formData or take any other necessary action here.
-
-  //   } catch (error) {
-  //     // Handle any errors that occur during the process.
-  //     console.error(error);
-  //   }
-  // };
   const handleAddProduct = async (e) => {
     e.preventDefault();
 
-    // Check if required fields are empty
     if (
       !formData.title || !formData.tagline || !formData.price || !formData.description || !imageFile)
        {
@@ -70,15 +150,19 @@ const ProdctsForm = () => {
       return; // Do not proceed with adding the product.
     }
 
-    const storageRef = ref(storage,`${formData.title.toUpperCase()}/${Date.now()}`);
+    const storageRef = ref(storage, `${formData.title}`);
 
     try {
       const snapshot = await uploadBytes(storageRef, imageFile);
       const url = await getDownloadURL(snapshot.ref);
-      console.log(url)
 
       await addDoc(collection(db, "products"), {
-        ...formData,
+        title: formData.title,
+        price: formData.price,
+        description: formData.description,
+        tagline: formData.tagline,
+        availability: formData.availability,
+        category: formData.category,
         imageFile: url,
       });
 
