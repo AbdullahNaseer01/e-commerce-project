@@ -3,7 +3,10 @@ import { Inter } from 'next/font/google'
 import { AuthUserProvider } from '../../firebase/Auth';
 import Navbar from './(components)/Navbar';
 import Footer from './(components)/Footer';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const inter = Inter({ subsets: ['latin'] })
+
 
 export const metadata = {
   title: 'Create Next App',
@@ -15,6 +18,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
       {/* <Navbar/> */}
+      <ToastContainer />
        <AuthUserProvider>
         {children}
         </AuthUserProvider>

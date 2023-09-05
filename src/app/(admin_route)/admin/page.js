@@ -190,11 +190,13 @@ import AdminAside from "@/app/adminComponents/AdminAside";
 import AdminHeader from "@/app/adminComponents/AdminHeader";
 import AdminTables from "@/app/adminComponents/AdminTables";
 import ProdctsForm from "@/app/adminComponents/ProdctsForm";
+import { ToastContainer, toast } from 'react-toastify';
 import React from "react";
 
 const page = () => {
   return (
     <>
+    <ToastContainer/>
       <AdminHeader />
       <AdminAside />
       <main className=" sm:ml-60 pt-16  max-h-screen overflow-auto bg-slate-400 min-h-screen">

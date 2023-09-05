@@ -1,112 +1,15 @@
-// import { useState } from "react";
-// import { collection, addDoc } from "firebase/firestore";
-// import { storage, db } from "../../../firebase/firebaseConfig";
-// import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
-
-// const ProdctsForm = () => {
-//   const [imageFile, setImageFile] = useState(null);
-//   const [imageError, setImageError] = useState("");
-
-//   // State to manage form data
-//   const [formData, setFormData] = useState({
-//     title: "",
-//     price: "",
-//     description: "",
-//     tagline: "",
-//     availability: "In stock",
-//     category: "others",
-//   });
-
-//   // Handle form input changes
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData({
-//       ...formData,
-//       [name]: value,
-//     });
-//   };
-
-//   const handleProuductImg = (e) => {
-//     e.preventDefault();
-//     let selectedFiles = e.target.files[0];
-
-//     if (selectedFiles) {
-//       setImageFile(selectedFiles);
-//       setImageError("");
-//     } else {
-//       setImageFile(null);
-//       setImageError("Please select a valid file type");
-//     }
-//   };
-
-//   // const handleAddProduct = async (e) => {
-//   //   e.preventDefault();
-//   //   const storageRef = ref(storage, `product_images/${formData.title.toUpperCase()}/${Date.now()}`);
-
-//   //   try {
-//   //     await uploadBytes(storageRef, imageFile);
-//   //     const url = await getDownloadURL(storageRef);
-
-//   //     await addDoc(collection(db, "products"), {
-//   //       ...formData,
-//   //       imageFile: url,
-//   //     });
-
-//   //     // Clear formData or take any other necessary action here.
-
-//   //   } catch (error) {
-//   //     // Handle any errors that occur during the process.
-//   //     console.error(error);
-//   //   }
-//   // };
-//   const handleAddProduct = async (e) => {
-//     e.preventDefault();
-
-//     // Check if required fields are empty
-//     if (
-//       !formData.title || !formData.tagline || !formData.price || !formData.description || !imageFile)
-//        {
-//       console.error("Please fill in all required fields and select an image.");
-//       return; // Do not proceed with adding the product.
-//     }
-
-//     const storageRef = ref(storage,`${formData.title.toUpperCase()}/${Date.now()}`);
-
-//     try {
-//       const snapshot = await uploadBytes(storageRef, imageFile);
-//       const url = await getDownloadURL(snapshot.ref);
-//       console.log(url)
-
-//       await addDoc(collection(db, "products"), {
-//         ...formData,
-//         imageFile: url,
-//       });
-
-//       // Clear formData or take any other necessary action here.
-//       setFormData({
-//         title: "",
-//         price: "",
-//         description: "",
-//         tagline: "",
-//         availability: "In stock",
-//         category: "others",
-//       });
-//       setImageFile(null);
-
-//     } catch (error) {
-//       // Handle any errors that occur during the process.
-//       console.error(error);
-//     }
-//   };
-
 import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { storage, db } from "../../../firebase/firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const ProdctsForm = () => {
   const [imageFile, setImageFile] = useState();
   const [imageError, setImageError] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state
+  // const [progress, setProgress] = useState();
 
   // State to manage form data
   const [formData, setFormData] = useState({
@@ -127,35 +30,27 @@ const ProdctsForm = () => {
     });
   };
 
-  const handleProuductImg = (e) => {
-    e.preventDefault();
-    const selectedFiles = e.target.files[0];
-
-    if (selectedFiles && selectedFiles.type.match("image.*")) {
-      setImageFile(selectedFiles);
-      setImageError("");
-    } else {
-      setImageFile(null);
-      setImageError("Please select a valid image file");
-    }
-  };
-
   const handleAddProduct = async (e) => {
     e.preventDefault();
-
     if (
-      !formData.title || !formData.tagline || !formData.price || !formData.description || !imageFile)
-       {
+      !formData.title || !formData.tagline || !formData.price || !formData.description || !imageFile) {
       console.error("Please fill in all required fields and select an image.");
+      toast.error("Please fill in all required fields and select an image.")
       return; // Do not proceed with adding the product.
     }
 
     const storageRef = ref(storage, `${formData.title}`);
 
     try {
+      setLoading(true);
+      // const task = await uploadBytes(storageRef, imageFile);
+      // const url = await getDownloadURL(task.ref);
+      // setFormData({
+      // ...formData,
+      //   image: url,
+      // });
       const snapshot = await uploadBytes(storageRef, imageFile);
       const url = await getDownloadURL(snapshot.ref);
-
       await addDoc(collection(db, "products"), {
         title: formData.title,
         price: formData.price,
@@ -176,12 +71,71 @@ const ProdctsForm = () => {
         category: "others",
       });
       setImageFile(null);
+      toast.success("Product Added Successfully")
 
     } catch (error) {
       // Handle any errors that occur during the process.
       console.error(error);
+      toast.error(error.message, "Plz try again later")
+    } finally {
+      setLoading(false);
     }
   };
+  // const handleAddProduct = async (e) => {
+  //   e.preventDefault();
+  //   if (!formData.title || !formData.tagline || !formData.price || !formData.description || !imageFile) {
+  //     console.error("Please fill in all required fields and select an image.");
+  //     toast.error("Please fill in all required fields and select an image.");
+  //     return; // Do not proceed with adding the product.
+  //   }
+
+  //   const storageRef = ref(storage, `${formData.title}`);
+
+  //   try {
+  //     const snapshot = await uploadBytes(storageRef, imageFile, {
+  //       onProgress: (snapshot) => {
+  //         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //         toast.update(toastId, {
+  //           render: `Uploading: ${Math.round(progress)}%`,
+  //           type: toast.TYPE.INFO,
+  //           progress: progress,
+  //         });
+  //       },
+  //     });
+
+  //     const url = await getDownloadURL(snapshot.ref);
+
+  //     await addDoc(collection(db, "products"), {
+  //       title: formData.title,
+  //       price: formData.price,
+  //       description: formData.description,
+  //       tagline: formData.tagline,
+  //       availability: formData.availability,
+  //       category: formData.category,
+  //       imageFile: url,
+  //     });
+
+  //     // Clear formData or take any other necessary action here.
+  //     setFormData({
+  //       title: "",
+  //       price: "",
+  //       description: "",
+  //       tagline: "",
+  //       availability: "In stock",
+  //       category: "others",
+  //     });
+  //     setImageFile(null);
+  //     toast.success("Product Added Successfully");
+  //   } catch (error) {
+  //     // Handle any errors that occur during the process.
+  //     console.error(error);
+  //     toast.error(error.message, "Please try again later");
+  //   } finally {
+  //     // Close the progress toast when the process is completed.
+  //     toast.dismiss(toastId);
+  //   }
+  // };
+  // let toastId = null; // Store the toast ID to update progress.
 
 
 
@@ -289,9 +243,12 @@ const ProdctsForm = () => {
             className="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded"
             type="button"
             onClick={handleAddProduct}
+            disabled={loading}
           >
-            Add
+            {loading ? "Adding..." : "Add"} {/* Show loading text while uploading */}
           </button>
+
+
         </div>
       </form>
     </div>
