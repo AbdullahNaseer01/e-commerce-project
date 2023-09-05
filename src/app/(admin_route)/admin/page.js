@@ -188,6 +188,7 @@
 'use client'
 import AdminAside from "@/app/adminComponents/AdminAside";
 import AdminHeader from "@/app/adminComponents/AdminHeader";
+import AdminTables from "@/app/adminComponents/AdminTables";
 import ProdctsForm from "@/app/adminComponents/ProdctsForm";
 import React from "react";
 
@@ -197,7 +198,8 @@ const page = () => {
       <AdminHeader />
       <AdminAside />
       <main className=" sm:ml-60 pt-16  max-h-screen overflow-auto bg-slate-400 min-h-screen">
-        <ProdctsForm/>
+        {/* <ProdctsForm/> */}
+        <AdminTables/>
       </main>
     </>
   );
