@@ -14,20 +14,20 @@ import {db} from "../../firebase/firebaseConfig.js"
 
 export default function Home() {
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const q = query(collection(db, "products"), where("category", "==", "fruits"));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        console.log("useeffect run")
-      });
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const q = query(collection(db, "products"), where("category", "==", "fruits"));
+  //     const querySnapshot = await getDocs(q);
+  //     querySnapshot.forEach((doc) => {
+  //       // doc.data() is never undefined for query doc snapshots
+  //       console.log(doc.id, " => ", doc.data());
+  //       console.log("useeffect run")
+  //     });
+  //   };
   
-    fetchData(); // Call the async function immediately
+  //   fetchData(); // Call the async function immediately
   
-  }, []);
+  // }, []);
   
 
 
