@@ -55,7 +55,7 @@ const AdminTables = ({ category, products }) => {
                         </thead>
                         <tbody>
                             {products.map((product) => (
-                                <tr>
+                                <tr key={product.id}>
                                     <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
                                         <p className="text-gray-900 whitespace-no-wrap">{product.id}</p>
                                     </td>
