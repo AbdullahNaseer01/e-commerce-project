@@ -6,13 +6,20 @@ import AdminTables from "@/app/adminComponents/AdminTables";
 
 const Page = () => {
   const [category, setCategory] = useState("fruits"); // Initialize with a default category
+  const [products , setProducts] = useState([])
+  const [loadings , setLoadings] = useState (true)
 
   const fetchData = async (category) => {
+    setLoadings(true)
     const q = query(collection(db, "products"), where("category", "==", category));
     const querySnapshot = await getDocs(q);
+    const productsData = []
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
+        productsData.push({ id: doc.id, ...doc.data() });
     });
+    setProducts(productsData)
+    console.log(productsData);
+    setLoadings(false)
   };
 
   useEffect(() => {
@@ -28,6 +35,8 @@ const Page = () => {
 
   return (
     <main className="sm:ml-60 pt-16 max-h-screen overflow-auto min-h-screen">
+      {loadings ? "Loading..." :
+      <div>
       <div className="inline-block mt-2 w-1/2 pr-1">
         <label className="block text-sm text-gray-600" htmlFor="category">
           Category
@@ -48,7 +57,12 @@ const Page = () => {
           <option value="others">Others</option>
         </select>
       </div>
-      <AdminTables />
+      <AdminTables products={products} category={category} />
+      </div>
+      
+      }
+      
+      
     </main>
   );
 };
