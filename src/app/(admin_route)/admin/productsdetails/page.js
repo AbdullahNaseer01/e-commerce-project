@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../../../../firebase/firebaseConfig";
 import AdminTables from "@/app/adminComponents/AdminTables";
-
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 const Page = () => {
   const [category, setCategory] = useState("fruits"); // Initialize with a default category
   const [products, setProducts] = useState([]);
@@ -39,7 +40,11 @@ const Page = () => {
   return (
     <main className="sm:ml-60 pt-16 max-h-screen overflow-auto min-h-screen">
       {loadings ? (
-        "Loading..."
+        <div className="mt-12">
+          <Skeleton style={{borderRadius:'50%'}}/>
+          <Skeleton count={5} />
+        </div>
+        
       ) : (
         <div>
           <div className="inline-block mt-2 w-1/2 pr-1">

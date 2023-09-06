@@ -2,6 +2,7 @@ import { AiFillDelete } from 'react-icons/ai';
 import { FiEdit3 } from 'react-icons/fi';
 
 
+
 const AdminTables = ({ category, products }) => {
     return (
         <>
