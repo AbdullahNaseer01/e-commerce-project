@@ -3,6 +3,9 @@ import { collection, addDoc } from "firebase/firestore";
 import { storage, db } from "../../../firebase/firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { ToastContainer, toast } from 'react-toastify';
+import { MdOutlineAddShoppingCart } from "react-icons/md";
+import { LuLoader } from "react-icons/lu";
+
 
 
 const ProdctsForm = () => {
@@ -207,7 +210,7 @@ const ProdctsForm = () => {
             onClick={handleAddProduct}
             disabled={loading}
           >
-            {loading ? "Adding..." : "Add"} {/* Show loading text while uploading */}
+            {loading ? <div>Adding Dont Leave the page<span className="text-2xl"> <LuLoader/></span></div> : <div className="flex justify-between"><span>Add Product</span> <span className="text-xl mt-2 ml-2"><MdOutlineAddShoppingCart/></span></div>} {/* Show loading text while uploading */}
           </button>
 
 
