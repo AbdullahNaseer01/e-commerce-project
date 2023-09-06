@@ -29,6 +29,26 @@ const ProdctsForm = () => {
       [name]: value,
     });
   };
+  const handleCategoryChange = (e) => {
+    const newCategory = e.target.value;
+    console.log(newCategory);
+    setFormData({
+      ...formData, category: newCategory
+    });
+    console.log(newCategory); 
+  };
+  const handleAvailabilityChange = (e) => {
+    const newAvailability = e.target.value;
+    console.log(newAvailability);
+    setFormData({
+      ...formData, availability: newAvailability
+    });
+    console.log(newAvailability); 
+  };
+
+  // const handleAddProduct = ()=>{
+  //   console.log(formData)
+  // }
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -40,15 +60,14 @@ const ProdctsForm = () => {
     }
 
     const storageRef = ref(storage, `${formData.title}`);
-
-    try {
-      setLoading(true);
-      // const task = await uploadBytes(storageRef, imageFile);
+// const task = await uploadBytes(storageRef, imageFile);
       // const url = await getDownloadURL(task.ref);
       // setFormData({
       // ...formData,
       //   image: url,
       // });
+    try {
+      setLoading(true);
       const snapshot = await uploadBytes(storageRef, imageFile);
       const url = await getDownloadURL(snapshot.ref);
       await addDoc(collection(db, "products"), {
@@ -60,7 +79,6 @@ const ProdctsForm = () => {
         category: formData.category,
         imageFile: url,
       });
-
       // Clear formData or take any other necessary action here.
       setFormData({
         title: "",
@@ -81,63 +99,7 @@ const ProdctsForm = () => {
       setLoading(false);
     }
   };
-  // const handleAddProduct = async (e) => {
-  //   e.preventDefault();
-  //   if (!formData.title || !formData.tagline || !formData.price || !formData.description || !imageFile) {
-  //     console.error("Please fill in all required fields and select an image.");
-  //     toast.error("Please fill in all required fields and select an image.");
-  //     return; // Do not proceed with adding the product.
-  //   }
-
-  //   const storageRef = ref(storage, `${formData.title}`);
-
-  //   try {
-  //     const snapshot = await uploadBytes(storageRef, imageFile, {
-  //       onProgress: (snapshot) => {
-  //         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //         toast.update(toastId, {
-  //           render: `Uploading: ${Math.round(progress)}%`,
-  //           type: toast.TYPE.INFO,
-  //           progress: progress,
-  //         });
-  //       },
-  //     });
-
-  //     const url = await getDownloadURL(snapshot.ref);
-
-  //     await addDoc(collection(db, "products"), {
-  //       title: formData.title,
-  //       price: formData.price,
-  //       description: formData.description,
-  //       tagline: formData.tagline,
-  //       availability: formData.availability,
-  //       category: formData.category,
-  //       imageFile: url,
-  //     });
-
-  //     // Clear formData or take any other necessary action here.
-  //     setFormData({
-  //       title: "",
-  //       price: "",
-  //       description: "",
-  //       tagline: "",
-  //       availability: "In stock",
-  //       category: "others",
-  //     });
-  //     setImageFile(null);
-  //     toast.success("Product Added Successfully");
-  //   } catch (error) {
-  //     // Handle any errors that occur during the process.
-  //     console.error(error);
-  //     toast.error(error.message, "Please try again later");
-  //   } finally {
-  //     // Close the progress toast when the process is completed.
-  //     toast.dismiss(toastId);
-  //   }
-  // };
-  // let toastId = null; // Store the toast ID to update progress.
-
-
+ 
 
   return (
     <div className="leading-loose">
@@ -203,7 +165,7 @@ const ProdctsForm = () => {
           </label>
 
 
-          <select onChange={handleChange} value={formData.category} id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+          <select onChange={handleCategoryChange} value={formData.category} id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
             <option value="fruits">Fruits</option>
             <option value="vegetables">Vegetables</option>
             <option value="canned-food">Canned Food</option>
@@ -218,7 +180,7 @@ const ProdctsForm = () => {
           <label className="hidden block text-sm text-gray-600" htmlFor="availability">
             Availability
           </label>
-          <select onChange={handleChange} value={formData.availability} id="availability" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+          <select onChange={handleAvailabilityChange} value={formData.availability} id="availability" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
             <option value="In Stock">In stock</option>
             <option value="Out of Stoke">Out of Stoke</option>
             <option value="Comming Soon">Comming Soon</option>
@@ -257,3 +219,63 @@ const ProdctsForm = () => {
 }
 
 export default ProdctsForm
+
+
+
+
+ // const handleAddProduct = async (e) => {
+  //   e.preventDefault();
+  //   if (!formData.title || !formData.tagline || !formData.price || !formData.description || !imageFile) {
+  //     console.error("Please fill in all required fields and select an image.");
+  //     toast.error("Please fill in all required fields and select an image.");
+  //     return; // Do not proceed with adding the product.
+  //   }
+
+  //   const storageRef = ref(storage, `${formData.title}`);
+
+  //   try {
+  //     const snapshot = await uploadBytes(storageRef, imageFile, {
+  //       onProgress: (snapshot) => {
+  //         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //         toast.update(toastId, {
+  //           render: `Uploading: ${Math.round(progress)}%`,
+  //           type: toast.TYPE.INFO,
+  //           progress: progress,
+  //         });
+  //       },
+  //     });
+
+  //     const url = await getDownloadURL(snapshot.ref);
+
+  //     await addDoc(collection(db, "products"), {
+  //       title: formData.title,
+  //       price: formData.price,
+  //       description: formData.description,
+  //       tagline: formData.tagline,
+  //       availability: formData.availability,
+  //       category: formData.category,
+  //       imageFile: url,
+  //     });
+
+  //     // Clear formData or take any other necessary action here.
+  //     setFormData({
+  //       title: "",
+  //       price: "",
+  //       description: "",
+  //       tagline: "",
+  //       availability: "In stock",
+  //       category: "others",
+  //     });
+  //     setImageFile(null);
+  //     toast.success("Product Added Successfully");
+  //   } catch (error) {
+  //     // Handle any errors that occur during the process.
+  //     console.error(error);
+  //     toast.error(error.message, "Please try again later");
+  //   } finally {
+  //     // Close the progress toast when the process is completed.
+  //     toast.dismiss(toastId);
+  //   }
+  // };
+  // let toastId = null; // Store the toast ID to update progress.
+

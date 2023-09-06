@@ -1,32 +1,9 @@
-import React from 'react'
+import { AiFillDelete } from 'react-icons/ai';
+import { FiEdit3 } from 'react-icons/fi';
 
-const AdminTables = ({ products, category }) => {
+
+const AdminTables = ({ category, products }) => {
     return (
-        // availability
-        // : 
-        // "Comming Soon"
-        // category
-        // : 
-        // "soft-drinks-snacks"
-        // description
-        // : 
-        // "Hic quas vero exerci"
-        // id
-        // : 
-        // "8eGBdZUXz7qa6vYtcUjP"
-        // image
-        // : 
-        // "Duis delectus labor"
-        // price
-        // : 
-        // "433"
-        // tagline
-        // : 
-        // "Neque ea consectetur"
-        // title
-        // : 
-        // "Consequatur Qui exp"
-
         <>
             <div className="w-full mt-12">
                 <p className="text-xl pb-3 flex items-center">
@@ -54,7 +31,7 @@ const AdminTables = ({ products, category }) => {
                                 </th>
                                 <th
                                     className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    category
+                                    Category
                                 </th>
                                 <th
                                     className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -72,50 +49,68 @@ const AdminTables = ({ products, category }) => {
                                     className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                     Edit
                                 </th>
-                               
+
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    {/* <div className="flex items-center">
-                                        <div className="flex-shrink-0 w-10 h-10">
-                                            <img className="w-full h-full rounded-full"
-                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                alt="" />
+                            {products.map((product) => (
+                                <tr>
+                                    <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+                                        <p className="text-gray-900 whitespace-no-wrap">{product.id}</p>
+                                    </td>
+                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <div className="flex items-center">
+                                            <div className="flex-shrink-0 w-10 h-10">
+                                                <img className="flex-grow object-cover w-full h-full rounded-full hover:scale-300 "
+                                                    src={product.imageFile}
+                                                    alt="" />
+                                            </div>
+                                            <div className="ml-3">
+                                                <p className="text-gray-900 whitespace-no-wrap">
+                                                    {product.title}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div className="ml-3">
-                                            <p className="text-gray-900 whitespace-no-wrap">
-                                                Vera Carpenter
-                                            </p>
-                                        </div>
-                                    </div> */}
-                                </td>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p className="text-gray-900 whitespace-no-wrap">Admin</p>
-                                </td>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p className="text-gray-900 whitespace-no-wrap">
-                                        Jan 21, 2020
-                                    </p>
-                                </td>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <span
-                                        className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                        <span aria-hidden
-                                            className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                        <span className="relative">Activo</span>
-                                    </span>
-                                </td>
-                            </tr>
-                            
+                                    </td>
+                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p className="text-gray-900 whitespace-no-wrap">{product.price}</p>
+                                    </td>
+                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <span
+                                            className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                            <span aria-hidden
+                                                className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                            <span className="relative">{product.availability}</span>
+                                        </span>
+                                    </td>
+                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p className="text-gray-900 whitespace-no-wrap">{product.category}</p>
+                                    </td>
+                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p className="text-gray-900 whitespace-no-wrap">{product.tagline}</p>
+                                    </td>
+                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p className="text-gray-900 whitespace-no-wrap">{product.description}</p>
+                                    </td>
+                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p className="text-gray-900 whitespace-no-wrap">Delete <AiFillDelete/></p>
+                                    </td>
+                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p className="text-gray-900 whitespace-no-wrap">Edit <FiEdit3/></p>
+                                    </td>
+                                    {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <p className="text-gray-900 whitespace-no-wrap">btn for details</p>
+</td> */}
+                                </tr>
+                            ))}
+
+
                         </tbody>
                     </table>
+
                 </div>
-                <p className="pt-3 text-gray-600">
-                    Source: <a className="underline" href="https://tailwindcomponents.com/component/table-responsive-with-filters">https://tailwindcomponents.com/component/table-responsive-with-filters</a>
-                </p>
             </div>
+
 
         </>
     )

@@ -11,6 +11,9 @@ module.exports = {
         accent: "#179957",
         accentDark: "#184D47",
       },
+      scale: {
+        '300': '3',
+      },
       container: {
         center: true,
         padding: "15px",
