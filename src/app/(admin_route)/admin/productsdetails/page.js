@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../../../../firebase/firebaseConfig";
-import AdminTables from "@/app/adminComponents/AdminTables";
+import AdminTables from "@/app/(adminComponents)/AdminTables";
 import 'react-loading-skeleton/dist/skeleton.css'
 const Page = () => {
   const [category, setCategory] = useState("fruits"); // Initialize with a default category
