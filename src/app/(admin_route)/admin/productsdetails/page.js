@@ -6,7 +6,7 @@ import AdminTables from "@/app/(adminComponents)/AdminTables";
 import 'react-loading-skeleton/dist/skeleton.css'
 import EditProductForm from "@/app/(adminComponents)/EditProductForm";
 const Page = () => {
-  const [category, setCategory] = useState("fruits"); // Initialize with a default category
+  const [category, setCategory] = useState("fruits");  // Initialize with a default category
   const [products, setProducts] = useState([]);
   const [loadings, setLoadings] = useState(true);
   const [popUpOpen, setPopupOpen] = useState(false);
@@ -38,13 +38,6 @@ const Page = () => {
       category: "others",
     });
   };
-
-
-
-
-
-
-
 
 
   // code of data fetching 
@@ -104,10 +97,10 @@ const Page = () => {
               <option value="others">Others</option>
             </select>
           </div>
-          <AdminTables products={products} category={category} openPopup={openPopup} setEditProductId={setEditProductId} />
+          <AdminTables products={products} category={category} openPopup={openPopup} setEditProductId={setEditProductId} formData={formData} setFormData={setFormData} />
           {
             popUpOpen && (
-              <EditProductForm closePopup={closePopup} formData={formData} setFormData={setFormData} editProductId={editProductId}/>
+              <EditProductForm  closePopup={closePopup} formData={formData} setFormData={setFormData} editProductId={editProductId}/>
             )
           }
         </div>

@@ -3,7 +3,7 @@ import { FiEdit3 } from 'react-icons/fi';
 
 
 
-const AdminTables = ({ category, products , openPopup , setEditProductId}) => {
+const AdminTables = ({ category, products , openPopup , setEditProductId , setFormData}) => {
     return (
         <>
             <div className="w-full mt-12">
@@ -100,6 +100,14 @@ const AdminTables = ({ category, products , openPopup , setEditProductId}) => {
                                         <p className="text-gray-900 whitespace-no-wrap" onClick={()=>{
                                             openPopup()
                                             setEditProductId(product.id)
+                                            setFormData({
+                                                title: product.title,
+                                                price: product.price,
+                                                description: product.description,
+                                                tagline: product.tagline,
+                                                availability: product.availability,
+                                                category: product.category,
+                                              });
                                             console.log(product.title ,  product.id)
                                         }} >Edit <FiEdit3/></p>
                                     </td>
