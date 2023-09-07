@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import AdminTables from "@/app/(adminComponents)/AdminTables";
 import ProdctsForm from "@/app/(adminComponents)/AddProdctsForm";

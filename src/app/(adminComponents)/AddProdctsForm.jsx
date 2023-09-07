@@ -49,9 +49,6 @@ const ProdctsForm = () => {
     console.log(newAvailability); 
   };
 
-  // const handleAddProduct = ()=>{
-  //   console.log(formData)
-  // }
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -63,12 +60,6 @@ const ProdctsForm = () => {
     }
 
     const storageRef = ref(storage, `${formData.title}`);
-// const task = await uploadBytes(storageRef, imageFile);
-      // const url = await getDownloadURL(task.ref);
-      // setFormData({
-      // ...formData,
-      //   image: url,
-      // });
     try {
       setLoading(true);
       const snapshot = await uploadBytes(storageRef, imageFile);

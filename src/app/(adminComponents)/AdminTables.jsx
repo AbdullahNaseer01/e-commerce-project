@@ -3,7 +3,7 @@ import { FiEdit3 } from 'react-icons/fi';
 
 
 
-const AdminTables = ({ category, products }) => {
+const AdminTables = ({ category, products , openPopup }) => {
     return (
         <>
             <div className="w-full mt-12">
@@ -97,7 +97,7 @@ const AdminTables = ({ category, products }) => {
                                         <p className="text-gray-900 whitespace-no-wrap">Delete <AiFillDelete /></p>
                                     </td>
                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Edit <FiEdit3/></p>
+                                        <p className="text-gray-900 whitespace-no-wrap" onClick={openPopup} >Edit <FiEdit3/></p>
                                     </td>
                                 </tr>
                             ))}

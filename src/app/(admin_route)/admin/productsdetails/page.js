@@ -4,11 +4,46 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../../../../firebase/firebaseConfig";
 import AdminTables from "@/app/(adminComponents)/AdminTables";
 import 'react-loading-skeleton/dist/skeleton.css'
+import EditProductForm from "@/app/(adminComponents)/EditProductForm";
 const Page = () => {
   const [category, setCategory] = useState("fruits"); // Initialize with a default category
   const [products, setProducts] = useState([]);
   const [loadings, setLoadings] = useState(true);
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    title: "",
+    price: "",
+    description: "",
+    tagline: "",
+    availability: "In stock",
+    category: "others",
+  });
 
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setPopupOpen(false);
+    setFormData({
+      title: "",
+      price: "",
+      description: "",
+      tagline: "",
+      availability: "In stock",
+      category: "others",
+    });
+  };
+
+
+
+
+
+
+
+
+
+  // code of data fetching 
   const fetchData = async (category) => {
     setLoadings(true);
     const q = query(
@@ -35,13 +70,14 @@ const Page = () => {
     setCategory(newCategory);
     fetchData(newCategory); // Fetch data when the category changes
   };
+  // end of code of data fetching
 
   return (
     <main className="sm:ml-60 pt-16 max-h-screen overflow-auto min-h-screen">
       {loadings ? (
-       <div className="flex justify-center items-center h-screen">
-       <img src="../Loader.gif" alt="Loading" srcSet="" />
-     </div>
+        <div className="flex justify-center items-center h-screen">
+          <img src="../Loader.gif" alt="Loading" srcSet="" />
+        </div>
       ) : (
         <div>
           <div className="inline-block mt-2 w-1/2 pr-1">
@@ -64,7 +100,12 @@ const Page = () => {
               <option value="others">Others</option>
             </select>
           </div>
-          <AdminTables products={products} category={category} />
+          <AdminTables products={products} category={category} openPopup={openPopup} />
+          {
+            isPopupOpen && (
+              <EditProductForm closePopup={closePopup} formData={formData} setFormData={setFormData} />
+            )
+          }
         </div>
       )}
     </main>
