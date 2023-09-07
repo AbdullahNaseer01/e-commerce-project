@@ -1,7 +1,7 @@
 'use client'
 import React from "react";
 import AdminTables from "@/app/adminComponents/AdminTables";
-import ProdctsForm from "@/app/adminComponents/ProdctsForm";
+import ProdctsForm from "@/app/adminComponents/AddProdctsForm";
 const page = () => {
   return (
     <>

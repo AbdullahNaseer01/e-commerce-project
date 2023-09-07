@@ -94,14 +94,11 @@ const AdminTables = ({ category, products }) => {
                                         <p className="text-gray-900 whitespace-no-wrap">{product.description}</p>
                                     </td>
                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">Delete <AiFillDelete/></p>
+                                        <p className="text-gray-900 whitespace-no-wrap">Delete <AiFillDelete /></p>
                                     </td>
                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <p className="text-gray-900 whitespace-no-wrap">Edit <FiEdit3/></p>
                                     </td>
-                                    {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-    <p className="text-gray-900 whitespace-no-wrap">btn for details</p>
-</td> */}
                                 </tr>
                             ))}
 

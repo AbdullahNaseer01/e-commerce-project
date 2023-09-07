@@ -2,7 +2,7 @@
 import AdminAside from "@/app/adminComponents/AdminAside";
 import AdminHeader from "@/app/adminComponents/AdminHeader";
 import AdminTables from "@/app/adminComponents/AdminTables";
-import ProdctsForm from "@/app/adminComponents/ProdctsForm";
+import ProdctsForm from "@/app/adminComponents/AddProdctsForm";
 import { ToastContainer,} from 'react-toastify';
 import React from "react";
 
