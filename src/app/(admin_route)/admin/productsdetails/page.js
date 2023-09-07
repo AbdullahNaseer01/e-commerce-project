@@ -9,7 +9,7 @@ const Page = () => {
   const [category, setCategory] = useState("fruits"); // Initialize with a default category
   const [products, setProducts] = useState([]);
   const [loadings, setLoadings] = useState(true);
-  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [popUpOpen, setPopupOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -18,12 +18,16 @@ const Page = () => {
     availability: "In stock",
     category: "others",
   });
+  const [editProductId, setEditProductId] = useState(null); // for props send to table and EditForm Component
 
   const openPopup = () => {
     setPopupOpen(true);
+    console.log("openPopup called" , popUpOpen);
   };
+  
 
-  const closePopup = () => {
+  const closePopup = (e) => {
+    e.preventDefault()
     setPopupOpen(false);
     setFormData({
       title: "",
@@ -100,10 +104,10 @@ const Page = () => {
               <option value="others">Others</option>
             </select>
           </div>
-          <AdminTables products={products} category={category} openPopup={openPopup} />
+          <AdminTables products={products} category={category} openPopup={openPopup} setEditProductId={setEditProductId} />
           {
-            isPopupOpen && (
-              <EditProductForm closePopup={closePopup} formData={formData} setFormData={setFormData} />
+            popUpOpen && (
+              <EditProductForm closePopup={closePopup} formData={formData} setFormData={setFormData} editProductId={editProductId}/>
             )
           }
         </div>
