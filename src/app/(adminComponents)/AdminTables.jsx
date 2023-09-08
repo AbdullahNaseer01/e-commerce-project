@@ -1,9 +1,31 @@
 import { AiFillDelete } from 'react-icons/ai';
 import { FiEdit3 } from 'react-icons/fi';
+import { AdminContextProvider } from '../(Adminlogic)/Logic';
 
 
 
-const AdminTables = ({ category, products , openPopup , setEditProductId , setFormData , setImageFile}) => {
+const AdminTables = ({}) => {
+const {
+        imageFile,
+        setImageFile,
+        imageError,
+        setImageError,
+        loading,
+        setLoading,
+        formData,
+        setFormData,
+        products,
+        setProducts,
+        category,
+        setCategory,
+        handleChange,
+        handleCategoryChange,
+        handleAvailabilityChange,
+        closePopup,
+        openPopup,
+        editProductId,
+        setEditProductId
+      }= AdminContextProvider()
     return (
         <>
             <div className="w-full mt-12">
@@ -128,3 +150,16 @@ const AdminTables = ({ category, products , openPopup , setEditProductId , setFo
 }
 
 export default AdminTables
+
+// import React from 'react'
+// import { AdminContextProvider } from '../(Adminlogic)/Logic'
+
+// const {formData} = AdminContextProvider
+
+// const AdminTables = () => {
+//   return (
+//     <div>AdminTables</div>
+//   )
+// }
+
+// export default AdminTables

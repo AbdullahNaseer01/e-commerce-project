@@ -2,46 +2,62 @@ import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { LuLoader } from "react-icons/lu";
 import { useState } from "react";
 import { db, storage } from "../../../firebase/firebaseConfig";
-import { doc, updateDoc} from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { toast } from "react-toastify"
+import { AdminContextProvider } from "../(Adminlogic)/Logic";
 
 
-const EditProductForm = ({ closePopup, editProductId, formData, setFormData }) => {
-    const [loading, setLoading] = useState(false);
-    const [imageFile, setImageFile] = useState();
-    // const [formData, setFormData] = useState({
-    //     title: "",
-    //     price: "",
-    //     description: "",
-    //     tagline: "",
-    //     availability: "In stock",
-    //     category: "others",
-    // });
+const EditProductForm = () => {
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
-    const handleCategoryChange = (e) => {
-        const newCategory = e.target.value;
-        console.log(newCategory);
-        setFormData({
-            ...formData, category: newCategory
-        });
-        console.log(newCategory);
-    };
-    const handleAvailabilityChange = (e) => {
-        const newAvailability = e.target.value;
-        console.log(newAvailability);
-        setFormData({
-            ...formData, availability: newAvailability
-        });
-        console.log(newAvailability);
-    };
+    const {
+        imageFile,
+        setImageFile,
+        imageError,
+        setImageError,
+        loading,
+        setLoading,
+        formData,
+        setFormData,
+        products,
+        setProducts,
+        category,
+        setCategory,
+        handleChange,
+        handleCategoryChange,
+        handleAvailabilityChange,
+        closePopup,
+        openPopup,
+        editProductId,
+        setEditProductId
+      }= AdminContextProvider()
+    // const [loading, setLoading] = useState(false);
+    // const [imageFile, setImageFile] = useState();
+
+
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setFormData({
+    //         ...formData,
+    //         [name]: value,
+    //     });
+    // };
+    // const handleCategoryChange = (e) => {
+    //     const newCategory = e.target.value;
+    //     console.log(newCategory);
+    //     setFormData({
+    //         ...formData, category: newCategory
+    //     });
+    //     console.log(newCategory);
+    // };
+    // const handleAvailabilityChange = (e) => {
+    //     const newAvailability = e.target.value;
+    //     console.log(newAvailability);
+    //     setFormData({
+    //         ...formData, availability: newAvailability
+    //     });
+    //     console.log(newAvailability);
+    // };
 
 
     const updateProduct = async () => {
@@ -269,3 +285,19 @@ export default EditProductForm
 // const handleEditProduct = ()=>{
 //     console.log(editProductId)
 // }
+
+
+
+
+// import React from 'react'
+// import { AdminContextProvider } from '../(Adminlogic)/Logic'
+
+// const EditProductForm = () => {
+
+//     const {formData} = AdminContextProvider
+//   return (
+//     <div>EditProductForm</div>
+//   )
+// }
+
+// export default EditProductForm

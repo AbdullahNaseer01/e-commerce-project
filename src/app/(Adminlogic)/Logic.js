@@ -4,6 +4,8 @@ import React, { createContext, useContext , useState , useEffect } from "react";
 const AdminContext = createContext({
    
 });
+    // closePopup={closePopup} formData={formData} setFormData={setFormData} editProductId={editProductId}
+
 
 // Custom hook to provide admin-related logic
 export default function useAdminLogic() {
@@ -12,7 +14,10 @@ export default function useAdminLogic() {
   const [imageFile, setImageFile] = useState();
   const [imageError, setImageError] = useState("");
   const [loading, setLoading] = useState(false); // Add loading state
+  const [editProductId , setEditProductId] =useState('')
   // const [progress, setProgress] = useState();
+  const [category, setCategory] = useState("fruits");  // Initialize with a default category
+  const [products, setProducts] = useState([]);
 
   // State to manage form data
   const [formData, setFormData] = useState({
@@ -22,6 +27,7 @@ export default function useAdminLogic() {
     tagline: "",
     availability: "In stock",
     category: "others",
+    imageFile: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,6 +54,24 @@ export default function useAdminLogic() {
     });
     console.log(newAvailability);
   };
+  const openPopup = () => {
+    setPopupOpen(true);
+    console.log("openPopup called" , popUpOpen);
+  };
+  
+
+  const closePopup = (e) => {
+    e.preventDefault()
+    setPopupOpen(false);
+    setFormData({
+      title: "",
+      price: "",
+      description: "",
+      tagline: "",
+      availability: "In stock",
+      category: "others",
+    });
+  };
 
   return {
     imageFile,
@@ -58,9 +82,17 @@ export default function useAdminLogic() {
     setLoading,
     formData,
     setFormData,
+    products,
+    setProducts,
+    category,
+    setCategory,
     handleChange,
     handleCategoryChange,
     handleAvailabilityChange,
+    closePopup,
+    openPopup,
+    editProductId,
+    setEditProductId
   };
 }
 

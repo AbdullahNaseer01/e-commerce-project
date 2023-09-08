@@ -5,71 +5,95 @@ import { db } from "../../../../../firebase/firebaseConfig";
 import AdminTables from "@/app/(adminComponents)/AdminTables";
 import 'react-loading-skeleton/dist/skeleton.css'
 import EditProductForm from "@/app/(adminComponents)/EditProductForm";
+import { AdminContextProvider } from "@/app/(Adminlogic)/Logic";
 const Page = () => {
-  const [category, setCategory] = useState("fruits");  // Initialize with a default category
-  const [products, setProducts] = useState([]);
-  const [loadings, setLoadings] = useState(true);
-  const [popUpOpen, setPopupOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    price: "",
-    description: "",
-    tagline: "",
-    availability: "In stock",
-    category: "others",
-    imageFile: "",
-  });
 
-  const [editProductId, setEditProductId] = useState(null); // for props send to table and EditForm Component
+  const {
+    imageFile,
+    setImageFile,
+    imageError,
+    setImageError,
+    loading,
+    setLoading,
+    formData,
+    setFormData,
+    products,
+    setProducts,
+    category,
+    setCategory,
+    handleChange,
+    handleCategoryChange,
+    handleAvailabilityChange,
+    closePopup,
+    openPopup,
+    editProductId,
+    setEditProductId
+  }= AdminContextProvider()
 
-  const openPopup = () => {
-    setPopupOpen(true);
-    console.log("openPopup called" , popUpOpen);
-  };
+  // const [category, setCategory] = useState("fruits");  // Initialize with a default category
+  // const [products, setProducts] = useState([]);
+  // const [loadings, setLoadings] = useState(true);
+  // const [popUpOpen, setPopupOpen] = useState(false);
+  // const [formData, setFormData] = useState({
+  //   title: "",
+  //   price: "",
+  //   description: "",
+  //   tagline: "",
+  //   availability: "In stock",
+  //   category: "others",
+  //   imageFile: "",
+  // });
+
+  // const [editProductId, setEditProductId] = useState(null); // for props send to table and EditForm Component
+
+  // const openPopup = () => {
+  //   setPopupOpen(true);
+  //   console.log("openPopup called" , popUpOpen);
+  // };
   
 
-  const closePopup = (e) => {
-    e.preventDefault()
-    setPopupOpen(false);
-    setFormData({
-      title: "",
-      price: "",
-      description: "",
-      tagline: "",
-      availability: "In stock",
-      category: "others",
-    });
-  };
+  // const closePopup = (e) => {
+  //   e.preventDefault()
+  //   setPopupOpen(false);
+  //   setFormData({
+  //     title: "",
+  //     price: "",
+  //     description: "",
+  //     tagline: "",
+  //     availability: "In stock",
+  //     category: "others",
+  //   });
+  // };
 
 
-  // code of data fetching 
-  const fetchData = async (category) => {
-    setLoadings(true);
-    const q = query(
-      collection(db, "products"),
-      where("category", "==", category)
-    );
-    const querySnapshot = await getDocs(q);
-    const productsData = [];
-    querySnapshot.forEach((doc) => {
-      productsData.push({ id: doc.id, ...doc.data() });
-    });
-    setProducts(productsData);
-    console.log(productsData);
-    setLoadings(false);
-  };
+  // // code of data fetching 
+  // const fetchData = async (category) => {
+  //   setLoadings(true);
+  //   const q = query(
+  //     collection(db, "products"),
+  //     where("category", "==", category)
+  //   );
+  //   const querySnapshot = await getDocs(q);
+  //   const productsData = [];
+  //   querySnapshot.forEach((doc) => {
+  //     productsData.push({ id: doc.id, ...doc.data() });
+  //   });
+  //   setProducts(productsData);
+  //   console.log(productsData);
+  //   setLoadings(false);
+  // };
 
-  useEffect(() => {
-    fetchData(category); // Fetch data initially with the default category
-  }, [category]);
+  // useEffect(() => {
+  //   fetchData(category); // Fetch data initially with the default category
+  // }, [category]);
 
-  const handleCategoryChange = (e) => {
-    const newCategory = e.target.value;
-    console.log(newCategory);
-    setCategory(newCategory);
-    fetchData(newCategory); // Fetch data when the category changes
-  };
-  // end of code of data fetching
+  // const handleCategoryChange = (e) => {
+  //   const newCategory = e.target.value;
+  //   console.log(newCategory);
+  //   setCategory(newCategory);
+  //   fetchData(newCategory); // Fetch data when the category changes
+  // };
+  // // end of code of data fetching
 
   return (
     <main className="sm:ml-60 pt-16 max-h-screen overflow-auto min-h-screen">
@@ -99,10 +123,12 @@ const Page = () => {
               <option value="others">Others</option>
             </select>
           </div>
-          <AdminTables products={products} category={category} openPopup={openPopup} setEditProductId={setEditProductId} formData={formData} setFormData={setFormData} />
+          {/* <AdminTables products={products} category={category} openPopup={openPopup} setEditProductId={setEditProductId} formData={formData} setFormData={setFormData} /> */}
+          <AdminTables/>
           {
             popUpOpen && (
-              <EditProductForm  closePopup={closePopup} formData={formData} setFormData={setFormData} editProductId={editProductId}/>
+              <EditProductForm/>
+              // <EditProductForm  closePopup={closePopup} formData={formData} setFormData={setFormData} editProductId={editProductId}/>
             )
           }
         </div>
@@ -112,3 +138,48 @@ const Page = () => {
 };
 
 export default Page;
+
+
+
+// 'use client'
+// import { AdminContextProvider } from '@/app/(Adminlogic)/Logic'
+// import AdminTables from '@/app/(adminComponents)/AdminTables'
+// import EditProductForm from '@/app/(adminComponents)/EditProductForm'
+// import React from 'react'
+
+// const page = () => {
+//   const {formData} = AdminContextProvider();
+//   const run = () => {
+//     console.log(formData)
+//   }
+//   return (
+//     <div>
+//       <AdminTables/>
+//       <EditProductForm/>
+//     </div>
+//   )
+// }
+
+// export default page
+
+// 'use client'
+
+// import { AdminContextProvider } from '@/app/(Adminlogic)/Logic'
+// import AdminTables from '@/app/(adminComponents)/AdminTables'
+// import EditProductForm from '@/app/(adminComponents)/EditProductForm'
+
+
+// const Page = ({}) => {
+//   // const {formData} = AdminContextProvider();
+//   // const run = () => {
+//   //   console.log(formData)
+//   // }
+//   return (
+//     <div>
+//         <AdminTables />
+//         <EditProductForm />
+//     </div>
+//   );
+// };
+
+// export default Page;
