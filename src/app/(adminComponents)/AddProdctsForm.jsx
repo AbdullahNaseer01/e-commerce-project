@@ -5,51 +5,24 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { ToastContainer, toast } from 'react-toastify';
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { LuLoader } from "react-icons/lu";
+import { useAdminContext } from "../(Adminlogic)/Logic";
 
 
 
 const ProdctsForm = () => {
-  const [imageFile, setImageFile] = useState();
-  const [imageError, setImageError] = useState("");
-  const [loading, setLoading] = useState(false); // Add loading state
-  // const [progress, setProgress] = useState();
-
-  // State to manage form data
-  const [formData, setFormData] = useState({
-    title: "",
-    price: "",
-    description: "",
-    tagline: "",
-    availability: "In stock",
-    category: "others",
-  });
-
-  // Handle form input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-  const handleCategoryChange = (e) => {
-    const newCategory = e.target.value;
-    console.log(newCategory);
-    setFormData({
-      ...formData, category: newCategory
-    });
-    console.log(newCategory); 
-  };
-  const handleAvailabilityChange = (e) => {
-    const newAvailability = e.target.value;
-    console.log(newAvailability);
-    setFormData({
-      ...formData, availability: newAvailability
-    });
-    console.log(newAvailability); 
-  };
-
-
+  const { 
+    imageFile,
+    setImageFile,
+    imageError,
+    setImageError,
+    loading,
+    setLoading,
+    formData,
+    setFormData,
+    handleChange,
+    handleCategoryChange,
+    handleAvailabilityChange, } = useAdminContext();
+ 
   const handleAddProduct = async (e) => {
     e.preventDefault();
     if (
@@ -93,7 +66,7 @@ const ProdctsForm = () => {
       setLoading(false);
     }
   };
- 
+
 
   return (
     <div className="leading-loose">
@@ -201,7 +174,7 @@ const ProdctsForm = () => {
             onClick={handleAddProduct}
             disabled={loading}
           >
-            {loading ? <div>Adding Dont Leave the page<span className="text-2xl"> <LuLoader/></span></div> : <div className="flex justify-between"><span>Add Product</span> <span className="text-xl mt-2 ml-2"><MdOutlineAddShoppingCart/></span></div>} {/* Show loading text while uploading */}
+            {loading ? <div>Adding Dont Leave the page<span className="text-2xl"> <LuLoader /></span></div> : <div className="flex justify-between"><span>Add Product</span> <span className="text-xl mt-2 ml-2"><MdOutlineAddShoppingCart /></span></div>} {/* Show loading text while uploading */}
           </button>
 
 
