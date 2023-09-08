@@ -1,11 +1,13 @@
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { LuLoader } from "react-icons/lu";
 import { useState } from "react";
-import { db } from "../../../firebase/firebaseConfig";
-import { doc , updateDoc , } from "firebase/firestore";
+import { db, storage } from "../../../firebase/firebaseConfig";
+import { doc, updateDoc} from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { toast } from "react-toastify"
 
 
-const EditProductForm = ({ closePopup, editProductId , formData , setFormData }) => {
+const EditProductForm = ({ closePopup, editProductId, formData, setFormData }) => {
     const [loading, setLoading] = useState(false);
     const [imageFile, setImageFile] = useState();
     // const [formData, setFormData] = useState({
@@ -15,8 +17,8 @@ const EditProductForm = ({ closePopup, editProductId , formData , setFormData })
     //     tagline: "",
     //     availability: "In stock",
     //     category: "others",
-    //   });
-      
+    // });
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -40,63 +42,66 @@ const EditProductForm = ({ closePopup, editProductId , formData , setFormData })
         });
         console.log(newAvailability);
     };
-  
 
-// const updateProduct = async () => {
-//     const productRef = doc(db, "products", editProductId); // Replace 'productId' with the ID of the product you want to update.
-  
-//     try {
-//       setLoading(true);
-  
-//       let imageUrl = formData.imageFile; // Initialize imageUrl with the existing image URL or the new image URL.
-  
-//       if (imageFile) {
-//         // If a new image is provided, upload it and get the new URL.
-//         const storageRef = ref(storage, `${formData.title}`);
-//         const snapshot = await uploadBytes(storageRef, imageFile);
-//         imageUrl = await getDownloadURL(snapshot.ref);
-//       }
-  
-//       // Create an object with updated data.
-//       const updatedData = {
-//         title: formData.title,
-//         price: formData.price,
-//         description: formData.description,
-//         tagline: formData.tagline,
-//         availability: formData.availability,
-//         category: formData.category,
-//         imageFile: imageUrl, // Use the updated or existing image URL.
-//       };
-  
-//       // Update the product document in Firestore.
-//       await updateDoc(productRef, updatedData);
-  
-//       // Clear formData or take any other necessary action here.
-//       setFormData({
-//         title: "",
-//         price: "",
-//         description: "",
-//         tagline: "",
-//         availability: "In stock",
-//         category: "others",
-//       });
-//       setImageFile(null);
-      
-//       toast.success("Product Updated Successfully");
-//     } catch (error) {
-//       // Handle any errors that occur during the process.
-//       console.error(error);
-//       toast.error(error.message, "Please try again later");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
 
-const updateProduct = () => {
+    const updateProduct = async () => {
+        const productRef = doc(db, "products", editProductId); // Replace 'productId' with the ID of the product you want to update.
 
-    console.log(editProductId , "callllling" , formData );
-}
-  
+        try {
+            setLoading(true);
+
+            let imageUrl = formData.imageFile; // Initialize imageUrl with the existing image URL or the new image URL.
+            console.log(imageUrl);
+
+            if (imageFile) {
+                // If a new image is provided, upload it and get the new URL.
+                const storageRef = ref(storage, `${formData.title}`);
+                const snapshot = await uploadBytes(storageRef, imageFile);
+                imageUrl = await getDownloadURL(snapshot.ref)
+                console.log(imageUrl, "image uploaded successfully");
+            }
+
+            // Create an object with updated data.
+            const updatedData = {
+                title: formData.title,
+                price: formData.price,
+                description: formData.description,
+                tagline: formData.tagline,
+                availability: formData.availability,
+                category: formData.category,
+                imageFile: imageUrl, // Use the updated or existing image URL.
+            };
+            console.log(updatedData, "Updated data");
+
+            // Update the product document in Firestore.
+            await updateDoc(productRef, updatedData);
+
+            // Clear formData or take any other necessary action here.
+            setFormData({
+                title: "",
+                price: "",
+                description: "",
+                tagline: "",
+                availability: "In stock",
+                category: "others",
+            });
+            setImageFile(null);
+
+            toast.success("Product Updated Successfully");
+        } catch (error) {
+            // Handle any errors that occur during the process.
+            console.error(error);
+            toast.error(error.message, "Please try again later");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // const updateProduct = () => {
+
+    //     console.log(editProductId , "callllling" , formData );
+    // }
+
 
     return (
         <div className="leading-loose">
@@ -225,40 +230,40 @@ export default EditProductForm
 
 
 
-  // const handleEditProduct = async (e) => {
-    //     if (editProductId) {
-    //         const docRef = doc(db, "products", editNoteId);
-    //         await updateDoc(docRef, {
-    //             noteTitle: formData.title,
-    //             noteDesc: formData.description,
-    //             date: formData.date,
-    //             color: formData.color
-    //         });
-    //     }
-    // };
-    // const handleEditProduct = ()=>{
-    //     setLoading(true);
-    //     if (editProductId) {
-    //         const docRef = doc(db, "products", editProductId);
-    //         updateDoc(docRef, {
-    //             title: formData.title,
-    //             description: formData.description,
-    //             price: formData.price,
-    //             category: formData.category,
-    //             availability: formData.availability
-    //         }).then(() => {
-    //             setLoading(false);
-    //             setFormData({
-    //                 title: "",
-    //                 description: "",
-    //                 price: "",
-    //                 category: "",
-    //                 availability: ""
-    //             });
-    //             closePopup();
-    //         });
-    //     }
-    // }
+// const handleEditProduct = async (e) => {
+//     if (editProductId) {
+//         const docRef = doc(db, "products", editNoteId);
+//         await updateDoc(docRef, {
+//             noteTitle: formData.title,
+//             noteDesc: formData.description,
+//             date: formData.date,
+//             color: formData.color
+//         });
+//     }
+// };
+// const handleEditProduct = ()=>{
+//     setLoading(true);
+//     if (editProductId) {
+//         const docRef = doc(db, "products", editProductId);
+//         updateDoc(docRef, {
+//             title: formData.title,
+//             description: formData.description,
+//             price: formData.price,
+//             category: formData.category,
+//             availability: formData.availability
+//         }).then(() => {
+//             setLoading(false);
+//             setFormData({
+//                 title: "",
+//                 description: "",
+//                 price: "",
+//                 category: "",
+//                 availability: ""
+//             });
+//             closePopup();
+//         });
+//     }
+// }
 
 
 // const handleEditProduct = ()=>{

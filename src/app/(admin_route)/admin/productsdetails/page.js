@@ -17,7 +17,9 @@ const Page = () => {
     tagline: "",
     availability: "In stock",
     category: "others",
+    imageFile: "",
   });
+
   const [editProductId, setEditProductId] = useState(null); // for props send to table and EditForm Component
 
   const openPopup = () => {
