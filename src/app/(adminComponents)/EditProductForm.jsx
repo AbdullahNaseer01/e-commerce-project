@@ -6,7 +6,7 @@ import { db, storage } from "../../../firebase/firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { toast } from "react-toastify"
-import { AdminContextProvider } from "../(Adminlogic)/Logic";
+import { useAdminContext } from "../(Adminlogic)/Logic";
 
 
 const EditProductForm = () => {
@@ -24,14 +24,16 @@ const EditProductForm = () => {
         setProducts,
         category,
         setCategory,
+        popUpOpen,
+        setPopupOpen,
+        handleClosePopup,
+        handleOpenPopup,
         handleChange,
         handleCategoryChange,
         handleAvailabilityChange,
-        closePopup,
-        openPopup,
         editProductId,
-        setEditProductId
-      }= AdminContextProvider()
+        setEditProductId,
+      }= useAdminContext()
     // const [loading, setLoading] = useState(false);
     // const [imageFile, setImageFile] = useState();
 
@@ -111,6 +113,8 @@ const EditProductForm = () => {
             toast.error(error.message, "Please try again later");
         } finally {
             setLoading(false);
+            // handleClosePopup()
+            setPopupOpen(false);
         }
     };
 
@@ -228,7 +232,7 @@ const EditProductForm = () => {
                     >
                         {loading ? <div>Updating Dont Leave the page<span className="text-2xl"> <LuLoader /></span></div> : <div className="flex justify-between"><span>Save Changes</span> <span className="text-xl mt-2 ml-2"><MdOutlineAddShoppingCart /></span></div>}
                     </button>
-                    <button onClick={closePopup}>Cancel</button>
+                    <button onClick={handleClosePopup}>Cancel</button>
 
 
                 </div>

@@ -1,12 +1,13 @@
 "use client"
 import { AiFillDelete } from 'react-icons/ai';
 import { FiEdit3 } from 'react-icons/fi';
-import { AdminContextProvider } from '../(Adminlogic)/Logic';
+// import { AdminContextProvider } from '../(Adminlogic)/Logic';
+import { useAdminContext } from "@/app/(Adminlogic)/Logic";
 
 
 
-const AdminTables = ({}) => {
-const {
+const AdminTables = ({ }) => {
+    const {
         imageFile,
         setImageFile,
         imageError,
@@ -19,14 +20,16 @@ const {
         setProducts,
         category,
         setCategory,
+        popUpOpen,
+        setPopupOpen,
+        handleClosePopup,
+        handleOpenPopup,
         handleChange,
         handleCategoryChange,
         handleAvailabilityChange,
-        closePopup,
-        openPopup,
         editProductId,
-        setEditProductId
-      }= AdminContextProvider()
+        setEditProductId,
+    } = useAdminContext()
     return (
         <>
             <div className="w-full mt-12">
@@ -120,8 +123,8 @@ const {
                                         <p className="text-gray-900 whitespace-no-wrap">Delete <AiFillDelete /></p>
                                     </td>
                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap" onClick={()=>{
-                                            openPopup()
+                                        <p className="text-gray-900 whitespace-no-wrap" onClick={() => {
+                                            handleOpenPopup()
                                             setEditProductId(product.id)
                                             setFormData({
                                                 title: product.title,
@@ -131,9 +134,9 @@ const {
                                                 availability: product.availability,
                                                 category: product.category,
                                                 imageFile: product.imageFile
-                                              });
-                                            console.log(product.title ,  product.id)
-                                        }} >Edit <FiEdit3/></p>
+                                            });
+                                            console.log(product.title, product.id)
+                                        }} >Edit <FiEdit3 /></p>
                                     </td>
                                 </tr>
                             ))}

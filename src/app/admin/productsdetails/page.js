@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../../../../../firebase/firebaseConfig";
+import { db } from "../../../../firebase/firebaseConfig";
 import AdminTables from "@/app/(adminComponents)/AdminTables";
 import 'react-loading-skeleton/dist/skeleton.css'
 import EditProductForm from "@/app/(adminComponents)/EditProductForm";
-import { AdminContextProvider } from "@/app/(Adminlogic)/Logic";
+import { useAdminContext } from "@/app/(Adminlogic)/Logic";
 const Page = () => {
 
   const {
@@ -21,14 +21,16 @@ const Page = () => {
     setProducts,
     category,
     setCategory,
+    popUpOpen,
+    setPopupOpen,
+    handleClosePopup,
+    handleOpenPopup,
     handleChange,
     handleCategoryChange,
     handleAvailabilityChange,
-    closePopup,
-    openPopup,
     editProductId,
-    setEditProductId
-  }= AdminContextProvider()
+    setEditProductId,
+  }= useAdminContext()
 
   // const [category, setCategory] = useState("fruits");  // Initialize with a default category
   // const [products, setProducts] = useState([]);
@@ -67,37 +69,37 @@ const Page = () => {
 
 
   // // code of data fetching 
-  // const fetchData = async (category) => {
-  //   setLoadings(true);
-  //   const q = query(
-  //     collection(db, "products"),
-  //     where("category", "==", category)
-  //   );
-  //   const querySnapshot = await getDocs(q);
-  //   const productsData = [];
-  //   querySnapshot.forEach((doc) => {
-  //     productsData.push({ id: doc.id, ...doc.data() });
-  //   });
-  //   setProducts(productsData);
-  //   console.log(productsData);
-  //   setLoadings(false);
-  // };
+  const fetchData = async (category) => {
+    setLoading(true);
+    const q = query(
+      collection(db, "products"),
+      where("category", "==", category)
+    );
+    const querySnapshot = await getDocs(q);
+    const productsData = [];
+    querySnapshot.forEach((doc) => {
+      productsData.push({ id: doc.id, ...doc.data() });
+    });
+    setProducts(productsData);
+    console.log(productsData);
+    setLoading(false);
+  };
 
-  // useEffect(() => {
-  //   fetchData(category); // Fetch data initially with the default category
-  // }, [category]);
+  useEffect(() => {
+    fetchData(category); // Fetch data initially with the default category
+  }, [category]);
 
-  // const handleCategoryChange = (e) => {
-  //   const newCategory = e.target.value;
-  //   console.log(newCategory);
-  //   setCategory(newCategory);
-  //   fetchData(newCategory); // Fetch data when the category changes
-  // };
-  // // end of code of data fetching
+  const handleCategoryChangeForFetch = (e) => {
+    const newCategory = e.target.value;
+    console.log(newCategory);
+    setCategory(newCategory);
+    fetchData(newCategory); // Fetch data when the category changes
+  };
+  // end of code of data fetching
 
   return (
     <main className="sm:ml-60 pt-16 max-h-screen overflow-auto min-h-screen">
-      {loadings ? (
+      {loading ? (
         <div className="flex justify-center items-center h-screen">
           <img src="../Loader.gif" alt="Loading" srcSet="" />
         </div>
@@ -108,7 +110,7 @@ const Page = () => {
               Category
             </label>
             <select
-              onChange={handleCategoryChange}
+              onChange={handleCategoryChangeForFetch}
               id="category"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               value={category}
