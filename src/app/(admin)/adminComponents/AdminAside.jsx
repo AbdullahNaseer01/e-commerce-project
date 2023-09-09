@@ -21,8 +21,8 @@ const AdminAside = ({ isMenuToggle, signOut }) => {
               <ul className="space-y-1">
                 <li>
                   <Link
-                    href="/admin/addproduct"
-                    className={`flex items-center ${pathname === "/admin/addproduct" ? "bg-yellow-200 rounded-xl font-bold text-sm text-yellow-900 py-3 px-4" : " bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4"}`}
+                    href="/dashboard/addproduct"
+                    className={`flex items-center ${pathname === "/dashboard/addproduct" ? "bg-yellow-200 rounded-xl font-bold text-sm text-yellow-900 py-3 px-4" : " bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4"}`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -39,8 +39,8 @@ const AdminAside = ({ isMenuToggle, signOut }) => {
                 </li>
                 <li>
                   <Link
-                    href="/admin/productsdetails"
-                    className={`flex items-center ${pathname === '/admin/productsdetails' ? "bg-yellow-200 rounded-xl font-bold text-sm text-yellow-900 py-3 px-4" : " bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4"}`}
+                    href="/dashboard/productsdetails"
+                    className={`flex items-center ${pathname === '/dashboard/productsdetails' ? "bg-yellow-200 rounded-xl font-bold text-sm text-yellow-900 py-3 px-4" : " bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4"}`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
