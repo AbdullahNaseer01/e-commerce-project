@@ -23,7 +23,7 @@
 // export default adminLayout;
 
 
-'use client'
+// 'use client'
 import AdminAside from "@/app/(adminComponents)/AdminAside";
 import AdminHeader from "@/app/(adminComponents)/AdminHeader";
 import AdminTables from "@/app/(adminComponents)/AdminTables";
