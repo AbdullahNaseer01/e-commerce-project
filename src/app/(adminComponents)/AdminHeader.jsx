@@ -296,7 +296,7 @@
 
 // export default AdminHeader
 
-
+"use client"
 import React from 'react'
 import { RiMenu2Line, RiDeleteBinLine } from 'react-icons/ri';
 

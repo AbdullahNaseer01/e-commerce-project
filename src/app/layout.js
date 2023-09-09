@@ -1,3 +1,4 @@
+'use client'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { AuthUserProvider } from '../../firebase/Auth';
@@ -17,12 +18,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-      {/* <Navbar/> */}
+      <Navbar/>
       <ToastContainer />
        <AuthUserProvider>
         {children}
         </AuthUserProvider>
-        {/* <Footer/> */}
+        <Footer/>
         </body>
     </html>
   )

@@ -1,3 +1,4 @@
+"use client"
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { LuLoader } from "react-icons/lu";
 import { useState } from "react";
