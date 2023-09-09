@@ -2,7 +2,7 @@
 import { AiFillDelete } from 'react-icons/ai';
 import { FiEdit3 } from 'react-icons/fi';
 // import { AdminContextProvider } from '../(Adminlogic)/Logic';
-import { useAdminContext } from "@/app/(Adminlogic)/Logic";
+import { useAdminContext } from "@/app/(admin)/Adminlogic/Logic";
 
 
 

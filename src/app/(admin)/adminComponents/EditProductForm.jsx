@@ -2,11 +2,11 @@
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { LuLoader } from "react-icons/lu";
 import { useState } from "react";
-import { db, storage } from "../../../firebase/firebaseConfig";
+import { db, storage } from "../../../../firebase/firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { toast } from "react-toastify"
-import { useAdminContext } from "../(Adminlogic)/Logic";
+import { useAdminContext } from "../Adminlogic/Logic";
 
 
 const EditProductForm = () => {

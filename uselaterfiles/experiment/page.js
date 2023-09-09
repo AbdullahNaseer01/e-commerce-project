@@ -163,7 +163,7 @@
 
 'use client'
 import { useEffect, useState } from 'react';
-import { db } from '../../../firebase/firebaseConfig';
+import { db } from '../../firebase/firebaseConfig';
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 const Page = () => {

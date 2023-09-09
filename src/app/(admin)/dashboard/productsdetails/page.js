@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../../../../firebase/firebaseConfig";
-import AdminTables from "@/app/(adminComponents)/AdminTables";
+import { db } from "../../../../../firebase/firebaseConfig";
+import AdminTables from "@/app/(admin)/adminComponents/AdminTables";
 import 'react-loading-skeleton/dist/skeleton.css'
-import EditProductForm from "@/app/(adminComponents)/EditProductForm";
-import { useAdminContext } from "@/app/(Adminlogic)/Logic";
+import EditProductForm from "@/app/(admin)/adminComponents/EditProductForm";
+import { useAdminContext } from "@/app/(admin)/Adminlogic/Logic";
 const Page = () => {
 
   const {

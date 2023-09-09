@@ -1,12 +1,12 @@
 "use client"
 import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
-import { storage, db } from "../../../firebase/firebaseConfig";
+import { storage, db } from "../../../../firebase/firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { ToastContainer, toast } from 'react-toastify';
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { LuLoader } from "react-icons/lu";
-import { useAdminContext } from "../(Adminlogic)/Logic";
+import { useAdminContext } from "../Adminlogic/Logic";
 
 
 

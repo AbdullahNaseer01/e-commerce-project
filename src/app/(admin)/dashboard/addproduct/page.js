@@ -1,8 +1,8 @@
 'use client'
 import React from "react";
-import AdminTables from "@/app/(adminComponents)/AdminTables";
-import ProdctsForm from "@/app/(adminComponents)/AddProdctsForm";
-import { AdminContextProvider } from "@/app/(Adminlogic)/Logic";
+import AdminTables from "@/app/(admin)/adminComponents/AdminTables";
+import ProdctsForm from "@/app/(admin)/adminComponents/AddProdctsForm";
+import { AdminContextProvider } from "@/app/(admin)/Adminlogic/Logic";
 const page = () => {
   // const {formData} = AdminContextProvider()
   return (

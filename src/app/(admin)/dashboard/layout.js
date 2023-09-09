@@ -22,24 +22,25 @@
 
 // export default adminLayout;
 
-
 // 'use client'
-import AdminAside from "@/app/(adminComponents)/AdminAside";
-import AdminHeader from "@/app/(adminComponents)/AdminHeader";
-import AdminTables from "@/app/(adminComponents)/AdminTables";
-import ProdctsForm from "@/app/(adminComponents)/AddProdctsForm";
+import '../../globals.css'
+import AdminAside from "@/app/(admin)/adminComponents/AdminAside";
+import AdminHeader from "@/app/(admin)/adminComponents/AdminHeader";
 import { ToastContainer } from "react-toastify";
-import { AdminContextProvider } from "@/app/(Adminlogic)/Logic";
+import "react-toastify/dist/ReactToastify.css";
+import { AdminContextProvider } from "@/app/(admin)/Adminlogic/Logic";
 import React from "react";
 
 const adminLayout = ({ children }) => {
   return (
-    <div>
-      <ToastContainer />
-      <AdminHeader />
-      <AdminAside />
-      <AdminContextProvider>{children}</AdminContextProvider>
-    </div>
+    <html lang="en">
+      <body >
+        <AdminHeader />
+        <ToastContainer />
+        <AdminAside />
+        <AdminContextProvider>{children}</AdminContextProvider>
+      </body>
+    </html>
   );
 };
 
