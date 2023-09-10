@@ -1,12 +1,20 @@
+"use client"
+import Link from 'next/link'
+import React from 'react'
+import { useRouter, usePathname } from 'next/navigation';
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineUser, AiOutlineShoppingCart } from "react-icons/ai";
 import CartCountBadge from "./CartCountBadge";
 
 const Navbar = () => {
+  // const router = useRouter();
+  // const pathname = usePathname()
   return (
     <div className="container hidden lg:block">
       <div className="flex justify-between items-center pt-8">
+        <Link href="/">
         <img className="h-7" src="/logo.svg" alt="" />
+        </Link>
         {/* <h1 className="text-4xl font-medium">Logo</h1> */}
         <div className="relative w-full max-w-[500px]">
           <input
@@ -24,10 +32,12 @@ const Navbar = () => {
           <div className="icon__wrapper">
             <AiOutlineUser />
           </div>
-          <div className="icon__wrapper relative">
-            <AiOutlineShoppingCart />
-            <CartCountBadge size="w-[25px] h-[25px]" />
-          </div>
+          <Link href='/cart'>
+            <div className="icon__wrapper relative">
+              <AiOutlineShoppingCart />
+              <CartCountBadge size="w-[25px] h-[25px]" />
+            </div>
+          </Link>
         </div>
       </div>
     </div>
