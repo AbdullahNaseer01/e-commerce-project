@@ -10,7 +10,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { useRouter, useNavigate } from "next/navigation";
-import { useAuth } from "../../../firebase/Auth";
+import { useAuth } from "../../../../firebase/Auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const provider = new GoogleAuthProvider();

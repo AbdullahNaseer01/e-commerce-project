@@ -16,13 +16,16 @@ export default function useFirebaseAuth() {
     const clearUser = () => {
         setAuthUser(null);
         setIsLoading(false);
+        console.log("clear user called");
     };
     const consol = () => {
       console.log("authContext console");
+      console.log(authUser)
     };
   
     useEffect(() => {
       consol();
+
     }, []);
     const authStateChanged = async (user) => {
         setIsLoading(true);
@@ -40,10 +43,26 @@ export default function useFirebaseAuth() {
         setIsLoading(false);
     };
 
+    // const signOut = () => {
+    //     authSignOut(auth).then(() => clearUser());
+    //     ()=>{console.log("signout done")}
+    // };
+    // const signOut = () => {
+    //     authSignOut(auth).then(() => {
+    //         clearUser();
+    //         console.log("signout done");
+    //     });
+    //     console.log("sign out done");
+    // };
     const signOut = () => {
-        authSignOut(auth).then(() => clearUser());
-        ()=>{console.log("signout done")}
+        authSignOut(auth).then(() => {
+            clearUser();
+            console.log("signout done");
+        }).catch((error) => {
+            console.error("Error signing out:", error);
+        });
     };
+    
 
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, authStateChanged);

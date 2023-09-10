@@ -16,14 +16,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={` ${inter.className}`}>
-        <Navbar />
-        {/* <div className="flex-grow min-h-screen"> */}
+        <AuthUserProvider>
+          <Navbar />
           <ToastContainer />
-          <AuthUserProvider>{children}</AuthUserProvider>
-        {/* </div> */}
-        <Footer />
+          {children}
+          <Footer />
+        </AuthUserProvider>
       </body>
     </html>
   );
 }
-
