@@ -34,15 +34,15 @@ const AdminTables = ({ }) => {
         setEditProductId,
     } = useAdminContext()
 
-    const handleDeleteProduct = async (editProductId) => {
+    const handleDeleteProduct = async (product) => {
+        console.log(product, "product")
         try {
-            await deleteDoc(doc(db, "products", editProductId));
+            await deleteDoc(doc(db, "products", product.id));
             toast.success("Note deleted successfully");
         } catch (error) {
             console.error("Error deleting document: ", error);
             toast.error("Some issue while deleting Note");
         }
-        console.log(editProductId, " from handle delete product")
     };
 
 
@@ -138,7 +138,7 @@ const AdminTables = ({ }) => {
                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm" onClick={
                                         async () => {
                                             await setEditProductId(product.id)
-                                            handleDeleteProduct(editProductId)
+                                            handleDeleteProduct(product)
                                         }
                                     }>
                                         <p className="text-gray-900 whitespace-no-wrap">Delete <AiFillDelete /></p>
