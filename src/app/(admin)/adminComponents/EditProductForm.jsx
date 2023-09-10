@@ -119,8 +119,6 @@ const EditProductForm = () => {
     };
 
 
-
-
     return (
         <div className="leading-loose">
             <form className="p-10 bg-white rounded shadow-xl">
