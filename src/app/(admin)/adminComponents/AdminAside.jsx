@@ -57,8 +57,8 @@ const AdminAside = ({ isMenuToggle, signOut }) => {
                 </li>
                 <li>
                   <Link
-                    href="/calendar"
-                    className={`flex items-center ${pathname === '/calendar' ? "bg-yellow-200 rounded-xl font-bold text-sm text-yellow-900 py-3 px-4" : " bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4"}`}
+                    href="/dashboard/calendar"
+                    className={`flex items-center ${pathname === '/dashboard/calendar' ? "bg-yellow-200 rounded-xl font-bold text-sm text-yellow-900 py-3 px-4" : " bg-white hover:bg-yellow-50 rounded-xl font-bold text-sm text-gray-900 py-3 px-4"}`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
