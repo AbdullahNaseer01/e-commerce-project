@@ -15,10 +15,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`flex flex-col ${inter.className}`}>
         <Navbar />
-        <ToastContainer />
-        <AuthUserProvider>{children}</AuthUserProvider>
+        <div className="flex-grow min-h-screen">
+          <ToastContainer />
+          <AuthUserProvider>{children}</AuthUserProvider>
+        </div>
         <Footer />
       </body>
     </html>
