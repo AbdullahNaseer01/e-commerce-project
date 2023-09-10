@@ -118,10 +118,7 @@ const EditProductForm = () => {
         }
     };
 
-    // const updateProduct = () => {
 
-    //     console.log(editProductId , "callllling" , formData );
-    // }
 
 
     return (

@@ -3,6 +3,9 @@ import { AiFillDelete } from 'react-icons/ai';
 import { FiEdit3 } from 'react-icons/fi';
 // import { AdminContextProvider } from '../(Adminlogic)/Logic';
 import { useAdminContext } from "@/app/(admin)/Adminlogic/Logic";
+import { db } from "../../../../firebase/firebaseConfig"
+import { doc, deleteDoc } from "firebase/firestore";
+import { toast } from "react-toastify"
 
 
 
@@ -30,6 +33,19 @@ const AdminTables = ({ }) => {
         editProductId,
         setEditProductId,
     } = useAdminContext()
+
+    const handleDeleteProduct = async (editProductId) => {
+        try {
+            await deleteDoc(doc(db, "products", editProductId));
+            toast.success("Note deleted successfully");
+        } catch (error) {
+            console.error("Error deleting document: ", error);
+            toast.error("Some issue while deleting Note");
+        }
+        console.log(editProductId, " from handle delete product")
+    };
+
+
     return (
         <>
             <div className="w-full mt-12">
@@ -119,7 +135,12 @@ const AdminTables = ({ }) => {
                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <p className="text-gray-900 whitespace-no-wrap">{product.description}</p>
                                     </td>
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm" onClick={
+                                        async () => {
+                                            await setEditProductId(product.id)
+                                            handleDeleteProduct(editProductId)
+                                        }
+                                    }>
                                         <p className="text-gray-900 whitespace-no-wrap">Delete <AiFillDelete /></p>
                                     </td>
                                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
