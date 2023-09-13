@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { auth } from "../../../../firebase/firebaseConfig";
+import { auth } from "../../../firebase/firebaseConfig";
 import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { useAuth } from "../../../../firebase/Auth";
+import { useAuth } from "../../../firebase/Auth";
 import { useRouter, useNavigate } from "next/navigation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
