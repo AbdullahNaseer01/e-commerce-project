@@ -4,7 +4,7 @@ import Link from "next/link";
 const data = [
   {
     id: 0,
-    name: "Fresh Fruits",
+    name: "fruits",
     count: "9 Products",
     img: "../images/category__1.webp",
   },
