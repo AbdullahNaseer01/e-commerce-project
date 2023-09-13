@@ -60,14 +60,14 @@ export default function Home() {
 
   return (
     <main>
-      {/* <Hero />
+      <Hero />
       <Category />
       <FeatureSectionFruits />
       <FeatureSectionBreakfast />
       <BannerSection />
       <BlogSection />
       <Newsletter />
-      <FeatureSection /> */}
+      <FeatureSection />
 <main className="sm:ml-60 pt-16 max-h-screen overflow-auto min-h-screen">
       {loading ? (
         <div className="flex justify-center items-center h-screen">
