@@ -1,4 +1,5 @@
 import CategoryCard from "./CategoryCard";
+import Link from "next/link";
 
 const data = [
   {
@@ -56,13 +57,16 @@ const Category = () => {
     <div className="container pt-16">
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data.map((el) => (
+        <Link href="/category"  >
           <CategoryCard
             key={el.id}
             img={el.img}
             name={el.name}
             count={el.count}
           />
+        </Link>
         ))}
+       
       </div>
     </div>
   );

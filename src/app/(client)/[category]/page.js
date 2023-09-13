@@ -1,8 +1,7 @@
-import React from 'react'
-
-const page = () => {
+'use client'
+const page = ({params}) => {
   return (
-    <div>page</div>
+    <div>page {params.category} </div>
   )
 }
 
