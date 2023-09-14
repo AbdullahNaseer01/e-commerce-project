@@ -12,34 +12,6 @@ const Page = ({params}) => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
 
-  // const fetchData = async (category) => {
-  //   setLoading(true);
-  //   const q = query(collection(db, "products"), where("category", "==", category));
-  //   const querySnapshot = await getDocs(q);
-  //   const productsData = [];
-  //   querySnapshot.forEach((doc) => {
-  //     productsData.push({ id: doc.id, ...doc.data() });
-  //   });
-  //   // setProducts(productsData);
-  //   setProducts((products) => [...products, ...productsData]);
-  //   setLoading(false);
-  //   console.log(productsData);
-  //   console.log(products);
-  // };
-
-  // const fetchData = async (category) => {
-  //   setLoading(true);
-  //   const q = query(collection(db, "products"), where("category", "==", category));
-  //   const querySnapshot = await getDocs(q);
-  //   const productsData = [];
-  //   querySnapshot.forEach((doc) => {
-  //     productsData.push({ id: doc.id, ...doc.data() });
-  //   });
-  //   setProducts((prevProducts) => [...prevProducts, ...productsData]); // Update state
-  //   setLoading(false);
-  //   console.log("productsData:", productsData);
-  //   console.log("products:", products);
-  // };
 
   const fetchData = async (category) => {
     setLoading(true);
@@ -80,11 +52,6 @@ console.log("Category after fetchData:", category);
       {loading ? (
         <div>Loading...</div>
       ) : (
-        // <ul>
-        //   {products.map((product) => (
-        //     <li key={product.id}>{product.title}</li>
-        //   ))}
-        // </ul>
         <section
         // id="Projects"
         className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5"
