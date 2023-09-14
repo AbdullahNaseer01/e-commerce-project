@@ -44,7 +44,7 @@ const Page = ({ params }) => {
   return (
     <main className="min-h-screen">
       {products.length === 0 ? (
-        <div className="flex justify-center items-center h-screen">
+        <div className="mt-2 flex justify-center">
 
           No products in {category} category
         </div>
