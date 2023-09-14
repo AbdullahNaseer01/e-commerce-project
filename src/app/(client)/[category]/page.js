@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { collection, where, query, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebase/firebaseConfig";
+import Link from "next/link";
 
 const Page = ({ params }) => {
   const router = useRouter();
@@ -32,6 +33,7 @@ const Page = ({ params }) => {
     console.log(productsData);
     console.log(products);
   };
+  
 
   useEffect(() => {
     if (category) {
@@ -60,8 +62,20 @@ const Page = ({ params }) => {
       ) : (
         <section className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
           {products.map((product) => (
+             <Link href={{
+              pathname: `/${category}/${product.id}`,
+            query: {
+              productData: JSON.stringify(product),
+              // title : product.title,
+              // price: product.price,
+              // imageFile: product.imageFile,
+              // description: product.description,
+              // category: product.category,
+              // id: product.id,
+            },
+            }} >  
+            {/* // <Link href={`/${category}/${JSON.stringify(product)}`}> */}
             <div
-              key={product.id}
               className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
             >
               <a href="#">
@@ -106,6 +120,8 @@ const Page = ({ params }) => {
                 </div>
               </a>
             </div>
+            </Link>
+            
           ))}
         </section>
       )}
