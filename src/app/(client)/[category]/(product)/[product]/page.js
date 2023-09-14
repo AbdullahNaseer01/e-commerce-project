@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const page = () => {
+const ProductDetailsPage = () => {
   const searchParams = useSearchParams();
   const productData = JSON.parse(searchParams.get("productData"));
   return (
@@ -93,7 +93,7 @@ const page = () => {
   );
 };
 
-export default page;
+export default ProductDetailsPage;
 
 
 

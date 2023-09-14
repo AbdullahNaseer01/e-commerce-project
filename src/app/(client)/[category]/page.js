@@ -5,7 +5,7 @@ import { collection, where, query, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebase/firebaseConfig";
 import Link from "next/link";
 
-const Page = ({ params }) => {
+const CategoryPage = ({ params }) => {
   const router = useRouter();
   const category = params.category || "defaultCategory";
 
@@ -129,4 +129,4 @@ const Page = ({ params }) => {
   );
 };
 
-export default Page;
+export default CategoryPage;
