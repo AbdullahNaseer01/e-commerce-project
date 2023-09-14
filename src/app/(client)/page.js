@@ -28,33 +28,33 @@ export default function Home() {
   //   fetchData(); // Call the async function immediately
   
   // }, []);
-  const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState("fruits");
-  const fetchData = async (category) => {
-    setLoading(true);
-    const q = query(
-      collection(db, "products"),
-      where("category", "==", category)
-    );
-    const querySnapshot = await getDocs(q);
-    const productsData = [];
-    querySnapshot.forEach((doc) => {
-      productsData.push({ id: doc.id, ...doc.data() });
-    });
-    setProducts(productsData);
-    console.log(productsData);
-    setLoading(false);
-  };
-  const handleCategoryChangeForFetch = (e) => {
-    const newCategory = e.target.value;
-    console.log(newCategory);
-    setCategory(newCategory);
-    fetchData(newCategory); // Fetch data when the category changes
-  };
-  useEffect(() => {
-    fetchData(category); // Fetch data initially with the default category
-  }, [category]);
+  // const [loading, setLoading] = useState(false);
+  // const [products, setProducts] = useState([]);
+  // const [category, setCategory] = useState("fruits");
+  // const fetchData = async (category) => {
+  //   setLoading(true);
+  //   const q = query(
+  //     collection(db, "products"),
+  //     where("category", "==", category)
+  //   );
+  //   const querySnapshot = await getDocs(q);
+  //   const productsData = [];
+  //   querySnapshot.forEach((doc) => {
+  //     productsData.push({ id: doc.id, ...doc.data() });
+  //   });
+  //   setProducts(productsData);
+  //   console.log(productsData);
+  //   setLoading(false);
+  // };
+  // const handleCategoryChangeForFetch = (e) => {
+  //   const newCategory = e.target.value;
+  //   console.log(newCategory);
+  //   setCategory(newCategory);
+  //   fetchData(newCategory); // Fetch data when the category changes
+  // };
+  // useEffect(() => {
+  //   fetchData(category); // Fetch data initially with the default category
+  // }, [category]);
   
 
 
@@ -68,7 +68,7 @@ export default function Home() {
       <BlogSection />
       <Newsletter />
       <FeatureSection />
-<main className="sm:ml-60 pt-16 max-h-screen overflow-auto min-h-screen">
+      {/* <main className="sm:ml-60 pt-16 max-h-screen overflow-auto min-h-screen">
       {loading ? (
         <div className="flex justify-center items-center h-screen">
           <img src="../Loader.gif" alt="Loading" srcSet="" />
@@ -193,7 +193,7 @@ export default function Home() {
 
                 </div>
             </div>
-    </main>
+    </main> */}
     </main>
   );
 }

@@ -73,19 +73,20 @@ const Page = ({params}) => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
 
-  const fetchData = async (category) => {
-    setLoading(true);
-    const q = query(collection(db, "products"), where("category", "==", category));
-    const querySnapshot = await getDocs(q);
-    const productsData = [];
-    querySnapshot.forEach((doc) => {
-      productsData.push({ id: doc.id, ...doc.data() });
-    });
-    setProducts(productsData);
-    setLoading(false);
-    console.log(productsData);
-    console.log(products);
-  };
+  // const fetchData = async (category) => {
+  //   setLoading(true);
+  //   const q = query(collection(db, "products"), where("category", "==", category));
+  //   const querySnapshot = await getDocs(q);
+  //   const productsData = [];
+  //   querySnapshot.forEach((doc) => {
+  //     productsData.push({ id: doc.id, ...doc.data() });
+  //   });
+  //   // setProducts(productsData);
+  //   setProducts((products) => [...products, ...productsData]);
+  //   setLoading(false);
+  //   console.log(productsData);
+  //   console.log(products);
+  // };
 
   // const fetchData = async (category) => {
   //   setLoading(true);
@@ -100,6 +101,24 @@ const Page = ({params}) => {
   //   console.log("productsData:", productsData);
   //   console.log("products:", products);
   // };
+
+  const fetchData = async (category) => {
+    setLoading(true);
+    const q = query(collection(db, "products"), where("category", "==", category));
+    const querySnapshot = await getDocs(q);
+    const productsData = [];
+    querySnapshot.forEach((doc) => {
+      productsData.push({ id: doc.id, ...doc.data() });
+    });
+  
+    // Update state using the callback form
+    setProducts((prevProducts) => [...prevProducts, ...productsData]);
+  
+    setLoading(false);
+    console.log(productsData);
+    console.log(products);
+  };
+  
   
 
   useEffect(() => {
@@ -109,7 +128,7 @@ fetchData(category);
 console.log("Category after fetchData:", category);
 
     }
-  }, [category]);
+  }, [category])
 
 
 
@@ -122,7 +141,7 @@ console.log("Category after fetchData:", category);
       ) : (
         <ul>
           {products.map((product) => (
-            <li key={product.id}>{product.name}</li>
+            <li key={product.id}>{product.title}</li>
           ))}
         </ul>
       )}
