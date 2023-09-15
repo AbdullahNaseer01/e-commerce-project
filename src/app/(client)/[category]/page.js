@@ -62,23 +62,15 @@ const CategoryPage = ({ params }) => {
       ) : (
         <section className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
           {products.map((product) => (
-             <Link href={{
+             <Link key={product.id} href={{
               pathname: `/${category}/${product.id}`,
             query: {
               productData: JSON.stringify(product),
-              // title : product.title,
-              // price: product.price,
-              // imageFile: product.imageFile,
-              // description: product.description,
-              // category: product.category,
-              // id: product.id,
             },
-            }} >  
-            {/* // <Link href={`/${category}/${JSON.stringify(product)}`}> */}
+            }} >
             <div
               className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
             >
-              <a href="#">
                 <img
                   src={product.imageFile}
                   alt="Product"
@@ -118,7 +110,6 @@ const CategoryPage = ({ params }) => {
                     </div>
                   </div>
                 </div>
-              </a>
             </div>
             </Link>
             
