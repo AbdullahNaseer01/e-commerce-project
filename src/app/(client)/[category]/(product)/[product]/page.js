@@ -1,14 +1,88 @@
 "use client";
+// import { useRouter } from "next/navigation";
+// import { useEffect, useState } from "react";
+import { collection, doc, getDoc } from "firebase/firestore";
+import { db } from "../../../../../../firebase/firebaseConfig";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams , useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const ProductDetailsPage = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const productData = JSON.parse(searchParams.get("productData"));
+  const params = useParams()
+  const productId = params.product
+  // const productId= params.id ;
+  // const productData = JSON.parse(searchParams.get("productData"));
+  // const id = JSON.parse(searchParams.get(id));
+
+  // const router = useRouter();
+  // const productId = router.query.productId;
+  // const { id } = router.query;
+
+  const [loading, setLoading] = useState(true);
+  const [productData, setProductData] = useState(null);
+
+
+
+  useEffect(() => {
+    if (productId) {
+      const getProductData = async () => {
+        try {
+          const productRef = doc(db, "products", productId);
+          const productSnapshot = await getDoc(productRef);
+
+          if (productSnapshot.exists()) {
+            const product = { id: productId, ...productSnapshot.data() };
+            setProductData(product);
+            console.log(productData , "product data");
+          } else {
+            <>product not available</>
+            // Handle the case where the product doesn't exist
+          }
+        } catch (error) {
+          console.log(error);
+          // Handle any errors that occur during fetching
+        } finally {
+          setLoading(false);
+          
+        }
+        
+      };
+
+      getProductData();
+    }
+  }, [productId]);
+
+  // useEffect(() => {
+  
+  //   console.log(product)
+
+  // }, [])
+  
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!productData) {
+    return <div>Product not found</div>;
+  }
   return (
     <>
       {/* <div>my post {params.product} </div> */}
+
+      {/* <> */}
+      {/* qqqq
+      {productId}
+      {productData.id}
+      {productData.title} */}
+
+
+      {/* {productData.title} */}
+      {/* </> */}
+
+
       <div className="bg-gray-100 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
@@ -97,21 +171,40 @@ const ProductDetailsPage = () => {
 
 export default ProductDetailsPage;
 
-// 'use client'
 
-// import { useRouter, useSearchParams } from "next/navigation";
-// import { useEffect, useState } from "react";
+
+
+
+
+
+
+
+
+// 'use client'
+// import { useRouter ,useParams } from 'next/navigation';
+// import { useEffect, useState } from 'react';
+
 
 // const ProductDetailsPage = () => {
-//   const searchParams = useSearchParams();
-//   const productData = JSON.parse(searchParams.get("productData"));
+//   const router = useRouter();
+//   const params = useParams()
+//   // const { id } = router.query || {}; // Use an empty object as a fallback
+//   // const productId = params.id
+
+//   useEffect(() => {
+//  console.log(params)
+//  console.log(params.product)
+//   }, [])
+  
+
+//   // Rest of your component code...
 
 //   return (
 //     <div>
-//       <h1>Product Page</h1>
-//       <p>Product title: {productData.title}</p>
-//       <p>Product description: {productData.description}</p>
+//       Product ID: {params.product}
+//       {/* Render other details based on the 'id' */}
 //     </div>
 //   );
 // };
-// export default ProductDetailsPage
+
+// export default ProductDetailsPage;

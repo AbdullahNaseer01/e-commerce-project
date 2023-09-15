@@ -4,8 +4,10 @@ import { useRouter } from "next/navigation";
 import { collection, where, query, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebase/firebaseConfig";
 import Link from "next/link";
+// import { ProductDataProvider, useProductData } from "../ProductDataContext/ProductDataContext";
 
 const CategoryPage = ({ params }) => {
+  // const { setProductData } = useProductData;
   const router = useRouter();
   const category = params.category || "defaultCategory";
 
@@ -64,10 +66,10 @@ const CategoryPage = ({ params }) => {
             <Link
               key={product.id}
               href={{
-                pathname: `/${category}/${product.title}`,
-                query: {
-                  productData: JSON.stringify(product),
-                },
+                pathname: `/${category}/${product.id}`,
+                // query: {
+                //   productData: JSON.stringify(product),
+                // },
               }}
             >
               <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
