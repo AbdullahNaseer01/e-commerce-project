@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -8,7 +8,7 @@ const ProductDetailsPage = () => {
   const productData = JSON.parse(searchParams.get("productData"));
   return (
     <>
-    {/* <div>my post {params.product} </div> */}
+      {/* <div>my post {params.product} </div> */}
       <div className="bg-gray-100 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
@@ -45,7 +45,9 @@ const ProductDetailsPage = () => {
                 </div>
                 <div>
                   <span className="font-bold text-gray-700">Availability:</span>
-                  <span className="text-gray-600">{productData.availability}</span>
+                  <span className="text-gray-600">
+                    {productData.availability}
+                  </span>
                 </div>
               </div>
               <div className="mb-4">
@@ -94,12 +96,6 @@ const ProductDetailsPage = () => {
 };
 
 export default ProductDetailsPage;
-
-
-
-
-
-
 
 // 'use client'
 
