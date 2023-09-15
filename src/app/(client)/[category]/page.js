@@ -64,7 +64,7 @@ const CategoryPage = ({ params }) => {
             <Link
               key={product.id}
               href={{
-                pathname: `/${category}/${product.id}`,
+                pathname: `/${category}/${product.title}`,
                 query: {
                   productData: JSON.stringify(product),
                 },
