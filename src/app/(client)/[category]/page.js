@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { collection, where, query, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebase/firebaseConfig";
 import Link from "next/link";
-// import { ProductDataProvider, useProductData } from "../ProductDataContext/ProductDataContext";
 
 const CategoryPage = ({ params }) => {
   // const { setProductData } = useProductData;
