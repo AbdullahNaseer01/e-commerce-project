@@ -47,7 +47,7 @@ const CategoryPage = ({ params }) => {
     <main className="min-h-screen">
       {products.length === 0 ? (
         <div className="mt-2 flex justify-center">
-          {loading ? <>.....</> : <>No products in {category} category</>}
+          {loading ? <>.........</> : <>No products in {category} category</>}
         </div>
       ) : (
         <h1 className="mt-2 flex justify-center ">
