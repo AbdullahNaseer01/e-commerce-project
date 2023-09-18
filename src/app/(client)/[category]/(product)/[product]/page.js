@@ -1,19 +1,63 @@
 "use client";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { db } from "../../../../../../firebase/firebaseConfig";
 
-import { useRouter, useSearchParams , useParams } from "next/navigation";
+import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../../../../../firebase/Auth";
+import { useProductData } from "@/app/(client)/ProductDataContext/ProductDataContext";
 
 const ProductDetailsPage = () => {
+  const { authUser } = useAuth();
+  // const {customerCartData , setCustomerCartData } = useProductData();
   // const router = useRouter();
   // const searchParams = useSearchParams();
-  const params = useParams()
-  const productId = params.product
+  const params = useParams();
+  const productId = params.product;
   const [loading, setLoading] = useState(true);
   const [productData, setProductData] = useState(null);
 
+  // const addToCart = () => {
+  //   if (authUser) {
+  //     try {
+  //       addDoc(collection, (db, `cart-${authUser[0].uid}`), {
+  //         productData,
+  //         quantity: 1,
+  //       });
+  //       console.log("u can add to cart");
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
 
+  const addToCart = () => {
+    if (authUser) {
+      try {
+        const cartRef = collection(db, `cart-${authUser.uid}`); // Reference to the cart collection
+        const cartData = {
+          productData,
+          quantity: 1,
+        };
+        addDoc(cartRef, cartData); // Add the document to the cart collection
+        console.log("You can add to cart");
+        console.log("product added to cart successfully");
+        // setCustomerCartData(cartData); return
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    else{
+      console.log("login first to do this task")
+    }
+  };
+  
+
+  // const check = ()=>{
+  //   console.log(customerCartData);
+
+  // }
+  
 
   useEffect(() => {
     if (productId) {
@@ -27,7 +71,7 @@ const ProductDetailsPage = () => {
             setProductData(product);
             // console.log(productData , "product data");
           } else {
-            <>product not available</>
+            <>product not available</>;
             // Handle the case where the product doesn't exist
           }
         } catch (error) {
@@ -35,9 +79,7 @@ const ProductDetailsPage = () => {
           // Handle any errors that occur during fetching
         } finally {
           setLoading(false);
-          
         }
-        
       };
 
       getProductData();
@@ -66,12 +108,15 @@ const ProductDetailsPage = () => {
               </div>
               <div className="flex -mx-2 mb-4">
                 <div className="w-1/2 px-2">
-                  <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800">
+                  <button
+                    onClick={addToCart}
+                    className="w-full bg-gray-900 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800"
+                  >
                     Add to Cart
                   </button>
                 </div>
                 <div className="w-1/2 px-2">
-                  <button className="w-full bg-gray-400 text-gray-800 py-2 px-4 rounded-full font-bold hover:bg-gray-300">
+                  <button  className="w-full bg-gray-400 text-gray-800 py-2 px-4 rounded-full font-bold hover:bg-gray-300">
                     Add to Wishlist
                   </button>
                 </div>
