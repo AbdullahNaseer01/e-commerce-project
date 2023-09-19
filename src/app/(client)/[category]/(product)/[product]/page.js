@@ -41,7 +41,7 @@ const ProductDetailsPage = () => {
         };
         addDoc(cartRef, cartData); // Add the document to the cart collection
         console.log("You can add to cart");
-        console.log("product added to cart successfully");
+        console.log("product added to cart successfully.....");
         // setCustomerCartData(cartData); return
       } catch (error) {
         console.log(error);
