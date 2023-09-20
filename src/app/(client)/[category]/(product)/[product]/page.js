@@ -1,5 +1,5 @@
 "use client";
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc , onSnapshot } from "firebase/firestore";
 import { db } from "../../../../../../firebase/firebaseConfig";
 
 import { useRouter, useSearchParams, useParams } from "next/navigation";
@@ -9,7 +9,7 @@ import { useProductData } from "@/app/(client)/ProductDataContext/ProductDataCon
 
 const ProductDetailsPage = () => {
   const { authUser } = useAuth();
-  // const {customerCartData , setCustomerCartData } = useProductData();
+  const {customerCartData , setCustomerCartData  } = useProductData();
   // const router = useRouter();
   // const searchParams = useSearchParams();
   const params = useParams();
@@ -42,7 +42,7 @@ const ProductDetailsPage = () => {
         addDoc(cartRef, cartData); // Add the document to the cart collection
         console.log("You can add to cart");
         console.log("product added to cart successfully.....");
-        // setCustomerCartData(cartData); return
+
       } catch (error) {
         console.log(error);
       }
@@ -51,12 +51,27 @@ const ProductDetailsPage = () => {
       console.log("login first to do this task")
     }
   };
-  
+  useEffect(() => {
+    if (authUser) {
+      const cartRef = collection(db, `cart-${authUser.uid}`);
+      const unsubscribe = onSnapshot(cartRef, (snapshot) => {
+        const cartData = [];
+        snapshot.forEach((doc) => {
+          cartData.push({ id: doc.id, ...doc.data() });
+        });
+        setCustomerCartData(cartData);
+        console.log(cartData , 'from product page cart');
+      });
 
-  // const check = ()=>{
-  //   console.log(customerCartData);
+      // Don't forget to unsubscribe when the component unmounts
+      return () => unsubscribe();
+    }
+  }, [authUser]);
 
-  // }
+  const check = ()=>{
+    console.log(customerCartData);
+
+  }
   
 
   useEffect(() => {
