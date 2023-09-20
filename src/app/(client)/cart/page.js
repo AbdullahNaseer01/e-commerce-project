@@ -6,7 +6,7 @@ import { useAuth } from '../../../../firebase/Auth'
 import { collection, where, query, getDocs , onSnapshot, } from "firebase/firestore";
 import { db } from '../../../../firebase/firebaseConfig'
 
-const page = () => {
+const Page = () => {
   const { customerCartData, setCustomerCartData } = useProductData();
   const { authUser } = useAuth();
   useEffect(() => {
@@ -134,4 +134,4 @@ const page = () => {
       )
 }
 
-      export default page
+      export default Page
