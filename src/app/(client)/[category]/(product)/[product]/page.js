@@ -6,6 +6,7 @@ import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../../../../firebase/Auth";
 import { useProductData } from "@/app/(client)/ProductDataContext/ProductDataContext";
+import { toast } from "react-toastify";
 
 const ProductDetailsPage = () => {
   const { authUser } = useAuth();
@@ -17,19 +18,6 @@ const ProductDetailsPage = () => {
   const [loading, setLoading] = useState(true);
   const [productData, setProductData] = useState(null);
 
-  // const addToCart = () => {
-  //   if (authUser) {
-  //     try {
-  //       addDoc(collection, (db, `cart-${authUser[0].uid}`), {
-  //         productData,
-  //         quantity: 1,
-  //       });
-  //       console.log("u can add to cart");
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
 
   const addToCart = () => {
     if (authUser) {
@@ -49,6 +37,7 @@ const ProductDetailsPage = () => {
     }
     else{
       console.log("login first to do this task")
+      toast.warning("Please login first to do this task")
     }
   };
   useEffect(() => {
