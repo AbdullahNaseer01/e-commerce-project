@@ -11,8 +11,7 @@ import { toast } from 'react-toastify';
 
 
 const Navbar = () => {
-  const { signOut,authUser } = useAuth();
-
+  const { signOut, authUser, isLoading } = useAuth();
   // const handleSignOut = () => {
   //   console.log("Signing out... click");
   //   try {
@@ -34,7 +33,7 @@ const Navbar = () => {
   //     toast.success("Sign out successfully");
   //     clearUser();
   //   }
-  
+
   //   catch (error) {
   //     console.error(error)
   //     toast.error("Sign out failed");
@@ -47,7 +46,7 @@ const Navbar = () => {
       console.log('No user authenticated.'); // Add appropriate error handling
     }
   };
-  
+
 
   return (
     <div className="container hidden lg:block">
@@ -69,9 +68,19 @@ const Navbar = () => {
         </div>
 
         <div className="flex gap-4">
-          <div onClick={handleSignOut} className="icon__wrapper">
-            <AiOutlineUser />
-          </div>
+          {isLoading || (!isLoading && !authUser) ? (
+            <div className='p-3 text-xl rounded-lg border-2'  >
+              Login
+            </div>
+          )
+            : (
+              <div onClick={handleSignOut} className="icon__wrapper">
+                <AiOutlineUser />
+              </div>
+            )}
+
+
+
           <Link href='/cart'>
             <div className="icon__wrapper relative">
               <AiOutlineShoppingCart />
