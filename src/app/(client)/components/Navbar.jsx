@@ -8,10 +8,11 @@ import CartCountBadge from "./CartCountBadge";
 // import { auth } from '../../../../firebase/firebaseConfig';
 import { useAuth } from '../../../../firebase/Auth';
 import { toast } from 'react-toastify';
+import LoginModel from './LoginModel';
 
 
 const Navbar = () => {
-  const { signOut, authUser, isLoading } = useAuth();
+  const { signOut, authUser, isLoading, handleLoginButtonClick, setLoginModalOpen, isLoginModalOpen } = useAuth();
   // const handleSignOut = () => {
   //   console.log("Signing out... click");
   //   try {
@@ -49,47 +50,47 @@ const Navbar = () => {
 
 
   return (
-    <div className="container hidden lg:block">
-      <div className="flex justify-between items-center pt-8">
-        <Link href="/">
-          <img className="h-7" src="/logo.svg" alt="" />
-        </Link>
-        {/* <h1 className="text-4xl font-medium">Logo</h1> */}
-        <div className="relative w-full max-w-[500px]">
-          <input
-            className="bg-[#f2f3f5] border-none outline-none px-6 py-3 rounded-[30px] w-full"
-            type="text"
-            placeholder="Search Product..."
-          />
-          <BsSearch
-            className="absolute top-0 right-0 mt-4 mr-5 text-gray-500"
-            size={20}
-          />
-        </div>
-
-        <div className="flex gap-4">
-          {isLoading || (!isLoading && !authUser) ? (
-            <div className='p-3 text-xl rounded-lg border-2'  >
-              Login
-            </div>
-          )
-            : (
-              <div onClick={handleSignOut} className="icon__wrapper">
-                <AiOutlineUser />
-              </div>
-            )}
-
-
-
-          <Link href='/cart'>
-            <div className="icon__wrapper relative">
-              <AiOutlineShoppingCart />
-              <CartCountBadge size="w-[25px] h-[25px]" />
-            </div>
+    <>
+      <div className="container hidden lg:block">
+        <div className="flex justify-between items-center pt-8">
+          <Link href="/">
+            <img className="h-7" src="/logo.svg" alt="" />
           </Link>
+          {/* <h1 className="text-4xl font-medium">Logo</h1> */}
+          <div className="relative w-full max-w-[500px]">
+            <input
+              className="bg-[#f2f3f5] border-none outline-none px-6 py-3 rounded-[30px] w-full"
+              type="text"
+              placeholder="Search Product..."
+            />
+            <BsSearch
+              className="absolute top-0 right-0 mt-4 mr-5 text-gray-500"
+              size={20}
+            />
+          </div>
+
+          <div className="flex gap-4">
+            {isLoading || (!isLoading && !authUser) ? (
+              <div className='p-2 text-xl rounded-lg border-2' onClick={handleLoginButtonClick} >
+                Login
+              </div>
+            )
+              : (
+                <div onClick={handleSignOut} className="icon__wrapper">
+                  <AiOutlineUser />
+                </div>
+              )}
+            <Link href='/cart'>
+              <div className="icon__wrapper relative">
+                <AiOutlineShoppingCart />
+                <CartCountBadge size="w-[25px] h-[25px]" />
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+      {isLoginModalOpen && <LoginModel closeModal={() => setLoginModalOpen(false)} />}
+    </>
   );
 };
 

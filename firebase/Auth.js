@@ -12,6 +12,12 @@ export default function useFirebaseAuth() {
   console.log("auth context imported")
     const [authUser, setAuthUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+
+    const handleLoginButtonClick = () => {
+      setLoginModalOpen(true);
+      console.log("setLoginModalOpen")
+    };
 
     const clearUser = () => {
         setAuthUser(null);
@@ -74,6 +80,9 @@ export default function useFirebaseAuth() {
         isLoading,
         signOut,
         setAuthUser,
+        handleLoginButtonClick,
+        setLoginModalOpen,
+        isLoginModalOpen
     };
 }
 

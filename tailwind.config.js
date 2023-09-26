@@ -10,6 +10,9 @@ module.exports = {
       colors: {
         accent: "#179957",
         accentDark: "#184D47",
+        customYellow: "#FEFCE8",
+        customDarkYellow: "#FEF08A",
+        moreDarkYellow: "#ffdf11"
       },
       scale: {
         '300': '3',
