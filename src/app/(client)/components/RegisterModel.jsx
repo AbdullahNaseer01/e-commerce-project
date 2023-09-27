@@ -42,7 +42,7 @@ const RegisterModel = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (!username || !email || !password) {
+    if (!username || !email || !password ) {
       alert("all fields are necessary to fill");
     }
     try {
