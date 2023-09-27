@@ -9,10 +9,11 @@ import CartCountBadge from "./CartCountBadge";
 import { useAuth } from '../../../../firebase/Auth';
 import { toast } from 'react-toastify';
 import LoginModel from './LoginModel';
+import RegisterModel from './RegisterModel';
 
 
 const Navbar = () => {
-  const { signOut, authUser, isLoading, handleLoginButtonClick, setLoginModalOpen, isLoginModalOpen } = useAuth();
+  const { signOut, authUser, isLoading, handleLoginButtonClick, setLoginModalOpen, isLoginModalOpen , handleSignupButtonClick , isRegisterModalOpen, setRegisterModalOpen} = useAuth();
   // const handleSignOut = () => {
   //   console.log("Signing out... click");
   //   try {
@@ -71,9 +72,14 @@ const Navbar = () => {
 
           <div className="flex gap-4">
             {isLoading || (!isLoading && !authUser) ? (
-              <div className='p-2 text-xl rounded-lg border-2' onClick={handleLoginButtonClick} >
-                Login
-              </div>
+              <>
+                <div className='p-2 text-lg rounded-lg border-2' onClick={handleLoginButtonClick} >
+                  Login
+                </div>
+                <div className='p-2 text-lg rounded-lg border-2' onClick={handleSignupButtonClick} >
+                  Register
+                </div>
+              </>
             )
               : (
                 <div onClick={handleSignOut} className="icon__wrapper">
@@ -90,6 +96,7 @@ const Navbar = () => {
         </div>
       </div>
       {isLoginModalOpen && <LoginModel closeModal={() => setLoginModalOpen(false)} />}
+      {isRegisterModalOpen && <RegisterModel closeModal={() => setLoginModalOpen(false)} />}
     </>
   );
 };

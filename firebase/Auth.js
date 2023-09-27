@@ -13,11 +13,17 @@ export default function useFirebaseAuth() {
     const [authUser, setAuthUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+    const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
+
 
     const handleLoginButtonClick = () => {
       setLoginModalOpen(true);
       console.log("setLoginModalOpen")
     };
+    const handleSignupButtonClick = () => {
+        setRegisterModalOpen(true)
+        console.log("setregristerModalOpen")
+      };
 
     const clearUser = () => {
         setAuthUser(null);
@@ -82,7 +88,10 @@ export default function useFirebaseAuth() {
         setAuthUser,
         handleLoginButtonClick,
         setLoginModalOpen,
-        isLoginModalOpen
+        isLoginModalOpen,
+        handleSignupButtonClick,
+        isRegisterModalOpen,
+        setRegisterModalOpen
     };
 }
 
