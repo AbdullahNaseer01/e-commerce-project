@@ -9,9 +9,31 @@ const CategoryPage = ({ params }) => {
   // const { setProductData } = useProductData;
   const router = useRouter();
   const category = params.category || "defaultCategory";
+  const allowedRoutes = ['fruits', 'vegetables', 'canned-food', 'bakery-items', 'fishes', 'egg-and-dairy', 'soft-drinks-snacks', 'others'];
+  // useEffect(() => {
+  //   // Check if the current route is in the allowedRoutes array
+  //   if (!allowedRoutes.includes(category)) {
+  //     // Redirect to a specific route (e.g., the homepage)
+  //     router.push('/');
+  //     return
+
+  //   }
+  // }, [category, router]);
+  useEffect(() => {
+    // Check if the current route is in the allowedRoutes array
+    if (!allowedRoutes.includes(category)) {
+      // Redirect to a specific route (e.g., the homepage)
+      router.push('/');
+      return;
+    } else {
+      // Continue with the rest of your component code only if the route is allowed
+      fetchData(category);
+    }
+  }, [category, router]);
 
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
+  // Define the list of allowed routes
 
   const fetchData = async (category) => {
     setLoading(true);
@@ -24,24 +46,11 @@ const CategoryPage = ({ params }) => {
     querySnapshot.forEach((doc) => {
       productsData.push({ id: doc.id, ...doc.data() });
     });
-
-    // Update state using the callback form
-    // setProducts((prevProducts) => [...prevProducts, ...productsData]);
-    // or
     setProducts(productsData);
-
     setLoading(false);
     console.log(productsData);
     console.log(products);
   };
-
-  useEffect(() => {
-    if (category) {
-      console.log("Category before fetchData:", category);
-      fetchData(category);
-      console.log("Category after fetchData:", category);
-    }
-  }, [category]);
 
   return (
     <main className="min-h-screen">
