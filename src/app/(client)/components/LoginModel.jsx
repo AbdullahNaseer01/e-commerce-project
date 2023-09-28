@@ -68,8 +68,8 @@ const LoginModel = () => {
   };
   return (
     <>
-      <div className="flex items-center justify-center h-screen fixed inset-0  z-50">
-        <div className="bg-customYellow p-8 rounded shadow-md max-w-sm w-full">
+      <div onClick={()=>{setLoginModalOpen(false)}} className="flex items-center justify-center h-screen fixed inset-0  z-50">
+        <div onClick={(e) => e.stopPropagation()} className="bg-customYellow p-8 rounded shadow-md max-w-sm w-full">
           <h1 className="text-2xl font-semibold mb-4">Login</h1>
           <form>
             <div className="mb-4">

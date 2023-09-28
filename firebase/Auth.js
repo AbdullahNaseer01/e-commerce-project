@@ -9,7 +9,7 @@ const AuthUserContext = createContext({
 });
 
 export default function useFirebaseAuth() {
-  console.log("auth context imported")
+    console.log("auth context imported")
     const [authUser, setAuthUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isLoginModalOpen, setLoginModalOpen] = useState(false);
@@ -17,13 +17,13 @@ export default function useFirebaseAuth() {
 
 
     const handleLoginButtonClick = () => {
-      setLoginModalOpen(true);
-      console.log("setLoginModalOpen")
+        setLoginModalOpen(true);
+        console.log("setLoginModalOpen")
     };
     const handleSignupButtonClick = () => {
         setRegisterModalOpen(true)
         console.log("setregristerModalOpen")
-      };
+    };
 
     const clearUser = () => {
         setAuthUser(null);
@@ -31,18 +31,18 @@ export default function useFirebaseAuth() {
         console.log("clear user called");
     };
     const consol = () => {
-      console.log("authContext console");
-      console.log(authUser)
+        console.log("authContext console");
+        console.log(authUser)
     };
-  
+
     useEffect(() => {
-      consol();
+        consol();
 
     }, []);
     const authStateChanged = async (user) => {
         setIsLoading(true);
         if (!user) {
-          console.log("if part is running msg from auth")
+            console.log("if part is running msg from auth")
             clearUser();
             return;
         }
@@ -74,7 +74,7 @@ export default function useFirebaseAuth() {
             console.error("Error signing out:", error);
         });
     };
-    
+
 
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, authStateChanged);
