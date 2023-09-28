@@ -10,15 +10,7 @@ const CategoryPage = ({ params }) => {
   const router = useRouter();
   const category = params.category || "defaultCategory";
   const allowedRoutes = ['fruits', 'vegetables', 'canned-food', 'bakery-items', 'fishes', 'egg-and-dairy', 'soft-drinks-snacks', 'others'];
-  // useEffect(() => {
-  //   // Check if the current route is in the allowedRoutes array
-  //   if (!allowedRoutes.includes(category)) {
-  //     // Redirect to a specific route (e.g., the homepage)
-  //     router.push('/');
-  //     return
 
-  //   }
-  // }, [category, router]);
   useEffect(() => {
     // Check if the current route is in the allowedRoutes array
     if (!allowedRoutes.includes(category)) {
