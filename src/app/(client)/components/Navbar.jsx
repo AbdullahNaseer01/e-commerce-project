@@ -10,10 +10,12 @@ import { useAuth } from '../../../../firebase/Auth';
 import { toast } from 'react-toastify';
 import LoginModel from './LoginModel';
 import RegisterModel from './RegisterModel';
+import { useProductData } from '../ProductDataContext/ProductDataContext';
 
 
 const Navbar = () => {
   const { signOut, authUser, isLoading, handleLoginButtonClick, setLoginModalOpen, isLoginModalOpen , handleSignupButtonClick , isRegisterModalOpen, setRegisterModalOpen} = useAuth();
+  const { customerCartData, setCustomerCartData } = useProductData();
   // const handleSignOut = () => {
   //   console.log("Signing out... click");
   //   try {
@@ -44,6 +46,7 @@ const Navbar = () => {
   const handleSignOut = () => {
     if (authUser) {
       signOut();
+      setCustomerCartData([])
     } else {
       console.log('No user authenticated.'); // Add appropriate error handling
     }
