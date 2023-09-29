@@ -31,7 +31,7 @@ const Page = () => {
     editProductId,
     setEditProductId,
   }= useAdminContext()
-  
+
   useEffect(() => {
     // Create a reference to the products collection
     const productsCollection = collection(db, "products");
@@ -108,46 +108,3 @@ const Page = () => {
 export default Page;
 
 
-
-// 'use client'
-// import { AdminContextProvider } from '@/app/(Adminlogic)/Logic'
-// import AdminTables from '@/app/(adminComponents)/AdminTables'
-// import EditProductForm from '@/app/(adminComponents)/EditProductForm'
-// import React from 'react'
-
-// const page = () => {
-//   const {formData} = AdminContextProvider();
-//   const run = () => {
-//     console.log(formData)
-//   }
-//   return (
-//     <div>
-//       <AdminTables/>
-//       <EditProductForm/>
-//     </div>
-//   )
-// }
-
-// export default page
-
-// 'use client'
-
-// import { AdminContextProvider } from '@/app/(Adminlogic)/Logic'
-// import AdminTables from '@/app/(adminComponents)/AdminTables'
-// import EditProductForm from '@/app/(adminComponents)/EditProductForm'
-
-
-// const Page = ({}) => {
-//   // const {formData} = AdminContextProvider();
-//   // const run = () => {
-//   //   console.log(formData)
-//   // }
-//   return (
-//     <div>
-//         <AdminTables />
-//         <EditProductForm />
-//     </div>
-//   );
-// };
-
-// export default Page;
