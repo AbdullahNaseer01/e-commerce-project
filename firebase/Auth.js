@@ -15,6 +15,23 @@ export default function useFirebaseAuth() {
     const [isLoginModalOpen, setLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
 
+    const admins = ["mianabdullah125125@gmail.com"];
+
+
+    const isAdmin = () => {
+        // Implement your admin access control logic here
+        // For example, check if the user's role is 'admin' or if their email matches a list of admin emails
+        if (!admins.includes(authUser.email)) {
+            console.log("user is not the admin the admin")
+            setIsLoading(false)
+        }
+        else {
+            console.log("user is the admin")
+            setIsLoading(false)
+            consol.log(authUser.email, " Welcome admin")
+        }
+        return authUser && admins.includes(authUser.email);
+    };
 
     const handleLoginButtonClick = () => {
         setLoginModalOpen(true);
@@ -84,6 +101,7 @@ export default function useFirebaseAuth() {
     return {
         authUser,
         isLoading,
+        setIsLoading,
         signOut,
         setAuthUser,
         handleLoginButtonClick,
@@ -91,7 +109,8 @@ export default function useFirebaseAuth() {
         isLoginModalOpen,
         handleSignupButtonClick,
         isRegisterModalOpen,
-        setRegisterModalOpen
+        setRegisterModalOpen,
+        isAdmin,
     };
 }
 

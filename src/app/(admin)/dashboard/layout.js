@@ -30,6 +30,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AdminContextProvider } from "@/app/(admin)/Adminlogic/Logic";
 import React from "react";
+import { AuthUserProvider } from '../../../../firebase/Auth';
 
 const adminLayout = ({ children }) => {
   return (
@@ -38,7 +39,10 @@ const adminLayout = ({ children }) => {
         <AdminHeader />
         <ToastContainer />
         <AdminAside />
-        <AdminContextProvider>{children}</AdminContextProvider>
+        <AuthUserProvider>
+          <AdminContextProvider>{children}</AdminContextProvider>
+        </AuthUserProvider>
+
       </body>
     </html>
   );
