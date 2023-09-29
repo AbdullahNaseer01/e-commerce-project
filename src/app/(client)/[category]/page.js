@@ -9,7 +9,7 @@ const CategoryPage = ({ params }) => {
   // const { setProductData } = useProductData;
   const router = useRouter();
   const category = params.category || "defaultCategory";
-  const allowedRoutes = ['fruits', 'vegetables', 'canned-food', 'bakery-items', 'fishes', 'egg-and-dairy', 'soft-drinks-snacks', 'others'];
+  const allowedRoutes = ['dashboard', 'fruits', 'vegetables', 'canned-food', 'bakery-items', 'fishes', 'egg-and-dairy', 'soft-drinks-snacks', 'others'];
 
   useEffect(() => {
     // Check if the current route is in the allowedRoutes array

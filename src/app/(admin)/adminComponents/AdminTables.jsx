@@ -38,7 +38,7 @@ const AdminTables = ({ }) => {
         console.log(product, "product")
         try {
             await deleteDoc(doc(db, "products", product.id));
-            toast.success("Note deleted successfully");
+            toast.success("Product Deleted Successfully deleted successfully");
         } catch (error) {
             console.error("Error deleting document: ", error);
             toast.error("Some issue while deleting Note");
