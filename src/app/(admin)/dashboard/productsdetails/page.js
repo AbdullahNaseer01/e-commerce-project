@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs , onSnapshot } from "firebase/firestore";
 import { db } from "../../../../../firebase/firebaseConfig";
 import AdminTables from "@/app/(admin)/adminComponents/AdminTables";
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -31,63 +31,29 @@ const Page = () => {
     editProductId,
     setEditProductId,
   }= useAdminContext()
-
-  // const [category, setCategory] = useState("fruits");  // Initialize with a default category
-  // const [products, setProducts] = useState([]);
-  // const [loadings, setLoadings] = useState(true);
-  // const [popUpOpen, setPopupOpen] = useState(false);
-  // const [formData, setFormData] = useState({
-  //   title: "",
-  //   price: "",
-  //   description: "",
-  //   tagline: "",
-  //   availability: "In stock",
-  //   category: "others",
-  //   imageFile: "",
-  // });
-
-  // const [editProductId, setEditProductId] = useState(null); // for props send to table and EditForm Component
-
-  // const openPopup = () => {
-  //   setPopupOpen(true);
-  //   console.log("openPopup called" , popUpOpen);
-  // };
   
-
-  // const closePopup = (e) => {
-  //   e.preventDefault()
-  //   setPopupOpen(false);
-  //   setFormData({
-  //     title: "",
-  //     price: "",
-  //     description: "",
-  //     tagline: "",
-  //     availability: "In stock",
-  //     category: "others",
-  //   });
-  // };
-
-
-  // // code of data fetching 
-  const fetchData = async (category) => {
-    setLoading(true);
-    const q = query(
-      collection(db, "products"),
-      where("category", "==", category)
-    );
-    const querySnapshot = await getDocs(q);
-    const productsData = [];
-    querySnapshot.forEach((doc) => {
-      productsData.push({ id: doc.id, ...doc.data() });
-    });
-    setProducts(productsData);
-    console.log(productsData);
-    setLoading(false);
-  };
-
   useEffect(() => {
-    fetchData(category); // Fetch data initially with the default category
-  }, [category]);
+    // Create a reference to the products collection
+    const productsCollection = collection(db, "products");
+
+    // Create a query to filter by category
+    const q = query(productsCollection, where("category", "==", category));
+
+    // Set up a real-time listener for the query
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const productsData = [];
+      querySnapshot.forEach((doc) => {
+        productsData.push({ id: doc.id, ...doc.data() });
+      });
+      setProducts(productsData); // Update products with the new data
+      setLoading(false);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, [category, setProducts]); 
 
   const handleCategoryChangeForFetch = (e) => {
     const newCategory = e.target.value;

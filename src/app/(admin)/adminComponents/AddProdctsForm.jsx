@@ -115,7 +115,7 @@ const ProdctsForm = () => {
             className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
             id="price"
             name="price"
-            type="text"
+            type="number"
             value={formData.price}
             required=""
             onChange={handleChange}
