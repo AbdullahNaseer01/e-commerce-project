@@ -55,23 +55,49 @@ const Page = () => {
 
 
 
+  // useEffect(() => {
+  //   isAdmin()
+  //     .then
+  //   {
+  //     if (isAdmin == false) {
+  //       router.push("/")
+  //     }
+  //   }
+  // }, [authUser, router])
+
+  // if(isAdmin == false){
+  //   console.log("router if is runnign form admin index ")
+  //   router.push("/")
+  // }
   useEffect(() => {
-    isAdmin()
-  }, [authUser , router])
-
-
+    if (!isLoading && authUser) {
+      isAdmin()
+        .then((IsAdmin) => {
+          if (!IsAdmin) {
+            router.push('/');
+          }
+        })
+        .catch((error) => {
+          console.error('Error checking admin status:', error);
+          // Handle the error as needed
+        });
+    }
+  }, [authUser, isAdmin, isLoading, router]);
   if (isLoading) {
     return <p>..................................................................................Loading...</p>;
   }
 
   return (
-    <div>
-      {isAdmin() ? (
-        <p>Welcome, {authUser?.email}! This is the admin page.</p>
-      ) : (
-        <p>You don't have permission to access this page. Redirecting...</p>
-      )}
-    </div>
+    // <div>
+    //   {isAdmin ? (
+    //     <p>Welcome, {authUser?.email}! This is the admin page.</p>
+    //   ) : (
+    //     <p>You don't have permission to access this page. Redirecting...</p>
+    //   )}
+    // </div>
+    <>
+      admin page
+    </>
   );
 };
 

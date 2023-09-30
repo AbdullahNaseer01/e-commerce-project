@@ -2,12 +2,13 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { onAuthStateChanged, signOut as authSignOut } from "firebase/auth";
 import { auth } from "./firebaseConfig";
+// import { useRouter } from 'next/navigation';
 
 const AuthUserContext = createContext({
     authUser: null,
     isLoading: true,
 });
-
+// const router = useRouter();
 export default function useFirebaseAuth() {
     console.log("auth context imported")
     const [authUser, setAuthUser] = useState(null);
@@ -21,16 +22,33 @@ export default function useFirebaseAuth() {
     const isAdmin = () => {
         // Implement your admin access control logic here
         // For example, check if the user's role is 'admin' or if their email matches a list of admin emails
-        if (!admins.includes(authUser.email)) {
-            console.log("user is not the admin the admin")
-            setIsLoading(false)
+        // if (!admins.includes(authUser.email)) {
+        //     console.log("user is not the admin the admin")
+        //     setIsLoading(false)
+        // }
+        // else {
+        //     console.log("user is the admin")
+        //     setIsLoading(false)
+        //     consol.log(authUser.email, " Welcome admin")
+        // }
+        // return authUser && admins.includes(authUser.email);
+
+        if (authUser && authUser.email) {
+            console.log("user is available outer if is running")
+            if (!admins.includes(authUser.email)) {
+                console.log("user is not admin inner if is running")
+                return false
+                // router.push('/');
+            } else {
+                console.log("loading false and user is an admin else is running")
+                setIsLoading(false); // User is an admin, set loading to false
+                return true
+            }
+        } else {
+            console.log("loading false and user is not authenticated")
+            setIsLoading(false); // User is not authenticated, set loading to false
+            return false
         }
-        else {
-            console.log("user is the admin")
-            setIsLoading(false)
-            consol.log(authUser.email, " Welcome admin")
-        }
-        return authUser && admins.includes(authUser.email);
     };
 
     const handleLoginButtonClick = () => {
