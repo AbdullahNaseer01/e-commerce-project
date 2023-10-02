@@ -24,7 +24,7 @@ const Page = () => {
     else {
       router.push("/")
     }
-  }, [authUser, isAdmin, isLoading, router]);
+  }, [authUser, isAdmin, isLoading]);
   if (isLoading) {
     return <p>..Loading..</p>;
   }
