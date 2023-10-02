@@ -24,7 +24,7 @@ const Page = () => {
     else {
       router.push("/")
     }
-  }, [authUser, isAdmin, isLoading]);
+  }, [authUser, isAdmin, isLoading, router]);
   if (isLoading) {
     return <p>..Loading..</p>;
   }
@@ -34,7 +34,7 @@ const Page = () => {
       {isAdmin ? (
         <p>Welcome, {authUser?.email}! This is the admin page.</p>
       ) : (
-        <p>You don't have permission to access this page. Redirecting...</p>
+        <p>You dont have permission to access this page. Redirecting...</p>
       )}
     </div>
 
