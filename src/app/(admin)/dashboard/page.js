@@ -4,24 +4,24 @@ import { useAuth } from '../../../../firebase/Auth';
 import { useRouter } from 'next/navigation';
 
 const Page = () => {
-  const { authUser, setIsLoading, isLoading , admins , isAdmin , Admin , setAdmin} = useAuth();
+  const { authUser, setIsLoading, isLoading, admins, isAdmin, Admin, setAdmin } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (!isLoading && authUser) {
       isAdmin()
-        .then(() => {
-          if (!Admin) {
-            router.push('/');
-          }
-        })
-        .catch((error) => {
-          console.error('Error checking admin status:', error);
-          // Handle the error as needed
-          router.push("/")
-        });
+      try {
+        if (!Admin) {
+          router.push('/');
+        }
+
+      } catch (error) {
+        console.error('Error checking admin status:', error);
+        // Handle the error as needed
+        router.push("/")
+      }
     }
-    else{
+    else {
       router.push("/")
     }
   }, [authUser, isAdmin, isLoading, router]);
