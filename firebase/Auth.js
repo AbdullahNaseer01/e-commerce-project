@@ -15,39 +15,29 @@ export default function useFirebaseAuth() {
     const [isLoading, setIsLoading] = useState(true);
     const [isLoginModalOpen, setLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
-
+    const [Admin , setAdmin] = useState(false)
     const admins = ["mianabdullah125125@gmail.com"];
 
 
     const isAdmin = () => {
-        // Implement your admin access control logic here
-        // For example, check if the user's role is 'admin' or if their email matches a list of admin emails
-        // if (!admins.includes(authUser.email)) {
-        //     console.log("user is not the admin the admin")
-        //     setIsLoading(false)
-        // }
-        // else {
-        //     console.log("user is the admin")
-        //     setIsLoading(false)
-        //     consol.log(authUser.email, " Welcome admin")
-        // }
-        // return authUser && admins.includes(authUser.email);
-
         if (authUser && authUser.email) {
             console.log("user is available outer if is running")
             if (!admins.includes(authUser.email)) {
                 console.log("user is not admin inner if is running")
-                return false
+                setAdmin(false)
+                return 
                 // router.push('/');
             } else {
                 console.log("loading false and user is an admin else is running")
                 setIsLoading(false); // User is an admin, set loading to false
-                return true
+                setAdmin(true)
+                return
             }
         } else {
             console.log("loading false and user is not authenticated")
             setIsLoading(false); // User is not authenticated, set loading to false
-            return false
+            setAdmin(false)
+            return 
         }
     };
 
@@ -89,18 +79,7 @@ export default function useFirebaseAuth() {
         });
         setIsLoading(false);
     };
-
-    // const signOut = () => {
-    //     authSignOut(auth).then(() => clearUser());
-    //     ()=>{console.log("signout done")}
-    // };
-    // const signOut = () => {
-    //     authSignOut(auth).then(() => {
-    //         clearUser();
-    //         console.log("signout done");
-    //     });
-    //     console.log("sign out done");
-    // };
+    
     const signOut = () => {
         authSignOut(auth).then(() => {
             clearUser();
@@ -129,6 +108,9 @@ export default function useFirebaseAuth() {
         isRegisterModalOpen,
         setRegisterModalOpen,
         isAdmin,
+        admins,
+        Admin,
+        setAdmin
     };
 }
 
