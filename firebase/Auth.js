@@ -15,29 +15,30 @@ export default function useFirebaseAuth() {
     const [isLoading, setIsLoading] = useState(true);
     const [isLoginModalOpen, setLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
-    const [Admin , setAdmin] = useState(false)
+    const [Admin, setAdmin] = useState(false)
     const admins = ["mianabdullah125125@gmail.com"];
 
 
     const isAdmin = () => {
+        // setIsLoading(true)
         if (authUser && authUser.email) {
             console.log("user is available outer if is running")
-            if (!admins.includes(authUser.email)) {
-                console.log("user is not admin inner if is running")
-                setAdmin(false)
-                return 
+            if (admins.includes(authUser.email)) {
+                console.log("user is admin inner if is running")
+                setAdmin(true)
+                // return 
                 // router.push('/');
             } else {
-                console.log("loading false and user is an admin else is running")
-                setIsLoading(false); // User is an admin, set loading to false
-                setAdmin(true)
-                return
+                setIsLoading(false); // User is an not admin, set loading to false
+                setAdmin(false)
+                console.log("loading false and user is not an admin else is running")
+                // return
             }
         } else {
             console.log("loading false and user is not authenticated")
             setIsLoading(false); // User is not authenticated, set loading to false
             setAdmin(false)
-            return 
+            // return 
         }
     };
 
@@ -79,7 +80,7 @@ export default function useFirebaseAuth() {
         });
         setIsLoading(false);
     };
-    
+
     const signOut = () => {
         authSignOut(auth).then(() => {
             clearUser();
