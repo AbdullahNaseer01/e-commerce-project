@@ -20,7 +20,7 @@ export default function useFirebaseAuth() {
 
 
     const isAdmin = () => {
-        // setIsLoading(true)
+        setIsLoading(true)
         if (authUser && authUser.email) {
             console.log("user is available outer if is running")
             if (admins.includes(authUser.email)) {

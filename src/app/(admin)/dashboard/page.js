@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../../firebase/Auth';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const Page = () => {
   const { authUser, setIsLoading, isLoading, admins, isAdmin, Admin, setAdmin } = useAuth();
-  const router = useRouter();
+  const router = useRouter();  
 
   // useEffect(() => {
   //   if (!isLoading && authUser) {
@@ -109,15 +110,7 @@ const Page = () => {
   //   checkAdminStatus();
   // }, [authUser, isLoading, isAdmin, Admin, router]);
 
-  useEffect(() => {
-
-    isAdmin()
-    if (Admin == false) {
-      router.push("/")
-    }
-
-  }, [authUser, isLoading, isAdmin, Admin, router])
-
+ 
 
 
 
