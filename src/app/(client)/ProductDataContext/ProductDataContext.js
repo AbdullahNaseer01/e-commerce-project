@@ -13,6 +13,9 @@ export const ProductDataProvider = ({ children }) => {
 console.log("ProductDataProvider called");
   }, [])
 
+
+
+
   
 
   
@@ -62,7 +65,7 @@ console.log("ProductDataProvider called");
   
 
   return (
-    <ProductDataContext.Provider value={{ productData, setProductData , customerCartData , setCustomerCartData }}>
+    <ProductDataContext.Provider value={{ productData, setProductData , customerCartData , setCustomerCartData}}>
       {children}
     </ProductDataContext.Provider>
   );

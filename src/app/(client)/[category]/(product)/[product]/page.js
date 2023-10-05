@@ -20,78 +20,15 @@ import { toast } from "react-toastify";
 
 const ProductDetailsPage = () => {
   const { authUser } = useAuth();
-  const { customerCartData, setCustomerCartData } = useProductData();
+  const { customerCartData, setCustomerCartData , productData , setProductData } = useProductData();
   // const router = useRouter();
   // const searchParams = useSearchParams();
   const params = useParams();
   const productId = params.product;
   const [loading, setLoading] = useState(true);
-  const [productData, setProductData] = useState(null);
+  // const [productData, setProductData] = useState(null);
 
-  // const addToCart = () => {
-  //   if (authUser) {
-  //     try {
-  //       const cartRef = collection(db, `cart-${authUser.uid}`); // Reference to the cart collection
-  //       const cartData = {
-  //         productData,
-  //         quantity: 1,
-  //       };
-  //       addDoc(cartRef, cartData); // Add the document to the cart collection
-  //       console.log("You can add to cart");
-  //       console.log("product added to cart successfully.....");
-
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   else{
-  //     console.log("login first to do this task")
-  //     toast.warning("Please login first to do this task")
-  //   }
-  // };
-
-  // const addToCart = () => {
-  //   if (authUser) {
-  //     try {
-  //       const cartRef = collection(db, `cart-${authUser.uid}`);
-
-  //       // Check if the product is already in the cart
-  //       const existingCartItemQuery = query(
-  //         cartRef,
-  //         where("productData.id", "==", productData.id)
-  //       );
-
-  //       getDocs(existingCartItemQuery).then((querySnapshot) => {
-  //         if (!querySnapshot.empty) {
-  //           // Product is already in the cart, update the quantity
-  //           querySnapshot.forEach((doc) => {
-  //             const existingCartDocRef = doc(db, `cart-${authUser.uid}`, doc.id);
-  //             const existingCartItemData = doc.data();
-  //             const newQuantity = existingCartItemData.quantity + 1;
-
-  //             // Update the quantity of the existing cart item
-  //             updateDoc(existingCartDocRef, { quantity: newQuantity });
-
-  //             console.log("Quantity updated in cart.");
-  //           });
-  //         } else {
-  //           // Product is not in the cart, add it as a new item
-  //           const cartData = {
-  //             productData,
-  //             quantity: 1,
-  //           };
-  //           addDoc(cartRef, cartData); // Add the new document to the cart collection
-  //           console.log("Product added to cart.");
-  //         }
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   } else {
-  //     console.log("Login first to do this task");
-  //     toast.warning("Please login first to do this task");
-  //   }
-  // };
+  
   const addToCart = () => {
     if (authUser) {
       try {
@@ -143,6 +80,8 @@ const ProductDetailsPage = () => {
       toast.warning("Please login first to do this task");
     }
   };
+
+  
 
   useEffect(() => {
     if (authUser) {
