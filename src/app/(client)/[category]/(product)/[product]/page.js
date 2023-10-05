@@ -28,8 +28,8 @@ const ProductDetailsPage = () => {
   const [loading, setLoading] = useState(true);
   // const [productData, setProductData] = useState(null);
 
-  
-  const addToCart = () => {
+
+  const addToCart = async () => {
     if (authUser) {
       try {
         const cartRef = collection(db, `cart-${authUser.uid}`);
@@ -40,44 +40,40 @@ const ProductDetailsPage = () => {
           where("productData.id", "==", productData.id)
         );
 
-        getDocs(existingCartItemQuery).then((querySnapshot) => {
-          if (!querySnapshot.empty) {
-            // Product is already in the cart, update the quantity
-            querySnapshot.forEach((cartItemDoc) => {
-              const existingCartDocRef = doc(
-                db,
-                `cart-${authUser.uid}`,
-                cartItemDoc.id
-              );
-              const existingCartItemData = cartItemDoc.data();
-              const newQuantity = existingCartItemData.quantity + 1;
+        const querySnapshot = await getDocs(existingCartItemQuery);
 
-              // Update the quantity of the existing cart item
-              updateDoc(existingCartDocRef, { quantity: newQuantity });
+        if (!querySnapshot.empty) {
+          // Product is already in the cart, update the quantity
+          querySnapshot.forEach(async (cartItemDoc) => {
+            const existingCartDocRef = doc(
+              db,
+              `cart-${authUser.uid}`,
+              cartItemDoc.id
+            );
+            const existingCartItemData = cartItemDoc.data();
+            const newQuantity = existingCartItemData.quantity + 1;
 
-              console.log("Quantity updated in cart.");
-            });
-          } else {
-            // Product is not in the cart, add it as a new item
-            const cartData = {
-              productData,
-              quantity: 1,
-            };
-            addDoc(cartRef, cartData) // Add the new document to the cart collection
-              .then(() => {
-                console.log("Product added to cart.");
-              })
-              .catch((error) => {
-                console.error("Error adding product to cart:", error);
-              });
-          }
-        });
+            // Update the quantity of the existing cart item
+            await updateDoc(existingCartDocRef, { quantity: newQuantity });
+
+            toast.info("Product quantity updated in the cart.");
+          });
+        } else {
+          // Product is not in the cart, add it as a new item
+          const cartData = {
+            productData,
+            quantity: 1,
+          };
+          await addDoc(cartRef, cartData); // Add the new document to the cart collection
+
+          toast.success("Product added to cart.");
+        }
       } catch (error) {
         console.log(error);
       }
     } else {
       console.log("Login first to do this task");
-      toast.warning("Please login first to do this task");
+      toast.warning("Please log in first to do this task");
     }
   };
 
