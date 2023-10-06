@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { useProductData } from '../ProductDataContext/ProductDataContext';
-import { useEffect } from 'react';
+import { useEffect , useState } from 'react';
 import { useAuth } from '../../../../firebase/Auth';
 import { toast } from "react-toastify";
 import {
@@ -15,10 +15,14 @@ import {
   deleteDoc
 } from 'firebase/firestore';
 import { db } from '../../../../firebase/firebaseConfig';
+import CheckoutForm from '../components/CheckoutForm';
 
 const Page = () => {
   const { customerCartData, setCustomerCartData, productData, setproductData } = useProductData();
   const { authUser } = useAuth();
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [CheckoutFormPopup , setCheckoutFormPopup] = useState(false)
+
 
   useEffect(() => {
     if (authUser) {
@@ -36,6 +40,18 @@ const Page = () => {
       return () => unsubscribe();
     }
   }, [authUser]);
+  useEffect(() => {
+    // Calculate the total price when customerCartData changes
+    let newTotalPrice = 0;
+  
+    customerCartData.forEach((cartItem) => {
+      newTotalPrice += cartItem.productData.price * cartItem.quantity;
+    });
+  
+    // Set the updated total price
+    setTotalPrice(newTotalPrice);
+  }, [customerCartData]);
+  
 
   const increaseQuantity = async (cartItem) => {
     if (authUser) {
@@ -185,12 +201,12 @@ const Page = () => {
 
   return (
     <>
-      {/* <style
+      <style
   dangerouslySetInnerHTML={{
     __html:
       '\n    @layer utilities {\n    input[type="number"]::-webkit-inner-spin-button,\n    input[type="number"]::-webkit-outer-spin-button {\n      -webkit-appearance: none;\n      margin: 0;\n    }\n  }\n'
   }}
-/> */}
+/>
       <div className="min-h-screen bg-gray-100 pt-20 mb-1">
         <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
@@ -229,7 +245,7 @@ const Page = () => {
                       </span>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <p className="text-sm">{cartItem.productData.price}.00 ₭</p>
+                      <p className="text-sm">{cartItem.productData.price * cartItem.quantity}.00 ₭</p>
                       <svg
                         onClick={()=>removeCartItem(cartItem)}
                         xmlns="http://www.w3.org/2000/svg"
@@ -257,26 +273,29 @@ const Page = () => {
           <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Subtotal</p>
-              <p className="text-gray-700">$129.99</p>
+              <p className="text-gray-700">{totalPrice.toFixed(2)} $</p>
             </div>
             <div className="flex justify-between">
               <p className="text-gray-700">Shipping</p>
-              <p className="text-gray-700">$4.99</p>
+              <p className="text-gray-700">$0.00</p>
             </div>
             <hr className="my-4" />
             <div className="flex justify-between">
               <p className="text-lg font-bold">Total</p>
               <div className="">
-                <p className="mb-1 text-lg font-bold">$134.98 USD</p>
+                <p className="mb-1 text-lg font-bold">{totalPrice.toFixed(2)} $</p>
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
-            <button onClick={check} className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
+            <button onClick={()=>setCheckoutFormPopup(true)} className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
               Check out
             </button>
           </div>
         </div>
       </div>
+      {/* {isRegisterModalOpen && <RegisterModel closeModal={() => setLoginModalOpen(false)} />} */}
+{CheckoutFormPopup && <CheckoutForm setCheckoutFormPopup={setCheckoutFormPopup} /> }
+      
     </>
   );
 };
