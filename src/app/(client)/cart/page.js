@@ -3,6 +3,7 @@ import React from 'react';
 import { useProductData } from '../ProductDataContext/ProductDataContext';
 import { useEffect } from 'react';
 import { useAuth } from '../../../../firebase/Auth';
+import { toast } from "react-toastify";
 import {
   collection,
   where,
@@ -11,6 +12,7 @@ import {
   onSnapshot,
   doc,
   updateDoc,
+  deleteDoc
 } from 'firebase/firestore';
 import { db } from '../../../../firebase/firebaseConfig';
 
@@ -35,127 +37,147 @@ const Page = () => {
     }
   }, [authUser]);
 
-  // const increaseQuantity = async () => {
-  //   if (authUser) {
-  //     try {
-  //       const cartData = doc(db, `cart-${authUser.uid}` , cartItem.id);
-
-  //     await updateDoc(cartItem.id, {
-  //       quantity: + 1
-  //     });
-  //     } catch (error) {
-  //       console.error("PROCESS FAILED" , error)
-  //     }
-  
-  //   } else {
-  //     console.log("Login first to do this task");
-  //     toast.warning("Please log in first to do this task");
-  //   }
-  // };
-  // const decreaseQuantity = async () => {
-  //   if (authUser) {
-  //     try {
-  //       const cartData = doc(db, `cart-${authUser.uid}` , cartItem.id);
-
-  //     await updateDoc(cartItem.id, {
-  //       quantity: - 1
-  //     });
-  //     } catch (error) {
-  //       console.error("PROCESS FAILED" , error)
-  //     }
-  
-  //   } else {
-  //     console.log("Login first to do this task");
-  //     toast.warning("Please log in first to do this task");
-  //   }
-  // };
-  // const increaseQuantity = async (cartItem) => {
-  //   if (authUser) {
-  //     try {
-  //       const cartDocRef = doc(db, `cart-${authUser.uid}`, cartItem.id);
-  //       const newQuantity = cartItem.quantity + 1; // Increment quantity
-  //       await updateDoc(cartDocRef, { quantity: newQuantity });
-  //     } catch (error) {
-  //       console.error("PROCESS FAILED", error);
-  //     }
-  //   } else {
-  //     console.log("Login first to do this task");
-  //     toast.warning("Please log in first to do this task");
-  //   }
-  // };
   const increaseQuantity = async (cartItem) => {
-    console.log("authUser:", authUser);
-    console.log("cartItem:", cartItem);
-  
     if (authUser) {
       try {
-        const cartDocRef = doc(db, `cart-${authUser.uid}`, cartItem.id);
-        const newQuantity = cartItem.quantity + 1; // Increment quantity
-        await updateDoc(cartDocRef, { quantity: newQuantity });
+        const cartRef = collection(db, `cart-${authUser.uid}`);
+
+        // Check if the product is already in the cart
+        const existingCartItemQuery = query(
+          cartRef,
+          where("productData.id", "==", cartItem.productData.id)
+        );
+
+        const querySnapshot = await getDocs(existingCartItemQuery);
+
+        if (!querySnapshot.empty) {
+          // Product is already in the cart, update the quantity
+          querySnapshot.forEach(async (cartItemDoc) => {
+            const existingCartDocRef = doc(
+              db,
+              `cart-${authUser.uid}`,
+              cartItemDoc.id
+            );
+            const existingCartItemData = cartItemDoc.data();
+            const newQuantity = existingCartItemData.quantity + 1;
+
+            // Update the quantity of the existing cart item
+            await updateDoc(existingCartDocRef, { quantity: newQuantity });
+
+            toast.info("Product quantity updated in the cart.");
+          });
+        } else {
+          // Product is not in the cart, add it as a new item
+          const cartData = {
+            productData: cartItem.productData,
+            quantity: 1,
+          };
+          await addDoc(cartRef, cartData); // Add the new document to the cart collection
+
+          toast.success("Product added to cart.");
+        }
       } catch (error) {
-        console.error("PROCESS FAILED", error);
+        console.log(error);
       }
     } else {
       console.log("Login first to do this task");
       toast.warning("Please log in first to do this task");
     }
   };
-  
-  
+
   const decreaseQuantity = async (cartItem) => {
     if (authUser) {
       try {
-        if (cartItem.quantity > 1) {
-          const cartDocRef = doc(db, `cart-${authUser.uid}`, cartItem.id);
-          const newQuantity = cartItem.quantity - 1; // Decrement quantity
-          await updateDoc(cartDocRef, { quantity: newQuantity });
+        const cartRef = collection(db, `cart-${authUser.uid}`);
+
+        // Check if the product is already in the cart
+        const existingCartItemQuery = query(
+          cartRef,
+          where("productData.id", "==", cartItem.productData.id)
+        );
+
+        const querySnapshot = await getDocs(existingCartItemQuery);
+
+        if (!querySnapshot.empty) {
+          // Product is already in the cart, update the quantity
+          querySnapshot.forEach(async (cartItemDoc) => {
+            const existingCartDocRef = doc(
+              db,
+              `cart-${authUser.uid}`,
+              cartItemDoc.id
+            );
+            const existingCartItemData = cartItemDoc.data();
+
+            // Ensure the new quantity is at least 1
+            const newQuantity = Math.max(existingCartItemData.quantity - 1, 1);
+
+            // Update the quantity of the existing cart item
+            await updateDoc(existingCartDocRef, { quantity: newQuantity });
+
+            toast.info("Product quantity updated in the cart.");
+          });
         } else {
-          // Optionally, you can remove the item from the cart if the quantity becomes zero.
-          // You can add this logic based on your requirements.
-          console.log("Quantity cannot be less than 1");
+          // Product is not in the cart, add it as a new item
+          const cartData = {
+            productData: cartItem.productData,
+            quantity: 1,
+          };
+          await addDoc(cartRef, cartData); // Add the new document to the cart collection
+
+          toast.success("Product added to cart.");
         }
       } catch (error) {
-        console.error("PROCESS FAILED", error);
+        console.log(error);
       }
     } else {
       console.log("Login first to do this task");
       toast.warning("Please log in first to do this task");
     }
   };
-  
-  // const increaseQuantity = async (cartItem) => {
-  //   if (authUser) {
-  //     try {
-  //       const cartDocRef = doc(db, `cart-${authUser.uid}`, cartItem.id);
-  
-  //       await updateDoc(cartDocRef, {
-  //         quantity: cartItem.quantity + 1
-  //       });
-  //     } catch (error) {
-  //       console.error("PROCESS FAILED", error);
-  //     }
-  //   } else {
-  //     console.log("Login first to do this task");
-  //     toast.warning("Please log in first to do this task");
-  //   }
-  // };
-  
-  // const decreaseQuantity = async (cartItem) => {
-  //   if (authUser) {
-  //     try {
-  //       const cartDocRef = doc(db, `cart-${authUser.uid}`, cartItem.id);
-  
-  //       await updateDoc(cartDocRef, {
-  //         quantity: cartItem.quantity - 1
-  //       });
-  //     } catch (error) {
-  //       console.error("PROCESS FAILED", error);
-  //     }
-  //   } else {
-  //     console.log("Login first to do this task");
-  //     toast.warning("Please log in first to do this task");
-  //   }
-  // };
+
+  const removeCartItem = async (cartItem) => {
+    if (authUser) {
+      try {
+        const cartRef = collection(db, `cart-${authUser.uid}`);
+
+        // Check if the product is already in the cart
+        const existingCartItemQuery = query(
+          cartRef,
+          where("productData.id", "==", cartItem.productData.id)
+        );
+
+        const querySnapshot = await getDocs(existingCartItemQuery);
+
+        if (!querySnapshot.empty) {
+          // Product is in the cart, remove it
+          querySnapshot.forEach(async (cartItemDoc) => {
+            const existingCartDocRef = doc(
+              db,
+              `cart-${authUser.uid}`,
+              cartItemDoc.id
+            );
+
+            // Delete the cart item document from the cart
+            await deleteDoc(existingCartDocRef);
+
+            toast.info("Product removed from the cart.");
+          });
+        } else {
+          // Product is not in the cart, no need to remove it
+          console.log("Product not found in the cart.");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("Login first to do this task");
+      toast.warning("Please log in first to do this task");
+    }
+  };
+
+
+
+
 
   const check = () => {
     console.log(customerCartData, " checking cart item ")
@@ -189,7 +211,7 @@ const Page = () => {
                   </div>
                   <div className="mt-4 flex justify-between im sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                     <div className="flex items-center border-gray-100">
-                      <span onClick={decreaseQuantity} className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">
+                      <span onClick={() => decreaseQuantity(cartItem)} className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">
                         {" "}
                         -{" "}
                       </span>
@@ -201,7 +223,7 @@ const Page = () => {
                         min={1}
                       />
                       {/* <span>{cartItem.productData.quantity}</span> */}
-                      <span onClick={increaseQuantity} className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">
+                      <span onClick={() => increaseQuantity(cartItem)} className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">
                         {" "}
                         +{" "}
                       </span>
@@ -209,6 +231,7 @@ const Page = () => {
                     <div className="flex items-center space-x-4">
                       <p className="text-sm">{cartItem.productData.price}.00 ₭</p>
                       <svg
+                        onClick={()=>removeCartItem(cartItem)}
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
