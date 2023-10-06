@@ -35,62 +35,127 @@ const Page = () => {
     }
   }, [authUser]);
 
-  const increaseQuantity = async () => {
-    if (authUser) {
-      try {
-        const cartData = doc(db, `cart-${authUser.uid}`);
+  // const increaseQuantity = async () => {
+  //   if (authUser) {
+  //     try {
+  //       const cartData = doc(db, `cart-${authUser.uid}` , cartItem.id);
 
-      await updateDoc(cartItem.id, {
-        quantity: + 1
-      });
-      } catch (error) {
-        console.error("PROCESS FAILED" , error)
-      }
+  //     await updateDoc(cartItem.id, {
+  //       quantity: + 1
+  //     });
+  //     } catch (error) {
+  //       console.error("PROCESS FAILED" , error)
+  //     }
   
-    } else {
-      console.log("Login first to do this task");
-      toast.warning("Please log in first to do this task");
-    }
-  };
-  const decreaseQuantity = () => {
+  //   } else {
+  //     console.log("Login first to do this task");
+  //     toast.warning("Please log in first to do this task");
+  //   }
+  // };
+  // const decreaseQuantity = async () => {
+  //   if (authUser) {
+  //     try {
+  //       const cartData = doc(db, `cart-${authUser.uid}` , cartItem.id);
+
+  //     await updateDoc(cartItem.id, {
+  //       quantity: - 1
+  //     });
+  //     } catch (error) {
+  //       console.error("PROCESS FAILED" , error)
+  //     }
+  
+  //   } else {
+  //     console.log("Login first to do this task");
+  //     toast.warning("Please log in first to do this task");
+  //   }
+  // };
+  // const increaseQuantity = async (cartItem) => {
+  //   if (authUser) {
+  //     try {
+  //       const cartDocRef = doc(db, `cart-${authUser.uid}`, cartItem.id);
+  //       const newQuantity = cartItem.quantity + 1; // Increment quantity
+  //       await updateDoc(cartDocRef, { quantity: newQuantity });
+  //     } catch (error) {
+  //       console.error("PROCESS FAILED", error);
+  //     }
+  //   } else {
+  //     console.log("Login first to do this task");
+  //     toast.warning("Please log in first to do this task");
+  //   }
+  // };
+  const increaseQuantity = async (cartItem) => {
+    console.log("authUser:", authUser);
+    console.log("cartItem:", cartItem);
+  
     if (authUser) {
       try {
-        const cartRef = collection(db, `cart-${authUser.uid}`);
-
-        // Find the specific cart item with the given productId
-        const existingCartItemQuery = query(
-          cartRef,
-          where("productData.id", "==", customerCartData.productData.id)
-        );
-
-        getDocs(existingCartItemQuery).then((querySnapshot) => {
-          if (!querySnapshot.empty) {
-            // There should be only one item with the given productId
-            querySnapshot.forEach(async (cartItemDoc) => {
-              const existingCartDocRef = doc(
-                db,
-                `cart-${authUser.uid}`,
-                cartItemDoc.id
-              );
-              const existingCartItemData = cartItemDoc.data();
-              const newQuantity = existingCartItemData.quantity - 1;
-
-              // Ensure the quantity doesn't go below 1
-              if (newQuantity >= 1) {
-                // Update the quantity of the existing cart item
-                await updateDoc(existingCartDocRef, { quantity: newQuantity });
-              }
-            });
-          }
-        });
+        const cartDocRef = doc(db, `cart-${authUser.uid}`, cartItem.id);
+        const newQuantity = cartItem.quantity + 1; // Increment quantity
+        await updateDoc(cartDocRef, { quantity: newQuantity });
       } catch (error) {
-        console.log(error);
+        console.error("PROCESS FAILED", error);
       }
     } else {
       console.log("Login first to do this task");
       toast.warning("Please log in first to do this task");
     }
   };
+  
+  
+  const decreaseQuantity = async (cartItem) => {
+    if (authUser) {
+      try {
+        if (cartItem.quantity > 1) {
+          const cartDocRef = doc(db, `cart-${authUser.uid}`, cartItem.id);
+          const newQuantity = cartItem.quantity - 1; // Decrement quantity
+          await updateDoc(cartDocRef, { quantity: newQuantity });
+        } else {
+          // Optionally, you can remove the item from the cart if the quantity becomes zero.
+          // You can add this logic based on your requirements.
+          console.log("Quantity cannot be less than 1");
+        }
+      } catch (error) {
+        console.error("PROCESS FAILED", error);
+      }
+    } else {
+      console.log("Login first to do this task");
+      toast.warning("Please log in first to do this task");
+    }
+  };
+  
+  // const increaseQuantity = async (cartItem) => {
+  //   if (authUser) {
+  //     try {
+  //       const cartDocRef = doc(db, `cart-${authUser.uid}`, cartItem.id);
+  
+  //       await updateDoc(cartDocRef, {
+  //         quantity: cartItem.quantity + 1
+  //       });
+  //     } catch (error) {
+  //       console.error("PROCESS FAILED", error);
+  //     }
+  //   } else {
+  //     console.log("Login first to do this task");
+  //     toast.warning("Please log in first to do this task");
+  //   }
+  // };
+  
+  // const decreaseQuantity = async (cartItem) => {
+  //   if (authUser) {
+  //     try {
+  //       const cartDocRef = doc(db, `cart-${authUser.uid}`, cartItem.id);
+  
+  //       await updateDoc(cartDocRef, {
+  //         quantity: cartItem.quantity - 1
+  //       });
+  //     } catch (error) {
+  //       console.error("PROCESS FAILED", error);
+  //     }
+  //   } else {
+  //     console.log("Login first to do this task");
+  //     toast.warning("Please log in first to do this task");
+  //   }
+  // };
 
   const check = () => {
     console.log(customerCartData, " checking cart item ")
@@ -132,7 +197,7 @@ const Page = () => {
                         className="h-8 w-8 border bg-white text-center text-xs outline-none"
                         type="number"
                         // defaultValue={2}
-                        // value={cartItem.productData.quantity}
+                        value={cartItem.quantity}
                         min={1}
                       />
                       {/* <span>{cartItem.productData.quantity}</span> */}
