@@ -2,8 +2,13 @@
 import React from 'react'
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { doc, setDoc, collection } from "firebase/firestore";
+import { db } from "../../../../firebase/firebaseConfig";
+import { useAuth } from '../../../../firebase/Auth';
+
 
 const CheckoutForm = ({ setCheckoutFormPopup }) => {
+  const { authUser } = useAuth();
   const [checkOutFormData, setCheckOutFormData] = useState({
     customerName: '',
     email: '',
@@ -18,22 +23,61 @@ const CheckoutForm = ({ setCheckoutFormPopup }) => {
       [name]: value,
     });
   };
+  
+  // const handleFormSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const { customerName, email, Address, phone, paymentOption } = checkOutFormData;
+
+  //   if (!customerName || !email || !Address || !phone || !paymentOption) {
+  //     toast.error("All fields are required");
+  //     return;
+  //   }
+
+  //   // Here, you can access formData and perform the necessary actions
+  //   console.log(checkOutFormData);
+
+  //   // Send the form data to Firebase or your backend for order processing
+  //   // You can use Firebase's Firestore or Realtime Database to store orders.
+  // };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const { customerName, email, Address, phone, paymentOption } = checkOutFormData;
-
+  
     if (!customerName || !email || !Address || !phone || !paymentOption) {
       toast.error("All fields are required");
       return;
     }
-
-    // Here, you can access formData and perform the necessary actions
-    console.log(checkOutFormData);
-
-    // Send the form data to Firebase or your backend for order processing
-    // You can use Firebase's Firestore or Realtime Database to store orders.
+  
+    // Create an object for the address data
+    const addressData = {
+      customerName: checkOutFormData.customerName,
+      street: checkOutFormData.Address,
+      phone: checkOutFormData.phone,
+      email: checkOutFormData.email,
+      paymentOption : checkOutFormData.paymentOption
+      // Add more fields as needed for the address (e.g., city, state, postalCode)
+    };
+  
+    // Ensure that the user is authenticated before adding the address
+    if (authUser) {
+      try {
+        const userDocRef = doc(db, `profile-${authUser.uid}`, "user-profile");
+        // Update the user's profile document with the new address
+        await setDoc(userDocRef, { address: addressData }, { merge: true });
+        toast.success("Address added to the user's profile.");
+        console.log("Address added to the user's profile.");
+      } catch (error) {
+        console.error("Error adding address to the user's profile:", error);
+        toast.error("Error adding address. Please try again later.");
+      }
+    } else {
+      console.log("User not authenticated. Please log in first.");
+      toast.warning("Please log in first to add the address.");
+      // Handle the case where the user is not authenticated, display an error message, or redirect to the login page.
+    }
   };
-
+  
   return (
     <>
       <style
