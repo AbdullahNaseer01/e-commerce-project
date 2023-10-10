@@ -175,16 +175,3 @@ const AdminTables = ({ }) => {
 }
 
 export default AdminTables
-
-// import React from 'react'
-// import { AdminContextProvider } from '../(Adminlogic)/Logic'
-
-// const {formData} = AdminContextProvider
-
-// const AdminTables = () => {
-//   return (
-//     <div>AdminTables</div>
-//   )
-// }
-
-// export default AdminTables
