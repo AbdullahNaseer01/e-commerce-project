@@ -28,6 +28,58 @@ const [orderItems , setOrderItems] =  useState([])
     });
   };
 
+  // const handleFormSubmit = async (e) => {
+  //   e.preventDefault();
+  
+  //   const { customerName, email, Address, phone, paymentOption } = checkOutFormData;
+  
+  //   if (!customerName || !email || !Address || !phone || !paymentOption) {
+  //     toast.error("All fields are required");
+  //     return;
+  //   }
+  
+  //   // Create an object for the order data
+  //   const orderData = {
+  //     customerName: checkOutFormData.customerName,
+  //     street: checkOutFormData.Address,
+  //     phone: checkOutFormData.phone,
+  //     email: checkOutFormData.email,
+  //     paymentOption: checkOutFormData.paymentOption,
+  //     orderItems: customerCartData
+  //     // Add more fields as needed for the order (e.g., orderDate, etc.)
+  //   };
+  //   if (authUser) {
+  //     try {
+  //       // Reference to the user's profile document
+  //       const userProfileRef = doc(db, `profile-${authUser.uid}`, "user-profile");
+    
+  //       // Check if the user-profile document exists
+  //       const userProfileDoc = await getDoc(userProfileRef);
+    
+  //       if (userProfileDoc.exists()) {
+  //         // User profile exists, you can proceed to create the order
+  //         const orderCollectionRef = collection(userProfileRef, "user-order");
+  //         const orderDocRef = await addDoc(orderCollectionRef, orderData);
+    
+  //         // The rest of your code to update the order with cart items and clear the cart
+    
+  //         toast.success("Order created successfully.");
+  //         console.log("Order created successfully. Order ID: ", orderDocRef.id);
+  //       } else {
+  //         console.error("User profile does not exist. Please create a profile first.");
+  //         toast.error("User profile does not exist. Please create a profile first.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error creating order:", error);
+  //       toast.error("Error creating order. Please try again later.");
+  //     }
+  //   } else {
+  //     console.log("User not authenticated. Please log in first.");
+  //     toast.warning("Please log in first to create an order.");
+  //   }
+    
+  // };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
   
@@ -45,29 +97,43 @@ const [orderItems , setOrderItems] =  useState([])
       phone: checkOutFormData.phone,
       email: checkOutFormData.email,
       paymentOption: checkOutFormData.paymentOption,
-      orderItems: customerCartData
+      orderItems: customerCartData,
       // Add more fields as needed for the order (e.g., orderDate, etc.)
     };
+  
     if (authUser) {
       try {
         // Reference to the user's profile document
         const userProfileRef = doc(db, `profile-${authUser.uid}`, "user-profile");
-    
+  
         // Check if the user-profile document exists
         const userProfileDoc = await getDoc(userProfileRef);
-    
+  
         if (userProfileDoc.exists()) {
           // User profile exists, you can proceed to create the order
           const orderCollectionRef = collection(userProfileRef, "user-order");
           const orderDocRef = await addDoc(orderCollectionRef, orderData);
-    
+  
           // The rest of your code to update the order with cart items and clear the cart
-    
+  
           toast.success("Order created successfully.");
           console.log("Order created successfully. Order ID: ", orderDocRef.id);
         } else {
-          console.error("User profile does not exist. Please create a profile first.");
-          toast.error("User profile does not exist. Please create a profile first.");
+          // User profile does not exist, so create it
+          const userProfileData = {
+            // Define the data for the user profile, e.g., user information
+            // You can extract this from the form or use default values
+          };
+          await setDoc(userProfileRef, userProfileData);
+  
+          // Now that the user profile is created, proceed to create the order
+          const orderCollectionRef = collection(userProfileRef, "user-order");
+          const orderDocRef = await addDoc(orderCollectionRef, orderData);
+  
+          // The rest of your code to update the order with cart items and clear the cart
+  
+          toast.success("Order created successfully.");
+          console.log("Order created successfully. Order ID: ", orderDocRef.id);
         }
       } catch (error) {
         console.error("Error creating order:", error);
@@ -77,9 +143,8 @@ const [orderItems , setOrderItems] =  useState([])
       console.log("User not authenticated. Please log in first.");
       toast.warning("Please log in first to create an order.");
     }
-    
   };
-
+  
   return (
     <>
       <style
