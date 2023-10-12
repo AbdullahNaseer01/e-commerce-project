@@ -55,13 +55,13 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="container hidden lg:block">
+      <div className="container block">
         <div className="flex justify-between items-center pt-8">
           <Link href="/">
             <img className="h-7" src="/logo.svg" alt="" />
           </Link>
           {/* <h1 className="text-4xl font-medium">Logo</h1> */}
-          <div className="relative w-full max-w-[500px]">
+          <div className="relative w-full max-w-[500px] hidden sm:block">
             <input
               className="bg-[#f2f3f5] border-none outline-none px-6 py-3 rounded-[30px] w-full"
               type="text"
@@ -76,16 +76,16 @@ const Navbar = () => {
           <div className="flex gap-4">
             {isLoading || (!isLoading && !authUser) ? (
               <>
-                <div className='p-2 text-lg rounded-lg border-2' onClick={handleLoginButtonClick} >
+                <div className='text-xs rounded-xl border-2 icon__wrapper' onClick={handleLoginButtonClick} >
                   Login
                 </div>
-                <div className='p-2 text-lg rounded-lg border-2' onClick={handleSignupButtonClick} >
+                <div className='text-xs rounded-xl border-2 icon__wrapper' onClick={handleSignupButtonClick} >
                   Register
                 </div>
               </>
             )
               : (
-                <div onClick={handleSignOut} className="icon__wrapper">
+                <div onClick={handleSignOut} className="text-xs icon__wrapper">
                   <AiOutlineUser />
                 </div>
               )}

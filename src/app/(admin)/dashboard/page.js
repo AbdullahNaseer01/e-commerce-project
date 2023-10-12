@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../../firebase/Auth';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import Loading from '@/app/(client)/components/Loading';
 
 const Page = () => {
   const { authUser, setIsLoading, isLoading, admins, isAdmin, Admin, setAdmin } = useAuth();
@@ -116,12 +117,7 @@ const Page = () => {
 
 
   if (isLoading) {
-    return <div className={`fixed min-h-screen min-w-full bg-white inset-0 flex items-center justify-center z-50 ${isLoading ? 'block' : 'hidden'}`}>
-      <div className="z-10 bg-white p-4 rounded-lg shadow-lg">
-        <img src="Loader.gif" alt="Loading" className="mx-auto w-16 h-16" /> {/* Loader image */}
-        <p className="text-center mt-4">Loading...</p>
-      </div>
-    </div>
+    return <Loading/>
   }
 
   return (

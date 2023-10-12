@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { collection, where, query, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebase/firebaseConfig";
 import Link from "next/link";
+import Loading from "../components/Loading";
 
 const CategoryPage = ({ params }) => {
   // const { setProductData } = useProductData;
@@ -57,9 +58,7 @@ const CategoryPage = ({ params }) => {
       )}
 
       {loading ? (
-        <div className="flex justify-center items-center h-screen">
-          <img src="../Loader.gif" alt="Loading" srcSet="" />
-        </div>
+        <><Loading/></>
       ) : (
         <section className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
           {products.map((product) => (

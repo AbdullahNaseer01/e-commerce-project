@@ -6,6 +6,7 @@ import AdminTables from "@/app/(admin)/adminComponents/AdminTables";
 import 'react-loading-skeleton/dist/skeleton.css'
 import EditProductForm from "@/app/(admin)/adminComponents/EditProductForm";
 import { useAdminContext } from "@/app/(admin)/Adminlogic/Logic";
+import Loading from "@/app/(client)/components/Loading";
 const Page = () => {
 
   const {
@@ -66,9 +67,7 @@ const Page = () => {
   return (
     <main className="sm:ml-60 pt-16 max-h-screen overflow-auto min-h-screen">
       {loading ? (
-        <div className="flex justify-center items-center h-screen">
-          <img src="../Loader.gif" alt="Loading" srcSet="" />
-        </div>
+        <Loading/>
       ) : (
         <div>
           <div className="inline-block mt-2 w-1/2 pr-1">

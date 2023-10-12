@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../../../../../firebase/Auth";
 import { useProductData } from "@/app/(client)/ProductDataContext/ProductDataContext";
 import { toast } from "react-toastify";
+import Loading from "@/app/(client)/components/Loading";
 
 const ProductDetailsPage = () => {
   const { authUser } = useAuth();
@@ -228,7 +229,7 @@ const ProductDetailsPage = () => {
   }, [productId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <><Loading/></>;
   }
 
   if (!productData) {
