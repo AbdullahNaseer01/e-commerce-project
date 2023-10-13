@@ -85,7 +85,7 @@ const Navbar = () => {
               </>
             )
               : (
-                <div onClick={handleSignOut} className="text-xs icon__wrapper">
+                <div onClick={handleSignOut} className="text-xl icon__wrapper">
                   <AiOutlineUser />
                 </div>
               )}
