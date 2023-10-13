@@ -299,7 +299,7 @@ const Page = () => {
           </div>
           {/* {isRegisterModalOpen && <RegisterModel closeModal={() => setLoginModalOpen(false)} />} */}
           {CheckoutFormPopup && <CheckoutForm setCheckoutFormPopup={setCheckoutFormPopup} />}
-          <OrderSuccess />
+          {/* <OrderSuccess /> */}
 
         </>)}
 
