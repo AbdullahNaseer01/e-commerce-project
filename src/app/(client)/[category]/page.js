@@ -1,17 +1,67 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { collection, where, query, getDocs } from "firebase/firestore";
+import { collection, where, query, getDocs, getDoc, onSnapshot, addDoc, doc, updateDoc, setDoc, } from "firebase/firestore";
 import { db } from "../../../../firebase/firebaseConfig";
 import Link from "next/link";
 import Loading from "../components/Loading";
+import { useAuth } from "../../../../firebase/Auth";
+import { useProductData } from "../ProductDataContext/ProductDataContext";
+
 
 const CategoryPage = ({ params }) => {
-  // const { setProductData } = useProductData;
+
+  const { authUser } = useAuth();
+  const { customerCartData, setCustomerCartData , productData , setProductData } = useProductData();
+
   const router = useRouter();
   const category = params.category || "defaultCategory";
   const allowedRoutes = ['dashboard', 'fruits', 'vegetables', 'canned-food', 'bakery-items', 'fishes', 'egg-and-dairy', 'soft-drinks-snacks', 'others'];
+  const addToCart = async (product) => {
+    if (authUser) {
+      try {
+        const cartRef = collection(db, `cart-${authUser.uid}`);
+        const existingCartItemQuery = query(
+          cartRef,
+          where("productData.id", "==", productData.id)
+        );
 
+        const querySnapshot = await getDocs(existingCartItemQuery);
+
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach(async (cartItemDoc) => {
+            const existingCartDocRef = doc(
+              db,
+              `cart-${authUser.uid}`,
+              cartItemDoc.id
+            );
+            const existingCartItemData = cartItemDoc.data();
+            const newQuantity = existingCartItemData.quantity + 1;
+
+            await updateDoc(existingCartDocRef, { quantity: newQuantity });
+
+            toast.info("Product quantity updated in the cart.");
+          });
+        } else {
+          const cartData = {
+            productData,
+            quantity: 1,
+          };
+          await addDoc(cartRef, cartData);
+
+          toast.success("Product added to cart.");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("Login first to do this task");
+      toast.warning("Please log in first to do this task");
+    }
+  };
+
+  
+  
   useEffect(() => {
     // Check if the current route is in the allowedRoutes array
     if (!allowedRoutes.includes(category)) {
@@ -58,25 +108,29 @@ const CategoryPage = ({ params }) => {
       )}
 
       {loading ? (
-        <><Loading/></>
+        <><Loading /></>
       ) : (
         <section className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
           {products.map((product) => (
-            <Link
+            <div
               key={product.id}
-              href={{
-                pathname: `/${category}/${product.id}`,
-                // query: {
-                //   productData: JSON.stringify(product),
-                // },
-              }}
+            // href={{
+            //   pathname: `/${category}/${product.id}`,
+            // }}
             >
               <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-                <img
-                  src={product.imageFile}
-                  alt="Product"
-                  className="h-80 w-72 object-cover rounded-t-xl"
-                />
+                <Link
+                  href={{
+                    pathname: `/${category}/${product.id}`,
+                  }}
+                >
+                  <img
+                    src={product.imageFile}
+                    alt="Product"
+                    className="h-80 w-72 object-cover rounded-t-xl"
+                  />
+                </Link>
+
                 <div className="px-4 py-3 w-72">
                   <span className="text-gray-400 mr-3 uppercase text-xs">
                     Brand
@@ -86,15 +140,20 @@ const CategoryPage = ({ params }) => {
                   </p>
                   <div className="flex items-center">
                     <p className="text-lg font-semibold text-black cursor-auto my-3">
-                      $149
+                      ${product.price}
                     </p>
                     <del>
                       <p className="text-sm text-gray-600 cursor-auto ml-2">
-                        $199
+                        ${product.price}
                       </p>
                     </del>
                     <div className="ml-auto">
                       <svg
+                      key={product.id}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart();
+                        }}
                         xmlns="http://www.w3.org/2000/svg"
                         width={20}
                         height={20}
@@ -112,7 +171,7 @@ const CategoryPage = ({ params }) => {
                   </div>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </section>
       )}
