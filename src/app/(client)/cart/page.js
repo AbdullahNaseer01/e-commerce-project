@@ -270,8 +270,6 @@ const Page = () => {
                     </div>
                   </div>
                 ))}
-
-
               </div>
               {/* Sub total */}
               <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
@@ -299,10 +297,8 @@ const Page = () => {
           </div>
           {/* {isRegisterModalOpen && <RegisterModel closeModal={() => setLoginModalOpen(false)} />} */}
           {CheckoutFormPopup && <CheckoutForm setCheckoutFormPopup={setCheckoutFormPopup} />}
-          {/* <OrderSuccess /> */}
-
         </>)}
-
+        <OrderSuccess />
     </>
 
   );

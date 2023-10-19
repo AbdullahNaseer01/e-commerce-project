@@ -12,7 +12,7 @@ const NothingInCart = () => {
                     <p>
                         Your Cart is Empty
                     </p>
-                    <a className="inline-flex items-center px-4 py-2 text-white bg-indigo-600 border border-indigo-600 rounded rounded-full hover:bg-indigo-700 focus:outline-none focus:ring">
+                    <div className="inline-flex items-center px-4 py-2 text-white bg-indigo-600 border border-indigo-600 rounded rounded-full hover:bg-indigo-700 focus:outline-none focus:ring">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="w-3 h-3 mr-2"
@@ -28,7 +28,7 @@ const NothingInCart = () => {
                             />
                         </svg>
                         <Link href='/' className="text-sm font-medium">Continue Shopping</Link>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
