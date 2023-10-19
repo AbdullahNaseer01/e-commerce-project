@@ -20,7 +20,7 @@ import OrderSuccess from '../components/OrderSuccess';
 import NothingInCart from '../components/NothingInCart';
 
 const Page = () => {
-  const { customerCartData, setCustomerCartData, productData, setproductData } = useProductData();
+  const { customerCartData, setCustomerCartData, productData, setproductData , showOrderSuccess} = useProductData();
   const { authUser } = useAuth();
   const [totalPrice, setTotalPrice] = useState(0);
   const [CheckoutFormPopup, setCheckoutFormPopup] = useState(false)
@@ -298,7 +298,7 @@ const Page = () => {
           {/* {isRegisterModalOpen && <RegisterModel closeModal={() => setLoginModalOpen(false)} />} */}
           {CheckoutFormPopup && <CheckoutForm setCheckoutFormPopup={setCheckoutFormPopup} />}
         </>)}
-        <OrderSuccess />
+        {showOrderSuccess && <OrderSuccess />}
     </>
 
   );

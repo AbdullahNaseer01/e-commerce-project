@@ -9,6 +9,10 @@ const ProductDataContext = createContext();
 export const ProductDataProvider = ({ children }) => {
   const [productData, setProductData] = useState(null);
   const[customerCartData, setCustomerCartData] = useState([]);
+  const [showOrderSuccess, setShowOrderSuccess] = useState(false);
+  const [newOrder, setNewOrder] = useState([]);
+
+
   useEffect(() => {
 console.log("ProductDataProvider called");
   }, [])
@@ -65,7 +69,7 @@ console.log("ProductDataProvider called");
   
 
   return (
-    <ProductDataContext.Provider value={{ productData, setProductData , customerCartData , setCustomerCartData}}>
+    <ProductDataContext.Provider value={{ productData, setProductData , customerCartData , setCustomerCartData , showOrderSuccess ,setShowOrderSuccess, newOrder , setNewOrder}}>
       {children}
     </ProductDataContext.Provider>
   );
