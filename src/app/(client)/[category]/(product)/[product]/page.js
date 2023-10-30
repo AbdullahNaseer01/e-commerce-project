@@ -17,7 +17,7 @@ import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../../../../firebase/Auth";
 import { useProductData } from "@/app/(client)/ProductDataContext/ProductDataContext";
-import { toast } from "react-toastify";
+import { toast } from    "react-toastify";
 import Loading from "@/app/(client)/components/Loading";
 
 const ProductDetailsPage = () => {
