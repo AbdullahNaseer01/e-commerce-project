@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../../../../firebase/firebaseConfig";
 
-import { useRouter, useSearchParams, useParams } from "next/navigation";
+import { useRouter , useSearchParams, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../../../../firebase/Auth";
 import { useProductData } from "@/app/(client)/ProductDataContext/ProductDataContext";
