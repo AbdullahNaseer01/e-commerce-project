@@ -5,7 +5,7 @@ import "../app/globals.css";
 export default function NotFound() {
   return (
     <section>
-    <div className="bg-black text-white">
+    <div className="bg-black text-white  ">
       <div className="flex h-screen">
         <div className="m-auto text-center">
           <div>
